@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="black">#FF000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="gray">#B8B8B8</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="pink">#E401FF</color>
+    <color name="purple">#9302A8</color>
+    <color name="pitchOrange">#C76B6B</color>
+    <color name="navy">#060B3D</color>
+    <color name="navy_dark">#000713</color>
+    <color name="navy_light">#0310A2</color>
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="danger">#FF0101</color>
+    <color name="white_transparent">#14FFFFFF</color>
+</resources>

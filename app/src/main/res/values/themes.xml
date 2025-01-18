@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EmoPulse" parent="Theme.Material3.DayNight.NoActionBar"/>
+    <style name="Theme.EmoPulse" parent="Base.Theme.EmoPulse" />
+    <style name="ThemeOverlay.EmoPulse.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/white</item>
+        <item name="fullscreenTextColor">@color/black</item>
+    </style>
+
+
+
+
+</resources>

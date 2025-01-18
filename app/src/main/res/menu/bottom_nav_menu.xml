@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/dashboard"
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/dashboard"/>
+
+
+
+    <item android:title="Goals"
+        android:id="@+id/goalsFragment"
+        android:icon="@drawable/goals"/>
+
+        <item android:title=""
+            android:id="@+id/chatFragment"
+            android:enabled="false"
+        />
+
+    <item android:title="Exercieces"
+        android:id="@+id/exercisesNavigation"
+        android:icon="@drawable/relax"/>
+
+    <item android:title="Settings"
+        android:id="@+id/settingsNavigation"
+        android:icon="@drawable/settings"/>
+
+</menu>

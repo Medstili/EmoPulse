@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Shadow Layer -->
+<item>
+    <shape>
+        <solid android:color="#19000000" /> <!-- Shadow color -->
+        <corners android:radius="16dp" /> <!-- Rounded corners for shadow -->
+    </shape>
+</item>
+
+<!-- Background Layer (Inset to show shadow around it) -->
+<item  android:bottom="8dp">
+    <shape>
+        <solid android:color= "#00A999" /> <!-- Background color -->
+        <corners android:radius="16dp" /> <!-- Same corner radius -->
+    </shape>
+</item>
+</layer-list>
+

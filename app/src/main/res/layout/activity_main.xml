@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity"
+    android:background="@drawable/linear_gradient_bg"
+    android:theme="@style/ThemeOverlay.EmoPulse.FullscreenContainer"
+    android:fitsSystemWindows="false"
+>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/navy_dark"
+
+        >
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:title="@null"
+                app:titleCentered="true"
+                app:titleTextColor="@color/white"
+                app:navigationIcon="@drawable/arrow_back_svg"
+                app:navigationIconTint="@color/white"
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/toolbarContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+
+                    <!--avatar-->
+                    <ImageView
+                        android:id="@+id/lelly_avatar"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.05"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="Back"
+                        android:src="@drawable/lellyavatar"
+                        android:scaleType="centerCrop"
+
+                        />
+
+                    <!-- description -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_marginStart="15dp"
+                        >
+                        <TextView
+                            android:id="@+id/chatTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Lelly"
+                            android:gravity="start|bottom"
+                            android:textColor="@color/white"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="20sp"
+                            android:autoSizeMaxTextSize="25sp"
+                            android:autoSizeStepGranularity="2sp"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="artificial Inteligence"
+                            android:textStyle="normal|italic"
+                            android:textColor="@color/white"
+                            android:gravity="start|center"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="5sp"
+                            android:autoSizeMaxTextSize="10sp"
+                            android:autoSizeStepGranularity="2sp"/>
+                    </LinearLayout>
+                    <!-- call icon-->
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:backgroundTint="@null"
+                        android:background="@android:color/transparent"
+                        android:drawableEnd="@drawable/callsvg"
+                        android:drawableTint="@color/white"
+
+                        />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+<!-- nav hosted -->
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph"
+                />
+<!--bottom bar-->
+    <com.google.android.material.bottomappbar.BottomAppBar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/bottomBar"
+    android:background="@color/white"
+    android:layout_gravity="bottom"
+    app:fabCradleMargin="20dp"
+    app:fabCradleRoundedCornerRadius="60dp"
+    app:fabAlignmentMode="center"
+    app:fabAnchorMode="cradle"
+    app:fabCradleVerticalOffset="0dp"
+    app:backgroundTint="@color/white"
+    >
+
+<!--menu-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        android:background="@android:color/transparent"
+        />
+</com.google.android.material.bottomappbar.BottomAppBar>
+
+<!--floating action button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/chat_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
+    android:src="@drawable/chat"
+    app:layout_anchor="@id/bottomBar"
+    app:layout_anchorGravity="center"
+    app:maxImageSize="40dp"
+    />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
