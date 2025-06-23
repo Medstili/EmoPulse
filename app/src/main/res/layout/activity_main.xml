@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="@color/navy_dark"
-
         >
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -48,7 +47,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1.05"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="Back"
+                        android:contentDescription="@string/back"
                         android:src="@drawable/lellyavatar"
                         android:scaleType="centerCrop"
 
@@ -70,7 +69,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Lelly"
+                            android:text="@string/lelly"
                             android:gravity="start|bottom"
                             android:textColor="@color/white"
                             android:autoSizeTextType="uniform"
@@ -82,7 +81,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:text="artificial Inteligence"
+                            android:text="@string/artificial_inteligence"
                             android:textStyle="normal|italic"
                             android:textColor="@color/white"
                             android:gravity="start|center"
@@ -109,6 +108,7 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
 <!-- nav hosted -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment"

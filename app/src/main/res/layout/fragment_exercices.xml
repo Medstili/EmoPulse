@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,18 +23,21 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <com.airbnb.lottie.LottieAnimationView
+
+                <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
+                    android:id="@+id/dotLottieAnimationView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:lottie_rawRes="@raw/relaxing"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"/>
-
+                    app:dotLottie_src="relaxing.json"
+                    app:dotLottie_useFrameInterpolation="true"
+                    app:dotLottie_autoplay="true"
+                    app:dotLottie_playMode="normal"
+                    />
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Exercices"
+                    android:text="@string/exercises"
                     android:textColor="@color/white"
                     android:textSize="40sp"
                     android:textStyle="bold"
@@ -48,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/Exercices_description"
+                android:text="@string/exercises_description"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="italic|normal" />
@@ -91,7 +93,7 @@
                             android:autoSizeTextType="uniform"
                             android:autoSizeStepGranularity="2sp"
                             android:gravity="start|center"
-                            android:text="Breathing"
+                            android:text="@string/breathing"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -125,6 +127,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--grounding card-->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/groundingCard"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="32dp"
@@ -157,9 +160,11 @@
                         android:padding="10dp">
 
                         <TextView
+                            android:id="@+id/cardGrounding_title"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:text="Grounding"
+                            android:text="@string/grounding"
+                            android:transitionName="sharingGroundingExTitle"
                             android:textColor="@color/white"
                             android:textStyle="bold"
                             android:layout_weight="1"
@@ -217,6 +222,7 @@
                         app:layout_constraintWidth_percent="0.65">
 
                         <TextView
+                            android:id="@+id/cardBodyScanTitle"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -224,9 +230,11 @@
                             android:autoSizeMaxTextSize="45sp"
                             android:autoSizeMinTextSize="20sp"
                             android:gravity="start|center"
-                            android:text="Body Scan"
+                            android:text="@string/body_scan"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:transitionName="sharingBodyScanExTitle"
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -244,10 +252,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
+                    android:id="@+id/cardBodyScanImg"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:src="@drawable/bodyscan"
                     android:layout_marginTop="10dp"
+                    android:transitionName="sharingBodyScanExImg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.7"
                     app:layout_constraintTop_toTopOf="parent"
@@ -293,7 +303,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Butterfly"
+                            android:text="@string/butterfly"
                             android:textColor="@color/white"
                             android:autoSizeTextType="uniform"
                             android:autoSizeMinTextSize="20sp"
@@ -352,7 +362,7 @@
                             android:autoSizeMinTextSize="20sp"
                             android:autoSizeTextType="uniform"
                             android:gravity="start|center"
-                            android:text="Progressive Muscle Relaxation"
+                            android:text="@string/progressive_muscle_relaxation_title"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -418,7 +428,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:gravity="center"
-                            android:text="Guided Imagery"
+                            android:text="@string/guided_imagery"
                             android:textColor="@color/white"
                             android:layout_weight="1"
                             android:autoSizeMaxTextSize="45sp"
@@ -479,7 +489,7 @@
                             android:autoSizeMinTextSize="20sp"
                             android:autoSizeTextType="uniform"
                             android:gravity="start|center"
-                            android:text="Phrase Repetition"
+                            android:text="@string/phrase_repetition"
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -491,7 +501,7 @@
                             android:autoSizeMaxTextSize="35sp"
                             android:autoSizeMinTextSize="15sp"
                             android:autoSizeStepGranularity="2sp"
-                            android:text="@string/repeatitive_phrases_description"
+                            android:text="@string/repetitive_phrases_description"
                             android:textColor="@color/white" />
 
 

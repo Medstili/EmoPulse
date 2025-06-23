@@ -5,10 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.medstili.emopulse.R;
+
+import java.util.Objects;
 
 
 public class CustomDialog{
@@ -18,6 +21,7 @@ public class CustomDialog{
    public MaterialButton leftBtn, rightBtn;
    public TextView title, message ;
    public ImageView dialogImg ;
+   public EditText editTextPassword;
 
 
     public CustomDialog(Context context) {
@@ -67,4 +71,52 @@ public class CustomDialog{
 
 
     };
+
+    public void showPasswordDialog(String Message, String RightBtnText, View.OnClickListener RightBtnListener, String LeftBtnText, View.OnClickListener LeftBtnListener){
+        this.dialog = new Dialog(context);
+        this.dialog.setContentView(R.layout.re_auth_user_dialog);
+
+        Objects.requireNonNull(this.dialog.getWindow()).setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        this.dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        this.message=dialog.findViewById(R.id.dialogMessage);
+        this.leftBtn=dialog.findViewById(R.id.leftBtn);
+        this.rightBtn=dialog.findViewById(R.id.rightBtn);
+        this.editTextPassword= dialog.findViewById(R.id.editTextPassword);
+
+
+        this.message.setText(Message);
+        this.leftBtn.setText(LeftBtnText);
+        this.rightBtn.setText(RightBtnText);
+
+        this.editTextPassword.getText().toString();
+
+        if(LeftBtnText!=null){
+
+            this.leftBtn.setVisibility(View.VISIBLE);
+            this.leftBtn.setOnClickListener(v->{
+
+                if(LeftBtnListener!=null){
+                    LeftBtnListener.onClick(v);
+                }
+                this.dialog.dismiss();
+            });
+        }
+        else{
+            this.leftBtn.setVisibility(View.GONE);
+            this.leftBtn.setOnClickListener(v->{
+                this.dialog.dismiss();
+            });
+        }
+
+        this.rightBtn.setOnClickListener(v->{
+            if(RightBtnListener!=null){
+
+                RightBtnListener.onClick(v);
+            }
+            this.dialog.dismiss();
+            });
+
+        this.dialog.show();
+    }
 }

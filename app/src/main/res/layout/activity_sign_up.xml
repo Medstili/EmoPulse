@@ -42,6 +42,7 @@
         app:startIconTint="@color/white"
         android:textColorHint="@color/gray"
         app:hintTextColor="@color/white"
+        android:backgroundTint="@color/white"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_input"
@@ -49,6 +50,8 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:textColor="@color/white"
+
+
             />
     </com.google.android.material.textfield.TextInputLayout>
 <!--password field-->
@@ -132,7 +135,7 @@
         <!-- Google Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/google_login_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/signup_with_google"
@@ -143,7 +146,7 @@
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeStepGranularity="2sp"
             app:backgroundTint="@null"
-            android:background="@drawable/button_gradient_background"
+            android:background="@drawable/google_btn_bg"
             android:layout_margin="10dp"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"

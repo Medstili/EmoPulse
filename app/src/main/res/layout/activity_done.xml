@@ -11,19 +11,32 @@
     android:gravity="center"
     android:background="@drawable/gradient_background">
 
-    <ImageView
-        android:layout_width="218dp"
-        android:layout_height="252dp"
-        android:src="@drawable/shield" />
+<!--    <ImageView-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="252dp"-->
+<!--        android:src="@drawable/checkmark"-->
+<!--        android:contentDescription="done icon"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
+        android:text="@string/done"
         android:textSize="30sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:layout_marginBottom="45dp"
         android:textColor="@color/white"
         />
+    <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
+        android:id="@+id/dotLottieAnimationView"
+        android:layout_width="218dp"
+        android:layout_height="252dp"
+        app:dotLottie_src="checkmark.lottie"
+        app:dotLottie_useFrameInterpolation="true"
+        app:dotLottie_playMode="normal"
+        app:dotLottie_loop="false"
+        app:dotLottie_autoplay="true"
+        android:layout_marginBottom="50dp"
+        />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ConfNext"
         android:layout_width="wrap_content"

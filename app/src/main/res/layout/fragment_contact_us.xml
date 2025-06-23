@@ -43,7 +43,7 @@
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="start|center"
-                android:text="Email :"
+                android:text="@string/email"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -72,13 +72,13 @@
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="start|center"
-                android:text="Message :"
+                android:text="@string/message"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:hint="type your message here ..."
+                android:hint="@string/type_your_message_here"
                 android:textColorHint="@color/gray"
                 app:startIconTint="@color/black"
                 android:scrollbars="vertical"
@@ -102,7 +102,7 @@
                 android:autoSizeStepGranularity="1sp"
                 android:autoSizeTextType="uniform"
                 android:backgroundTint="@color/navy_dark"
-                android:text="Submit"
+                android:text="@string/submit"
                 app:backgroundTint="@null"
                 app:cornerRadius="10dp" />
 

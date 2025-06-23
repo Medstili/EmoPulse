@@ -17,96 +17,128 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <ImageView
+
+        <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
+            android:id="@+id/dotLottieAnimationView"
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="50dp"
-            android:src="@drawable/orange_lock"
-            android:layout_marginEnd="25dp"
+            android:layout_height="300dp"
+            app:dotLottie_src="emailVerificationAnimation.lottie"
+            app:dotLottie_useFrameInterpolation="true"
+            app:dotLottie_playMode="normal"
+            app:dotLottie_loop="true"
+            app:dotLottie_autoplay="true"
             />
         <!-- Title -->
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/emailConfirmationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter the Code Sent To Your Email"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:text="@string/check_your_email_to_verify_your_email_and_continue"
+            android:textSize="15sp"
+            android:textStyle="normal"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginBottom="26dp"/>
 
-        <!-- OTP Input Fields -->
-        <LinearLayout
-            android:id="@+id/otp_input_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="26dp">
-
-            <!-- Digit 1 -->
-            <EditText
-                android:id="@+id/otp_digit_1"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="4dp"
-                android:background="@drawable/box_bg"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textSize="18sp"
-                android:importantForAccessibility="yes"/>
-
-            <!-- Digit 2 -->
-            <EditText
-                android:id="@+id/otp_digit_2"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="4dp"
-                android:background="@drawable/box_bg"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textSize="18sp"/>
-
-            <!-- Digit 3 -->
-            <EditText
-                android:id="@+id/otp_digit_3"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="4dp"
-                android:background="@drawable/box_bg"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textSize="18sp"/>
-
-            <!-- Digit 4 -->
-            <EditText
-                android:id="@+id/otp_digit_4"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="4dp"
-                android:background="@drawable/box_bg"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
-
-        <!-- Button for Submission -->
         <Button
-            android:id="@+id/btn_submit_otp"
+            android:id="@+id/resend_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Verify"
-            android:textSize="20dp"
+            android:text="@string/resend"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:backgroundTint="@color/white"
             android:textColor="@color/navy"/>
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:gravity="center"
+            android:textColor="@color/light_blue_400"
+            android:layout_marginBottom="26dp"
+            android:autoSizeMaxTextSize="25sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:text="1:00"
+
+            />
+
+
+        <!-- OTP Input Fields -->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/otp_input_container"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginBottom="26dp">-->
+
+<!--            &lt;!&ndash; Digit 1 &ndash;&gt;-->
+<!--            <EditText-->
+<!--                android:id="@+id/otp_digit_1"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_margin="4dp"-->
+<!--                android:background="@drawable/box_bg"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="1"-->
+<!--                android:textSize="18sp"-->
+<!--                android:importantForAccessibility="yes"/>-->
+
+<!--            &lt;!&ndash; Digit 2 &ndash;&gt;-->
+<!--            <EditText-->
+<!--                android:id="@+id/otp_digit_2"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_margin="4dp"-->
+<!--                android:background="@drawable/box_bg"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="1"-->
+<!--                android:textSize="18sp"/>-->
+
+<!--            &lt;!&ndash; Digit 3 &ndash;&gt;-->
+<!--            <EditText-->
+<!--                android:id="@+id/otp_digit_3"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_margin="4dp"-->
+<!--                android:background="@drawable/box_bg"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="1"-->
+<!--                android:textSize="18sp"/>-->
+
+<!--            &lt;!&ndash; Digit 4 &ndash;&gt;-->
+<!--            <EditText-->
+<!--                android:id="@+id/otp_digit_4"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_margin="4dp"-->
+<!--                android:background="@drawable/box_bg"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="1"-->
+<!--                android:textSize="18sp"/>-->
+
+<!--        </LinearLayout>-->
+
+<!--        &lt;!&ndash; Button for Submission &ndash;&gt;-->
+<!--        <Button-->
+<!--            android:id="@+id/btn_submit_otp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/verify"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:textColor="@color/navy"/>-->
 
     </LinearLayout>
 

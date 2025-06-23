@@ -31,12 +31,12 @@
 <!--        tools:ignore="MissingConstraints" />-->
 
     <ImageView
-        android:layout_width="334dp"
-        android:layout_height="312dp"
+        android:layout_width="700dp"
+        android:layout_height="700dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:contentDescription="@string/emopluse_logo"
-        android:src="@drawable/emopulse"
+        android:src="@drawable/logo4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

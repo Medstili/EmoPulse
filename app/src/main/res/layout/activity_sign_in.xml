@@ -108,10 +108,10 @@
         <!-- Google Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/google_login_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/signin_with_google"
+            android:text="@string/sign_in_with_google"
             android:drawableLeft="@drawable/google_icon"
             android:textColor="@color/navy"
             android:autoSizeTextType="uniform"
@@ -119,7 +119,7 @@
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeStepGranularity="2sp"
             app:backgroundTint="@null"
-            android:background="@drawable/button_gradient_background"
+            android:background="@drawable/google_btn_bg"
             android:layout_margin="10dp"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="@string/not_regestred_yet_sign_up"
+            android:text="@string/not_registered_yet_sign_up"
             android:textSize="12sp"
             android:textColor="@color/white"
             android:textColorLink="@color/cyan"

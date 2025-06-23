@@ -40,7 +40,7 @@
                         android:autoSizeStepGranularity="1sp"
                         android:autoSizeTextType="uniform"
                         android:padding="10dp"
-                        android:text="Share Data"
+                        android:text="@string/share_data"
                         app:thumbTint="@color/switch_thumb_colors"
                         app:trackTint="@color/switch_track_colors" />
 
@@ -53,7 +53,7 @@
                     android:autoSizeMinTextSize="5sp"
                     android:autoSizeStepGranularity="1sp"
                     android:autoSizeTextType="uniform"
-                    android:text="@string/data_autorisation"
+                    android:text="@string/data_authorisation"
                     android:textColor="@color/gray"
 
                     />
@@ -88,7 +88,7 @@
                         android:background="@drawable/setting_btn_bg"
                         android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
                         android:gravity="start|center"
-                        android:text="Delete Data"
+                        android:text="@string/delete_data"
                         android:textColor="@color/black"
                         app:backgroundTint="@null" />
 
@@ -105,7 +105,7 @@
                         android:background="@drawable/setting_last_btn_bg"
                         android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
                         android:gravity="start"
-                        android:text="Export Data"
+                        android:text="@string/export_data"
                         android:textColor="@color/black"
                         app:backgroundTint="@null" />
 

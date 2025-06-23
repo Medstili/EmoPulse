@@ -17,7 +17,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:maxWidth="250dp"
-        android:text="user message"
+        android:text="@string/user_message"
         android:layout_gravity="end"/>
 
 </LinearLayout>

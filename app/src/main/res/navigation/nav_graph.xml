@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation
+    android:id="@+id/nav_graph"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/dashboardFragment">
 
     <fragment
@@ -16,11 +16,7 @@
         android:name="com.medstili.emopulse.fragment.ChatFragment"
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat"/>
-    <fragment
-        android:id="@+id/goalsFragment"
-        android:name="com.medstili.emopulse.fragment.GoalsFragment"
-        android:label="GoalsFragment"
-        tools:layout="@layout/fragment_goals"/>
+
     <navigation android:id="@+id/settingsNavigation"
         app:startDestination="@id/settingsFragment">
 
@@ -29,13 +25,7 @@
             android:name="com.medstili.emopulse.fragment.settings2Fragment"
             android:label="fragment_settings"
             tools:layout="@layout/fragment_settings2">
-            <action
-                android:id="@+id/action_settingsFragment_to_dataPrivacyFragment"
-                app:destination="@id/dataPrivacyFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/fade_out"
-                app:popEnterAnim="@anim/fade_in"
-                app:popExitAnim="@anim/slide_out_right" />
+
 
             <action
                 android:id="@+id/action_settingsFragment_to_contactUsFragment"
@@ -44,13 +34,7 @@
                 app:exitAnim="@anim/fade_out"
                 app:popEnterAnim="@anim/fade_in"
                 app:popExitAnim="@anim/slide_out_right"/>
-            <action
-                android:id="@+id/action_settingsFragment_to_accountSettingsNavigation"
-                app:destination="@id/accountSettingsNavigation"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/fade_out"
-                app:popEnterAnim="@anim/fade_in"
-                app:popExitAnim="@anim/slide_out_right" />
+
             <action
                 android:id="@+id/action_settingsFragment_to_faqsFragment"
                 app:destination="@id/faqsFragment"
@@ -58,49 +42,34 @@
                 app:exitAnim="@anim/fade_out"
                 app:popEnterAnim="@anim/fade_in"
                 app:popExitAnim="@anim/slide_out_right"/>
+            <action
+                android:id="@+id/action_settingsFragment_to_changePasswordFragment"
+                app:destination="@id/changePasswordFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+                />
         </fragment>
 
-        <fragment
-            android:id="@+id/dataPrivacyFragment"
-            android:name="com.medstili.emopulse.fragment.DataPrivacyFragment"
-            android:label="fragment_data_privacy"
-            tools:layout="@layout/fragment_data_privacy" />
 
         <fragment
             android:id="@+id/contactUsFragment"
             android:name="com.medstili.emopulse.fragment.ContactUsFragment"
             android:label="fragment_contact_us"
             tools:layout="@layout/fragment_contact_us" />
-
-        <navigation
-            android:id="@+id/accountSettingsNavigation"
-            app:startDestination="@id/accountSettingsFragment">
-
-            <fragment
-                android:id="@+id/accountSettingsFragment"
-                android:name="com.medstili.emopulse.fragment.AccountSettingsFragment"
-                android:label="fragment_account_settings"
-                tools:layout="@layout/fragment_account_settings">
-                <action
-                    android:id="@+id/action_accountSettingsFragment_to_changePasswordFragment"
-                    app:destination="@id/changePasswordFragment"
-                    app:enterAnim="@anim/slide_in_right"
-                    app:exitAnim="@anim/fade_out"
-                    app:popEnterAnim="@anim/fade_in"
-                    app:popExitAnim="@anim/slide_out_right"/>
-            </fragment>
             <fragment
                 android:id="@+id/changePasswordFragment"
                 android:name="com.medstili.emopulse.fragment.ChangePasswordFragment"
                 android:label="fragment_change_password"
                 tools:layout="@layout/fragment_change_password" />
-        </navigation>
         <fragment
             android:id="@+id/faqsFragment"
             android:name="com.medstili.emopulse.fragment.FaqsFragment"
             android:label="fragment_faqs1"
             tools:layout="@layout/fragment_faqs" />
     </navigation>
+
     <navigation android:id="@+id/exercisesNavigation"
         app:startDestination="@id/exercicesFragment">
         <fragment
@@ -124,12 +93,46 @@
             <action
                 android:id="@+id/action_exercicesFragment_to_breathingFragment"
                 app:destination="@id/breathingFragment" />
+            <action
+                android:id="@+id/action_exercicesFragment_to_groundingExerciseFragment"
+                app:destination="@id/groundingExerciseFragment" />
+            <action
+                android:id="@+id/action_exercicesFragment_to_bodyScanExerciseFragment"
+                app:destination="@id/bodyScanExerciseFragment" />
         </fragment>
         <fragment
             android:id="@+id/breathingExerciseFragment"
             android:name="com.medstili.emopulse.fragment.BreathingExerciseFragment"
             android:label="fragment_breathing_exercise"
             tools:layout="@layout/fragment_breathing_exercise" />
+        <fragment
+            android:id="@+id/groundingExerciseFragment"
+            android:name="com.medstili.emopulse.fragment.GroundingExerciseFragment"
+            android:label="fragment_grounding_exercise"
+            tools:layout="@layout/fragment_grounding_exercise" />
+        <fragment
+            android:id="@+id/bodyScanExerciseFragment"
+            android:name="com.medstili.emopulse.fragment.BodyScanExerciseFragment"
+            android:label="fragment_body_scan_exercise"
+            tools:layout="@layout/fragment_body_scan_exercise" />
     </navigation>
+    <navigation android:id="@+id/goalsNavigation"
+        app:startDestination="@id/goalsFragment">
+        <fragment
+            android:id="@+id/goalDetailsFragment"
+            android:name="com.medstili.emopulse.fragment.GoalDetails"
+            android:label="fragment_goal_details"
+            tools:layout="@layout/fragment_goal_details" />
+        <fragment
+            android:id="@+id/goalsFragment"
+            android:name="com.medstili.emopulse.fragment.GoalsFragment"
+            android:label="GoalsFragment"
+            tools:layout="@layout/fragment_goals">
+            <action
+                android:id="@+id/action_goalsFragment_to_goalDetails"
+                app:destination="@id/goalDetailsFragment" />
+        </fragment>
+    </navigation>
+
 
 </navigation>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.GroundingExerciseFragment"
+    android:background="@drawable/linear_gradient_bg"
+    >
+    <TextView
+        android:id="@+id/groundingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:autoSizeMaxTextSize="65sp"
+        android:autoSizeMinTextSize="15sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:text="@string/grounding"
+        android:textColor="@color/white"
+        android:textSize="55sp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:transitionName="sharingGroundingExTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/dotLottieAnimationViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.3"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groundingTitle">
+        <com.lottiefiles.dotlottie.core.widget.DotLottieAnimation
+            android:id="@+id/dotLottieAnimationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:dotLottie_src="senseAnim.lottie"
+            app:dotLottie_useFrameInterpolation="true"
+            app:dotLottie_playMode="normal"
+            app:dotLottie_loop="false"
+            app:dotLottie_autoplay="true"
+            />
+    </LinearLayout>
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/dotLottieAnimationView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintHeight_percent="0.3"-->
+<!--        app:lottie_rawRes="@raw/senseanimraw"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/groundingTitle"-->
+<!--        />-->
+
+    <LinearLayout
+        android:id="@+id/groundingGuideStepsContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dotLottieAnimationViewContainer">
+        <TextView
+            android:id="@+id/groundingGuideSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMinTextSize="20sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/grounding_ex_description"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            />
+
+        <TextView
+            android:id="@+id/groundingGuideStepsExample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Example: 'I see the blue sky, a tree, a book, my phone, and a cup.'"
+            android:textColor="@color/cyan_light"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:padding="20dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!--     next btn-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.2"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groundingGuideStepsContainer">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/groundingExStartBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#14FFFFFF"
+            android:gravity="center"
+            android:text="@string/start"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="16dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/groundingExNextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#14FFFFFF"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="16dp"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/groundingExDoneBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#14FFFFFF"
+            android:gravity="center"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="16dp"
+            android:visibility="gone"
+            android:layout_margin="5dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/groundingExDoItAgainBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#14FFFFFF"
+            android:gravity="center"
+            android:text="@string/do_it_again"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="16dp"
+            android:visibility="gone"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,7 +67,7 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
              title.setTextColor(Color.parseColor(cardContainer.getTitleColor()));
              score.setText(cardContainer.getCardScore());
              image.setImageResource(cardContainer.getImageResId());
-             card.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cardContainer.getBgColorr())));
+             card.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(cardContainer.getBgColor())));
         }
 
     }

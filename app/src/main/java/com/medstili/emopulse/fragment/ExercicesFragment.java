@@ -2,6 +2,7 @@ package com.medstili.emopulse.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,7 +23,7 @@ public class ExercicesFragment extends Fragment {
     private FragmentExercicesBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentExercicesBinding.inflate(inflater, container, false);
         mainActivity = (MainActivity) getActivity();
@@ -45,6 +46,19 @@ public class ExercicesFragment extends Fragment {
             mainActivity.navController.navigate(R.id.action_exercicesFragment_to_breathingFragment, null,null ,extras);
         });
 
+        binding.groundingCard.setOnClickListener(v->{
+            FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
+                    .addSharedElement(binding.cardGroundingTitle, "sharingGroundingExTitle")
+                    .build();
+            mainActivity.navController.navigate(R.id.action_exercicesFragment_to_groundingExerciseFragment, null,null ,extras);
+        });
+        binding.bodyScanCard.setOnClickListener(v->{
+            FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
+                    .addSharedElement(binding.cardBodyScanTitle, "sharingBodyScanExTitle")
+                    .addSharedElement(binding.cardBodyScanImg, "sharingBodyScanExImg")
+                    .build();
+            mainActivity.navController.navigate(R.id.action_exercicesFragment_to_bodyScanExerciseFragment, null,null ,extras);
+        });
 
 
         return binding.getRoot();

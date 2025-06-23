@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EmoPulse FAQS "
+                android:text="@string/emopulse_faqs"
                 android:textColor="@color/navy_light"
                 android:textStyle="bold" />
 
@@ -196,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                android:text="@string/Is_my_data_safe_answer"
+                android:text="@string/is_my_data_safe_answer"
                 android:textSize="16sp"
                 android:textStyle="italic" />
             <!--        features-->

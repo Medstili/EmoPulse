@@ -1,16 +1,8 @@
  package com.medstili.emopulse.fragment;
-
-import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
-import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -19,13 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.activities.MainActivity;
 import com.medstili.emopulse.databinding.FragmentBreathingBinding;
-
- public class BreathingFragment extends Fragment {
-
+public class BreathingFragment extends Fragment {
     FragmentBreathingBinding binding;
     int counter;
     @Override

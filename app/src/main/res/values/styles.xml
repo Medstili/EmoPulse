@@ -1,13 +1,28 @@
 <resources>
 
-    <style name="Widget.Theme.EmoPulse.ButtonBar.Fullscreen" parent="">
+    <style name="Widget.Theme.EmoPulse.ButtonBar.Fullscreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
-    <style name="Widget.Theme.EmoPulse.MyView" parent="">
+    <style name="Widget.Theme.EmoPulse.MyView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
+    </style>
+
+    <style name="CalendarDateTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CalendarWeekDayTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/cyan</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CalendarHeaderTextAppearance" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 

@@ -1,5 +1,6 @@
 package com.medstili.emopulse.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -19,8 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+
 import com.google.android.material.button.MaterialButton;
+
+import com.google.firebase.auth.FirebaseUser;
 import com.medstili.emopulse.R;
+import com.medstili.emopulse.auth.Authentication;
+
 
 public class signIn extends AppCompatActivity {
 // variables
@@ -28,6 +35,18 @@ public class signIn extends AppCompatActivity {
     MaterialButton googleLoginButton;
     MaterialButton loginBtn;
     EditText emailInput, passwordInput;
+    private Authentication authManager;
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        authManager = Authentication.getInstance();
+        if (authManager.isUserSignedIn()) {
+            navigateToActivity(this, MainActivity.class);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +68,17 @@ public class signIn extends AppCompatActivity {
         });
 
  //    finding views
+//            mAuth = FirebaseAuth.getInstance();
             signUpLink = findViewById(R.id.signup_link);
             googleLoginButton = findViewById(R.id.google_login_button);
             loginBtn = findViewById(R.id.login_btn);
             emailInput=findViewById(R.id.email_input);
             passwordInput=findViewById(R.id.password_input);
+//            authManager = Authentication.getInstance();
+
 
 // making a portion of text clickable by using spannableString
-        SpannableString spannAble = new SpannableString("Not Registered Yet!  Sign Up");
+        SpannableString spanAble = new SpannableString("Not Registered Yet!  Sign Up");
         String text = "Not Registered Yet! Sign Up";
         signUpLink.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));// For API 24 and above
 
@@ -68,42 +90,51 @@ public class signIn extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-        spannAble.setSpan(clickableSpan, 20, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanAble.setSpan(clickableSpan, 20, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        signUpLink.setText(spannAble);
+        signUpLink.setText(spanAble);
         signUpLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-// google web view bottom sheet
-        googleLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WebViewBottomSheet webViewBottomSHeet=WebViewBottomSheet.newINstance(("https://accounts.google.com/ServiceLogin"));
-                webViewBottomSHeet.show(getSupportFragmentManager(),"WebViewBottomSheet");
-            }
+        googleLoginButton.setOnClickListener(view -> {
+            WebViewBottomSheet webViewBottomSHeet=WebViewBottomSheet.newINstance(("https://accounts.google.com/ServiceLogin"));
+            webViewBottomSHeet.show(getSupportFragmentManager(),"WebViewBottomSheet");
         });
-// login button event handler (going to MainActivity )
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // handling the inputs
-              if(!emailInput.getText().toString().isEmpty() && !passwordInput.getText().toString().isEmpty()){
-                  Intent intent = new Intent(signIn.this, MainActivity.class);
-                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                  startActivity(intent);
-                  finish();
+        loginBtn.setOnClickListener(view -> {
+            // handling the inputs
+          if(!emailInput.getText().toString().isEmpty() && !passwordInput.getText().toString().isEmpty()){
 
-              }else{
+              signInAuth(emailInput.getText().toString(), passwordInput.getText().toString());
 
-                  Toast.makeText(signIn.this, "Please fill in the fileds", Toast.LENGTH_SHORT).show();
+          }else{
 
-              }
+              Toast.makeText(signIn.this, "Please fill in the fields", Toast.LENGTH_SHORT).show();
 
-            }
+          }
+
         });
 
 
 
 
     }
-    
+
+    private void signInAuth(String email, String password){
+    authManager.signInWithEmail(email, password, new Authentication.SignInCallback() {
+        @Override
+        public void onSuccess(FirebaseUser user) {
+            Toast.makeText(signIn.this, "Login successful!", Toast.LENGTH_SHORT).show();
+            navigateToActivity(signIn.this, MainActivity.class);
+        }
+        @Override
+        public void onFailure(String errorMessage) {
+            Toast.makeText(signIn.this, errorMessage, Toast.LENGTH_LONG).show();
+        }
+    });
+}
+    public void navigateToActivity(Activity fromActivity, Class<? extends Activity> toActivityClass) {
+        Intent intent = new Intent(fromActivity, toActivityClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        fromActivity.finish();
+    }
 }

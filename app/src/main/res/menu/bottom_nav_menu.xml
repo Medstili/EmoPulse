@@ -7,8 +7,8 @@
 
 
 
-    <item android:title="Goals"
-        android:id="@+id/goalsFragment"
+    <item android:title="@string/goals"
+        android:id="@+id/goalsNavigation"
         android:icon="@drawable/goals"/>
 
         <item android:title=""
@@ -16,11 +16,11 @@
             android:enabled="false"
         />
 
-    <item android:title="Exercieces"
+    <item android:title="@string/exercises"
         android:id="@+id/exercisesNavigation"
         android:icon="@drawable/relax"/>
 
-    <item android:title="Settings"
+    <item android:title="@string/settings"
         android:id="@+id/settingsNavigation"
         android:icon="@drawable/settings"/>
 

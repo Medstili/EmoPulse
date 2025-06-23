@@ -39,7 +39,7 @@
                         android:autoSizeTextType="uniform"
                         android:background="@drawable/setting_btn_bg"
                         android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
-                        android:text="Change Password"
+                        android:text="@string/change_password"
                         android:textAlignment="textStart"
                         android:textColor="@color/black"
                         app:backgroundTint="@null" />
@@ -55,7 +55,7 @@
                         android:autoSizeStepGranularity="1sp"
                         android:autoSizeTextType="uniform"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Delete Account"
+                        android:text="@string/delete_account"
                         android:textColor="@color/danger"
                         app:backgroundTint="@null" />
 

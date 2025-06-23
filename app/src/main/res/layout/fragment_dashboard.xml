@@ -25,7 +25,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dashboard"
+            android:text="@string/dashboard"
             android:textColor="@color/light_blue_400"
             android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="65sp"
@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This is your safe space to track your progress, celebrate your wins, and reflect on your journey."
+                    android:text="@string/this_is_your_safe_space_to_track_your_progress_celebrate_your_wins_and_reflect_on_your_journey"
                     android:autoSizeMinTextSize="15sp"
                     android:autoSizeMaxTextSize="25sp"
                     android:autoSizeStepGranularity="1sp"
@@ -64,7 +64,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="“Small steps every day lead to big changes.”"
+                    android:text="@string/small_steps_every_day_lead_to_big_changes"
                     android:autoSizeMinTextSize="15sp"
                     android:autoSizeMaxTextSize="25sp"
                     android:autoSizeStepGranularity="1sp"
@@ -81,7 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-
             />
         <TextView
             android:layout_width="match_parent"
@@ -230,7 +229,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mood Tracking"
+            android:text="@string/mood_tracking"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -274,7 +273,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Day"
+                            android:text="@string/day"
                             android:textSize="20sp"
                             android:autoSizeTextType="uniform"
                             android:autoSizeMinTextSize="10sp"
@@ -288,7 +287,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Week"
+                            android:text="@string/week"
                             android:textSize="20sp"
                             android:autoSizeTextType="uniform"
                             android:autoSizeMinTextSize="10sp"
@@ -302,7 +301,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Month"
+                            android:text="@string/month"
                             android:textSize="20sp"
                             android:autoSizeTextType="uniform"
                             android:autoSizeMinTextSize="10sp"
@@ -331,7 +330,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Conversation Summary"
+            android:text="@string/conversation_summary"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -391,7 +390,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="interactivity with lelly"
+                        android:text="@string/interactivity_with_lelly"
                         android:textSize="11sp"
                         android:textStyle="italic"
                         android:autoSizeTextType="uniform"
@@ -430,7 +429,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mood Indecators"
+                        android:text="@string/mood_indecators"
                         android:textSize="11sp"
                         android:textStyle="italic"
                         android:autoSizeTextType="uniform"

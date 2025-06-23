@@ -8,8 +8,10 @@
     <color name="gray_600">#FF757575</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cyan">#00BCD4</color>
+    <color name="cyan_light">#4BE0F6</color>
     <color name="pink">#E401FF</color>
     <color name="purple">#9302A8</color>
+    <color name="brown">#924907</color>
     <color name="pitchOrange">#C76B6B</color>
     <color name="navy">#060B3D</color>
     <color name="navy_dark">#000713</color>

@@ -13,7 +13,7 @@ public class ExerciseCard {
         this.titleColor = titleColor;
     }
 
-    public String getBgColorr() {
+    public String getBgColor() {
         return bgColor;
     }
 

@@ -5,7 +5,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -22,7 +26,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.medstili.emopulse.R;
+import com.medstili.emopulse.auth.Authentication;
 import com.medstili.emopulse.databinding.ActivityMainBinding;
 
 
@@ -32,7 +41,32 @@ public class MainActivity extends AppCompatActivity {
     public NavController navController;
     public ViewGroup.MarginLayoutParams layoutParams;
     int totalHeight, appBarHeight, statusBarHeight;
+    Authentication authManager;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        authManager = Authentication.getInstance();
+        if ( !authManager.isUserSignedIn()) {
+            navigateToActivity(MainActivity.this, signIn.class);
+        }
+
+        authManager.checkEmailVerified(
+                new Authentication.VerificationCallback() {
+                    @Override
+                    public void onVerified() {
+                        // Already verified → nothing to do
+                        Log.i("email", "email verified");
+                    }
+                    @Override
+                    public void onNotVerified() {
+                        Log.i("email", "email not verified");
+
+                        authManager.signOut();
+                        navigateToActivity(MainActivity.this, signIn.class);
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        getWindow().setSharedElementsUseOverlay(false);
         binding.appbar.setPadding(0, getStatusBarHeight(), 0, 0);
         WindowInsetsControllerCompat windowInsetsController = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
         windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
@@ -51,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         appBarHeight = getAppBarHeight();
         totalHeight = statusBarHeight + appBarHeight;
         layoutParams = (ViewGroup.MarginLayoutParams) binding.navHostFragment.getLayoutParams();
-//        layoutParams.topMargin = totalHeight;
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;
         navController = navHostFragment.getNavController();
@@ -65,44 +97,33 @@ public class MainActivity extends AppCompatActivity {
                 hideBottomBarAndFab();
         });
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                    if (destination.getId() == R.id.dashboardFragment || destination.getId() == R.id.goalsFragment || destination.getId() == R.id.exercicesFragment||  destination.getId()==R.id.settingsFragment) {
-//                        layoutParams.topMargin=0;
-//                        binding.navHostFragment.setLayoutParams(layoutParams);
+                    if (destination.getId() == R.id.dashboardFragment || destination.getId() == R.id.goalsNavigation || destination.getId() == R.id.exercicesFragment||  destination.getId()==R.id.settingsFragment) {
                         showBottomBarAndFab();
                         binding.appbar.setVisibility(View.GONE);
                         animateNavHostFragmentMargin(0);
                     }
                     else{
-//                        layoutParams.topMargin = totalHeight;
                         animateNavHostFragmentMargin(totalHeight);
-//                        binding.navHostFragment.setLayoutParams(layoutParams);
                         hideBottomBarAndFab();
                         binding.appbar.setVisibility(View.VISIBLE);
-//                        binding.appbar.requestLayout();
                     };
                     if (destination.getId()== R.id.contactUsFragment) {
                         binding.toolbar.setTitle("Contact Us");
                     }
-                    else if (destination.getId()== R.id.dataPrivacyFragment) {
-                        binding.toolbar.setTitle("Data Privacy");
-                    }
+
                     else if (destination.getId() == R.id.changePasswordFragment) {
                         binding.toolbar.setTitle("Change Password");
                     }
-                    else if(destination.getId() == R.id.accountSettingsFragment) {
-                        binding.toolbar.setTitle("Account Settings");
-                    }
+
                     else if(destination.getId() == R.id.faqsFragment) {
                         binding.toolbar.setTitle("FAQs");
                     }
-                    else if(destination.getId() == R.id.breathingFragment) {
-                        binding.toolbar.setTitle(null);
-                        binding.toolbarContent.setVisibility(View.GONE);
+                    else if (destination.getId() == R.id.goalDetailsFragment){
+                        binding.toolbar.setTitle("Goal Details");
                     }
-                    else if (destination.getId() == R.id.breathingExerciseFragment) {
-                        binding.toolbar.setTitle(null);
-                        binding.toolbarContent.setVisibility(View.GONE);
-                    }
+//                    else if (destination.getId() == R.id.bodyScanExerciseFragment){
+//                        binding.toolbar.setTitle(" Body Scan");
+//                    }
                     binding.toolbar.setNavigationOnClickListener(view -> {
                             navController.navigateUp();
                             binding.toolbarContent.setVisibility(View.GONE);
@@ -114,8 +135,30 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    public void hideBottomBarWhileScrollingDownRecyclerView(@NonNull RecyclerView recyclerView){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    binding.bottomBar.animate().translationY(binding.bottomBar.getHeight());
+                    binding.chatButton.animate().translationY(binding.bottomBar.getHeight());
+                } else if (dy < 0) {
+
+                     // Scrolling Up
+
+                    binding.bottomBar.animate().translationY(0);
+                    binding.chatButton.animate().translationY(0);                }
+            }
+        });
+    }
     public void hideBottomBarAndFab() {
+
         binding.bottomBar.setVisibility(View.GONE);
         binding.chatButton.setVisibility(View.GONE);
 
@@ -137,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     binding.bottomBar.animate().translationY(0);
                     binding.chatButton.animate().translationY(0);
-                    binding.appbar.animate().translationY(0).setDuration(300).start();
+//                    binding.appbar.animate().translationY(0).setDuration(300).start();
 
 //                    binding.appbar.setExpanded(true, true);/
 
@@ -160,26 +203,28 @@ public class MainActivity extends AppCompatActivity {
         }
         return 0;
     }
-    private void animateAppBarPosition(float toY, int duration) {
-        binding.appbar.animate()
-                .translationY(toY) // Move the AppBar vertically
-                .setDuration(duration) // Smooth animation duration in milliseconds
-                .start(); // Start the animation
-    }
     public void animateNavHostFragmentMargin(int targetMargin) {
         ValueAnimator animator = ValueAnimator.ofInt(layoutParams.topMargin, targetMargin);
         animator.setDuration(500); // Animation duration in milliseconds
 
         animator.addUpdateListener(animation -> {
-            int animatedValue = (int) animation.getAnimatedValue();
-            layoutParams.topMargin = animatedValue;
+            layoutParams.topMargin = (int) animation.getAnimatedValue();
             binding.navHostFragment.setLayoutParams(layoutParams); // Apply updated margin
         });
 
         animator.start(); // Start the animation
     }
+    private void navigateToActivity(Activity fromActivity, Class<? extends Activity> toActivityClass) {
+        Intent intent = new Intent(fromActivity, toActivityClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        fromActivity.finish();
+    }
+
+    /**
+     *  handle the default phone back button too
+     */
     @Override
-//        handle the default phone back button too
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LinearLayout toolbarContent = binding.toolbarContent;

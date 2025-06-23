@@ -22,7 +22,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:maxWidth="250dp"
-            android:text="bot message"
+            android:text="@string/bot_message"
             android:layout_gravity="start"
             />
         <LinearLayout

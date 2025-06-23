@@ -19,21 +19,25 @@
             android:exported="false" />
         <activity
             android:name=".activities.EmailConfirmation"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="false"
+
            />
         <activity
             android:name=".activities.signIn"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activities.signUp"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activities.splashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
