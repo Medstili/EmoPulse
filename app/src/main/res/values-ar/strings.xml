@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إيمو بالز</string>
+    <string name="mind_linked_neural">العقل المترابط العصبي</string>
+    <string name="emopluse_logo">شعار إيمو بالز</string>
+    <string name="mind_neural_image">صورة العقل العصبي</string>
+    <string name="neural_link_image">صورة الرابط العصبي</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="next">التالي</string><!-- next button -->
+    <string name="sign_up">تسجيل</string>
+    <string name="already_have_an_account_log_in">هل لديك حساب بالفعل؟ <u>تسجيل الدخول</u></string>
+    <string name="signup_with_google">سجل باستخدام جوجل</string>
+    <string name="sign_in_with_google">تسجيل الدخول باستخدام جوجل</string>
+    <string name="or">أو</string>
+    <string name="log_in">تسجيل الدخول</string><!-- for login button-->
+    <string name="sign_in">تسجيل الدخول</string> <!--    title-->
+    <string name="sign_up_with">سجل باستخدام</string>
+    <string name="not_registered_yet_sign_up">لم تسجل بعد! سجل</string>
+    <string name="title_activity_home">الرئيسية</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_dashboard">لوحة التحكم</string>
+    <string name="title_notifications">الإشعارات</string>
+    <string name="chat">الدردشة</string>
+    <string name="articles">المقالات</string>
+    <string name="exercises">التمارين</string>
+    <string name="goals">الأهداف</string>
+    <string name="dashboard">لوحة التحكم</string>
+    <string name="hello_blank_fragment">مرحباً بقطعة واجهة فارغة</string>
+    <string name="exercises_description">تقنيات علاجية بسيطة وفعالة لإدارة التوتر، وبناء اليقظة، وتحسين تنظيم المشاعر. كل تقنية تحتوي على دليل إرشادي.</string>
+    <string name="grounding_description">يقلل من الشعور بالإرهاق أو القلق من خلال التركيز على الحاضر.</string>
+    <string name="body_scan_description">تحقق من جسدك للاسترخاء.</string>
+    <string name="progressive_muscle_relaxation">قلل من التوتر عن طريق استرخاء العضلات.</string>
+    <string name="breathing_description">تنفس بعمق للاسترخاء والتركيز.</string>
+    <string name="butterfly_description">يهدئ المشاعر من خلال عناق ذاتي مريح.</string>
+    <string name="imagery_description">تخيل أماكن هادئة لتقليل التوتر.</string>
+    <string name="repetitive_phrases_description">كرر عبارات إيجابية لتعزيز الثقة بالنفس.</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">الرسائل</string>
+    <string name="sync_header">المزامنة</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">توقيعك</string>
+    <string name="reply_title">إجراء الرد الافتراضي</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">مزامنة البريد الإلكتروني دوريًا</string>
+    <string name="attachment_title">تحميل المرفقات الواردة</string>
+    <string name="attachment_summary_on">قم بتحميل المرفقات تلقائيًا للبريد الوارد</string>
+    <string name="attachment_summary_off">حمّل المرفقات عند الطلب فقط</string>
+    <string name="dummy_button">زر وهمي</string>
+    <string name="dummy_content">محتوى
+وهمي</string>
+    <string name="data_authorisation">أذن باستخدام محتواك لتدريب نماذجنا وتحسين أداء نموذج الذكاء الاصطناعي لك ولجميع المستخدمين. نحن نتخذ تدابير لحماية خصوصيتك.</string>
+
+    <string-array name="languages">
+        <item>الإنجليزية</item>
+        <item>الفرنسية</item>
+        <item>العربية</item>
+    </string-array>
+
+
+    <string name="general_questions">أسئلة عامة</string>
+    <string name="q_what_is_emopulse">س: ما هو إيمو بالز؟</string>
+    <string name="what_is_emopulse_answer">ج: إيمو بالز هو تطبيق دردشة يعتمد على العلاج السلوكي المعرفي (CBT) صُمم لمساعدتك على تحسين صحتك النفسية من خلال تتبع مشاعرك، وتقديم تمارين مبنية على مبادئ CBT، والمشاركة في محادثات لتقديم الإرشاد.</string>
+    <string name="q_who_can_use_emopulse">س: من يمكنه استخدام إيمو بالز؟</string>
+    <string name="who_can_use_emopulse_answer">ج: تم تصميم إيمو بالز لأي شخص يسعى لإدارة صحته النفسية بشكل أفضل، وفهم مشاعره، وممارسة تقنيات العلاج السلوكي المعرفي.</string>
+    <string name="q_how_does_emopulse_work">س: كيف يعمل إيمو بالز؟</string>
+    <string name="how_does_emopulse_work_answer">ج: يستخدم إيمو بالز مبادئ العلاج السلوكي المعرفي وأدوات المحادثة المدعومة بالذكاء الاصطناعي لتوفير الدعم العاطفي، واقتراح التمارين، ومساعدتك على تحديد وتحقيق أهداف الصحة النفسية.</string>
+    <string name="q_can_i_track_my_progress_in_emopulse">س: هل يمكنني تتبع تقدمي في إيمو بالز؟</string>
+    <string name="can_i_track_my_progress_in_emopulse_answer">ج: نعم! يتضمن إيمو بالز لوحة متابعة حيث يمكنك تتبع تغيرات مزاجك، والتمارين المكتملة، وغيرها من معالم الصحة النفسية.</string>
+    <string name="q_does_emopulse_support_real_time_voice_interactions">س: هل يدعم إيمو بالز التفاعلات الصوتية الفورية؟</string>
+    <string name="does_emopulse_support_real_time_voice_interactions_answer">ج: نعم، يمكنك التحدث إلى إيمو بالز في الوقت الحقيقي باستخدام الدردشة الصوتية، وسيستجيب لك صوتيًا ونصيًا.</string>
+    <string name="q_are_the_conversations_stored_or_shared">س: هل يتم تخزين أو مشاركة المحادثات؟</string>
+    <string name="are_the_conversations_stored_or_shared_answer">ج: خصوصيتك هي أولويتنا. يقوم إيمو بالز بتخزين محادثاتك محليًا على جهازك فقط. نحن لا نشارك بياناتك مع أطراف خارجية.</string>
+    <string name="q_do_i_need_an_account_to_use_emopulse">س: هل أحتاج إلى حساب لاستخدام إيمو بالز؟</string>
+    <string name="do_i_need_an_account_to_use_emopulse_answer">ج: نعم، تحتاج إلى التسجيل باستخدام بريدك الإلكتروني وكلمة المرور لاستخدام إيمو بالز. نحن لا نجمع معلومات شخصية إضافية.</string>
+    <string name="q_is_my_data_safe">س: هل بياناتي آمنة؟</string>
+    <string name="is_my_data_safe_answer">ج: بالتأكيد! يضمن إيمو بالز تخزين جميع بياناتك بشكل آمن ومحلي، مما يحافظ على خصوصيتك.</string>
+    <string name="q_what_kind_of_exercises_does_emopulse_offer">س: ما نوع التمارين التي يقدمها إيمو بالز؟</string>
+    <string name="what_kind_of_exercises_does_emopulse_offer_answer">ج: يوفر إيمو بالز مجموعة من التمارين المبنية على مبادئ العلاج السلوكي المعرفي، مثل يوميات الأفكار، وتقنيات الاسترخاء، وتمارين الامتنان، وأنشطة اليقظة.</string>
+    <string name="q_can_i_customize_my_goals">س: هل يمكنني تخصيص أهدافي؟</string>
+    <string name="can_i_customize_my_goals_answer">ج: نعم، يمكنك تحديد أهداف شخصية مع مواعيد نهائية، وتحديد تكرار إنجازها، وتتبع تقدمك مع مرور الوقت.</string>
+    <string name="q_emopulse_isn_t_working_correctly_what_should_i_do">س: إيمو بالز لا يعمل بشكل صحيح، ماذا يجب أن أفعل؟</string>
+    <string name="emopulse_isn_t_working_correctly_what_should_i_do_answer">ج: حاول إعادة تشغيل التطبيق أو التحقق من اتصال الإنترنت. إذا استمرت المشكلة، اتصل بنا عبر قسم "اتصل بنا" في التطبيق.</string>
+    <string name="functionality">الوظائف</string>
+
+
+    <string name="account_and_privacy">الحساب والخصوصية</string>
+    <string name="features">الميزات</string>
+    <string name="technical_support">الدعم الفني</string>
+    <string name="guide_part_1">اجلس أو استلقِ في وضع مريح مع استقامة ظهرك.</string>
+    <string name="guide_part_2">ضع طرف لسانك على الحافة خلف الأسنان الأمامية العليا واحتفظ به هناك طوال التمرين.</string>
+    <string name="guide_part_3">ازفر الهواء بالكامل من فمك مع إصدار صوت هسهسة.</string>
+    <string name="guide_part_4">أغلق فمك واستنشق بهدوء عبر أنفك مع العد الذهني حتى أربعة.</string>
+    <string name="guide_part_5">احبس أنفاسك حتى العد إلى سبعة.</string>
+    <string name="guide_part_6">ازفر الهواء تمامًا من فمك مع إصدار صوت هسهسة حتى العد إلى ثمانية.</string>
+    <string name="guide_part_7">بهذا تكتمل دورة تنفس واحدة. كرر الدورة أربع مرات لإكمال التمرين.</string>
+    <string name="breathing_4_7_8_description">تقنية التنفس 4–7–8 هي تمرين استرخاء بسيط لكنه قوي. يساعد على تهدئة العقل، وتقليل التوتر، وتحسين التركيز.</string>
+    <string name="grounding_ex_description">يساعدك على التركيز على اللحظة الحالية، مما يقلل القلق والتوتر من خلال إشراك حواسك. يعيد انتباهك إلى "الآن وهنا".</string>
+    <string name="terms_amp_conditions"><![CDATA[الشروط والأحكام]]></string>
+    <string name="faqs">الأسئلة الشائعة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="switch_language">تبديل اللغة</string>
+    <string name="english">الإنجليزية</string>
+    <string name="frensh">الفرنسية</string>
+    <string name="spanish">الإسبانية</string>
+    <string name="arabe">العربية</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="reminders">التذكيرات</string>
+    <string name="app_notifications">إشعارات التطبيق</string>
+    <string name="checks_in">التقييمات</string>
+    <string name="account_settings">إعدادات الحساب</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="data_privacy">خصوصية البيانات</string>
+    <string name="share_data">مشاركة البيانات</string>
+    <string name="export_data">تصدير البيانات</string>
+    <string name="delete_data">حذف البيانات</string>
+    <string name="help_amp_support"><![CDATA[المساعدة والدعم]]></string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="btn_terms_amp_conditions"><![CDATA[الشروط والأحكام]]></string>
+    <string name="log_out">تسجيل الخروج</string>
+    <string name="done">تم</string>
+    <string name="enter_the_code_sent_to_your_email">أدخل الرمز المرسل إلى بريدك الإلكتروني</string>
+    <string name="verify">تحقق</string>
+    <string name="back">عودة</string>
+    <string name="lelly">ليلي</string>
+    <string name="artificial_inteligence">الذكاء الاصطناعي</string>
+    <string name="bot_message">رسالة الروبوت</string>
+    <string name="title">العنوان</string>
+    <string name="dialog_message">رسالة الحوار</string>
+    <string name="left_button">الزر الأيسر</string>
+    <string name="right_button">الزر الأيمن</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="reset">إعادة التعيين</string>
+    <string name="go">اذهب</string>
+    <string name="breathing">التنفس</string>
+    <string name="inhale">استنشق</string>
+    <string name="start">ابدأ</string>
+    <string name="do_it_again">افعلها مرة أخرى!</string>
+    <string name="experess_your_feelings_here">عبّر عن مشاعرك هنا…</string>
+    <string name="message">رسالة</string>
+    <string name="type_your_message_here">اكتب رسالتك هنا…</string>
+    <string name="submit">إرسال</string>
+    <string name="this_is_your_safe_space_to_track_your_progress_celebrate_your_wins_and_reflect_on_your_journey">هذه مساحتك الآمنة لتتبع تقدمك، والاحتفال بانتصاراتك، والتأمل في رحلتك.</string>
+    <string name="small_steps_every_day_lead_to_big_changes">«الخطوات الصغيرة كل يوم تؤدي إلى تغييرات كبيرة.»</string>
+    <string name="mood_tracking">تتبع المزاج</string>
+    <string name="day">اليوم</string>
+    <string name="week">الأسبوع</string>
+    <string name="month">الشهر</string>
+    <string name="conversation_summary">ملخص المحادثة</string>
+    <string name="interactivity_with_lelly">التفاعل مع ليلي</string>
+    <string name="mood_indecators">مؤشرات المزاج</string>
+    <string name="grounding">التثبيت</string>
+    <string name="body_scan">فحص الجسم</string>
+    <string name="butterfly">الفراشة</string>
+    <string name="progressive_muscle_relaxation_title">استرخاء العضلات التدريجي</string>
+    <string name="guided_imagery">التصور الموجه</string>
+    <string name="phrase_repetition">تكرار العبارات</string>
+    <string name="emopulse_faqs">الأسئلة الشائعة لإيمو بالز</string>
+    <string name="user_message">رسالة المستخدم</string>
+    <string name="times">مرات</string>
+
+    <!--    grounding exercise steps-->
+    <string-array name="groundingGuideSteps">
+        <item>انظر حولك وحدد خمسة أشياء يمكنك رؤيتها</item>
+        <item>لاحظ أربعة أشياء يمكنك لمسها</item>
+        <item>استمع إلى ثلاثة أصوات يمكنك سماعها</item>
+        <item>حدد شيئين يمكنك شمهما (أو فكر في روائحك المفضلة إذا لم يتواجد أي منها).</item>
+        <item>لاحظ شيئًا واحدًا يمكنك تذوقه.</item>
+        <item>خذ نفسًا عميقًا آخر ولاحظ كيف تشعر بمزيد من الاستقرار والهدوء</item>
+    </string-array>
+    <string-array name="groundingGuideStepsExample">
+        <item>مثال: «أرى السماء الزرقاء، شجرة، كتاب، هاتفي، وكوب.»</item>
+        <item>مثال: «أشعر بالكرسي، وحذائي، وهاتفي، وقماش قميصي.»</item>
+        <item>مثال: «أسمع زقزقة الطيور، مرور سيارة، وصوت أنفاسي.»</item>
+        <item>مثال: «أشم رائحة القهوة المُخمرة والهواء النقي.»</item>
+        <item>مثال: «أتذوق النعناع من علكتي.»</item>
+    </string-array>
+
+</resources>

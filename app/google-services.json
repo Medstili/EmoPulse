@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243606203981",
+    "project_id": "emopulse-6a39a",
+    "storage_bucket": "emopulse-6a39a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243606203981:android:50272662296de8e5aaf604",
+        "android_client_info": {
+          "package_name": "com.medstili.emopulse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5jXsCf00lMcjcXXHX4xStOQMvs6cjKqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EmoPulse</string>
+    <string name="mind_linked_neural">esprit lié neuronal</string>
+    <string name="emopluse_logo">logo d\'EmoPulse</string>
+    <string name="mind_neural_image">image neuronale de l\'esprit</string>
+    <string name="neural_link_image">image du lien neuronal</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="next">Suivant</string><!-- next button -->
+    <string name="sign_up">S\'inscrire</string>
+    <string name="already_have_an_account_log_in">Vous avez déjà un compte ? <u>Connectez-vous</u></string>
+    <string name="signup_with_google">S\'inscrire avec Google</string>
+    <string name="signin_with_google">Se connecter avec Google</string>
+    <string name="or">Ou</string>
+    <string name="log_in">Connexion</string><!-- for login button-->
+    <string name="sign_in">Se connecter</string> <!--    title-->
+    <string name="sign_up_with">S\'inscrire avec</string>
+    <string name="not_regestred_yet_sign_up">Pas encore inscrit ! Inscrivez-vous</string>
+    <string name="title_activity_home">Accueil</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_dashboard">Tableau de bord</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="chat">Discussion</string>
+    <string name="articles">Articles</string>
+    <string name="exercices">Exercices</string>
+    <string name="goals">Objectifs</string>
+    <string name="dashboard">Tableau de bord</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+    <string name="Exercices_description">Techniques thérapeutiques simples et efficaces permettant de gérer le stress, de développer la pleine conscience et d\'améliorer la régulation émotionnelle. Chaque technique est accompagnée d\'un guide d\'instructions.</string>
+    <string name="grounding_description">Réduit le sentiment d\'être submergé ou anxieux en se concentrant sur le présent.</string>
+    <string name="body_scan_description">Faites le point sur votre corps pour vous détendre.</string>
+    <string name="progressive_muscle_relaxation">Réduisez le stress en relaxant vos muscles.</string>
+    <string name="breathing_description">Respirez profondément pour vous détendre et vous recentrer.</string>
+    <string name="butterfly_description">Apaise les émotions grâce à un auto-câlin réconfortant.</string>
+    <string name="imagery_description">Visualisez des lieux paisibles pour réduire le stress.</string>
+    <string name="repeatitive_phrases_description">Répétez des phrases positives pour renforcer la confiance en vous.</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Synchronisation</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Votre signature</string>
+    <string name="reply_title">Action de réponse par défaut</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Synchroniser l\'email périodiquement</string>
+    <string name="attachment_title">Télécharger les pièces jointes entrantes</string>
+    <string name="attachment_summary_on">Télécharge automatiquement les pièces jointes des emails entrants</string>
+    <string name="attachment_summary_off">Téléchargez les pièces jointes uniquement sur demande</string>
+    <string name="dummy_button">Bouton factice</string>
+    <string name="dummy_content">CONTENU
+FACTICE</string>
+    <string name="data_autorisation">Autorisez l\'utilisation de votre contenu pour entraîner nos modèles et améliorer les performances du modèle d\'IA pour vous et pour tous ceux qui l\'utilisent. Nous prenons des mesures pour protéger votre vie privée.</string>
+
+    <string-array name="languages">
+        <item>Anglais</item>
+        <item>Français</item>
+        <item>Arabe</item>
+    </string-array>
+
+    <string name="general_questions">Questions générales</string>
+    <string name="q_what_is_emopulse">Q : Qu\'est-ce qu\'EmoPulse ?</string>
+    <string name="what_is_emopulse_answer">R : EmoPulse est une application de chatbot basée sur la thérapie cognitivo-comportementale (TCC) conçue pour vous aider à améliorer votre bien-être mental en suivant vos émotions, en proposant des exercices basés sur la TCC et en engageant des conversations pour vous guider.</string>
+    <string name="q_who_can_use_emopulse">Q : Qui peut utiliser EmoPulse ?</string>
+    <string name="who_can_use_emopulse_answer">R : EmoPulse est conçue pour toute personne souhaitant mieux gérer sa santé mentale, comprendre ses émotions et pratiquer des techniques TCC.</string>
+    <string name="q_how_does_emopulse_work">Q : Comment fonctionne EmoPulse ?</string>
+    <string name="how_does_emopulse_work_answer">R : EmoPulse utilise les principes de la TCC et des outils conversationnels alimentés par l\'IA pour fournir un soutien émotionnel, suggérer des exercices et vous aider à définir et atteindre vos objectifs de santé mentale.</string>
+    <string name="q_can_i_track_my_progress_in_emopulse">Q : Puis-je suivre mes progrès avec EmoPulse ?</string>
+    <string name="can_i_track_my_progress_in_emopulse_answer">R : Oui ! EmoPulse inclut un tableau de bord où vous pouvez suivre l\'évolution de votre humeur, les exercices réalisés et d\'autres étapes importantes de votre santé mentale.</string>
+    <string name="q_does_emopulse_support_real_time_voice_interactions">Q : EmoPulse prend-elle en charge les interactions vocales en temps réel ?</string>
+    <string name="does_emopulse_support_real_time_voice_interactions_answer">R : Oui, vous pouvez parler à EmoPulse en temps réel via un chat vocal, et elle vous répondra à la fois par audio et par texte.</string>
+    <string name="q_are_the_conversations_stored_or_shared">Q : Les conversations sont-elles stockées ou partagées ?</string>
+    <string name="are_the_conversations_stored_or_shared_answer">R : Votre vie privée est notre priorité. EmoPulse stocke vos conversations localement sur votre appareil. Nous ne partageons pas vos données avec des tiers.</string>
+    <string name="q_do_i_need_an_account_to_use_emopulse">Q : Ai-je besoin d\'un compte pour utiliser EmoPulse ?</string>
+    <string name="do_i_need_an_account_to_use_emopulse_answer">R : Oui, vous devez vous inscrire avec votre email et votre mot de passe pour utiliser EmoPulse. Nous ne collectons pas d\'informations personnelles supplémentaires.</string>
+    <string name="q_is_my_data_safe">Q : Mes données sont-elles en sécurité ?</string>
+    <string name="Is_my_data_safe_answer">R : Absolument ! EmoPulse garantit que toutes vos données sont stockées de manière sécurisée et locale, préservant ainsi votre vie privée.</string>
+    <string name="q_what_kind_of_exercises_does_emopulse_offer">Q : Quel type d\'exercices propose EmoPulse ?</string>
+    <string name="what_kind_of_exercises_does_emopulse_offer_answer">R : EmoPulse offre une gamme d\'exercices basés sur la TCC, tels que des journaux de pensées, des techniques de relaxation, des exercices de gratitude et des activités de pleine conscience.</string>
+    <string name="q_can_i_customize_my_goals">Q : Puis-je personnaliser mes objectifs ?</string>
+    <string name="can_i_customize_my_goals_answer">R : Oui, vous pouvez définir des objectifs personnalisés avec des échéances, préciser la fréquence de réalisation et suivre votre progression dans le temps.</string>
+    <string name="q_emopulse_isn_t_working_correctly_what_should_i_do">Q : EmoPulse ne fonctionne pas correctement, que dois-je faire ?</string>
+    <string name="emopulse_isn_t_working_correctly_what_should_i_do_answer">R : Essayez de redémarrer l\'application ou vérifiez votre connexion Internet. Si le problème persiste, contactez-nous via la section \'Contactez-nous\' dans l\'application.</string>
+    <string name="functionality">Fonctionnalité</string>
+    <string name="account_and_privacy">Compte et Confidentialité</string>
+    <string name="features">Fonctionnalités</string>
+    <string name="technical_support">Support Technique</string>
+    <string name="guide_part_1">Asseyez-vous ou allongez-vous dans une position confortable avec le dos droit.</string>
+    <string name="guide_part_2">Placez la pointe de votre langue contre le rebord du tissu juste derrière vos dents supérieures et maintenez-la en place pendant l\'exercice.</string>
+    <string name="guide_part_3">Expirez complètement par la bouche en produisant un bruit de souffle.</string>
+    <string name="guide_part_4">Fermez la bouche et inspirez silencieusement par le nez en comptant mentalement jusqu\'à quatre.</string>
+    <string name="guide_part_5">Retenez votre souffle en comptant jusqu\'à sept.</string>
+    <string name="guide_part_6">Expirez entièrement par la bouche en produisant un bruit de souffle en comptant jusqu\'à huit.</string>
+    <string name="guide_part_7">Cela complète une respiration. Répétez le cycle quatre fois pour terminer l\'exercice.</string>
+    <string name="breathing_4_7_8_description">La technique de respiration 4–7–8 est un exercice de relaxation simple mais puissant. Elle aide à calmer l\'esprit, réduire le stress et améliorer la concentration.</string>
+    <string name="grounding_ex_description">Elle vous aide à vous concentrer sur le moment présent, réduisant l\'anxiété et le stress en sollicitant vos sens. Elle vous ramène à l\'ici et maintenant.</string>
+    <string name="terms_amp_conditions"><![CDATA[Termes & Conditions]]></string>
+    <string name="faqs">FAQ</string>
+    <string name="settings">Paramètres</string>
+    <string name="switch_language">Changer de langue</string>
+    <string name="english">anglais</string>
+    <string name="frensh">français</string>
+    <string name="spanish">espagnol</string>
+    <string name="arabe">arabe</string>
+    <string name="notifications">Notifications</string>
+    <string name="reminders">Rappels</string>
+    <string name="app_notifications">Notifications de l\'application</string>
+    <string name="checks_in">Points de contrôle</string>
+    <string name="account_settings">Paramètres du compte</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="data_privacy">Confidentialité des données</string>
+    <string name="share_data">Partager les données</string>
+    <string name="export_data">Exporter les données</string>
+    <string name="delete_data">Supprimer les données</string>
+    <string name="help_amp_support"><![CDATA[Aide & Support]]></string>
+    <string name="contact_us">Contactez-nous</string>
+    <string name="btn_terms_amp_conditions"><![CDATA[Termes & Conditions]]></string>
+    <string name="log_out">Déconnexion</string>
+    <string name="done">Terminé</string>
+    <string name="enter_the_code_sent_to_your_email">Entrez le code envoyé à votre email</string>
+    <string name="verify">Vérifier</string>
+    <string name="back">Retour</string>
+    <string name="lelly">Lelly</string>
+    <string name="artificial_inteligence">Intelligence Artificielle</string>
+    <string name="bot_message">message du bot</string>
+    <string name="title">Titre</string>
+    <string name="dialog_message">Message de dialogue</string>
+    <string name="left_button">Bouton gauche</string>
+    <string name="right_button">Bouton droit</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="go">Aller</string>
+    <string name="breathing">Respiration</string>
+    <string name="inhale">Inspirer</string>
+    <string name="start">Commencer</string>
+    <string name="do_it_again">Refaites-le !</string>
+    <string name="experess_your_feelings_here">Exprimez vos sentiments ici …</string>
+    <string name="message">Message</string>
+    <string name="type_your_message_here">Tapez votre message ici …</string>
+    <string name="submit">Envoyer</string>
+    <string name="this_is_your_safe_space_to_track_your_progress_celebrate_your_wins_and_reflect_on_your_journey">C\'est votre espace sécurisé pour suivre vos progrès, célébrer vos réussites et réfléchir à votre parcours.</string>
+    <string name="small_steps_every_day_lead_to_big_changes">« De petits pas chaque jour mènent à de grands changements. »</string>
+    <string name="mood_tracking">Suivi de l\'humeur</string>
+    <string name="day">Jour</string>
+    <string name="week">Semaine</string>
+    <string name="month">Mois</string>
+    <string name="conversation_summary">Résumé de la conversation</string>
+    <string name="interactivity_with_lelly">Interaction avec Lelly</string>
+    <string name="mood_indecators">Indicateurs d\'humeur</string>
+    <string name="grounding">Ancrage</string>
+    <string name="body_scan">Scan corporel</string>
+    <string name="butterfly">Papillon</string>
+    <string name="progressive_muscle_relaxation_title">Relaxation musculaire progressive</string>
+    <string name="guided_imagery">Imagerie guidée</string>
+    <string name="phrase_repetition">Répétition de phrases</string>
+    <string name="emopulse_faqs">FAQ EmoPulse</string>
+    <string name="user_message">message utilisateur</string>
+    <string name="times">fois</string>
+    <!-- grounding exercise steps-->
+    <string-array name="groundingGuideSteps">
+        <item>Regardez autour de vous et identifiez cinq choses que vous pouvez voir</item>
+        <item>Notez quatre choses que vous pouvez toucher</item>
+        <item>Écoutez trois sons que vous pouvez entendre</item>
+        <item>Identifiez deux choses que vous pouvez sentir (ou pensez à vos odeurs préférées s il n y en a pas).</item>
+        <item>Remarquez une chose que vous pouvez goûter.</item>
+        <item>Respirez profondément une nouvelle fois et constatez comment vous vous sentez plus ancré et calme</item>
+    </string-array>
+    <string-array name="groundingGuideStepsExample">
+        <item>Exemple : "Je vois le ciel bleu, un arbre, un livre, mon téléphone et une tasse."</item>
+        <item>Exemple : "Je sens la chaise, mes chaussures, mon téléphone et le tissu de ma chemise."</item>
+        <item>Exemple : "J\'entends des oiseaux chanter, une voiture passer et le son de ma respiration."</item>
+        <item>Exemple : "Je sens le café en train de se préparer et l\'air frais."</item>
+        <item>Exemple : "Je goûte la menthe de mon chewing-gum."</item>
+    </string-array>
+
+</resources>
