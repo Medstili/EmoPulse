@@ -2,7 +2,6 @@ package com.medstili.emopulse.fragment;
 
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,13 +25,11 @@ import android.widget.Toast;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.medstili.emopulse.Components.CustomDialog;
 import com.medstili.emopulse.activities.MainActivity;
 import com.medstili.emopulse.R;
-import com.medstili.emopulse.activities.signUp;
 import com.medstili.emopulse.auth.Authentication;
 import com.medstili.emopulse.databinding.FragmentSettings2Binding;
 import com.medstili.emopulse.activities.signIn;
@@ -212,6 +209,8 @@ public class settings2Fragment extends Fragment {
                                                                 @Override public void onSuccess() {
                                                                     Toast.makeText(requireActivity(),
                                                                             "Account deleted successfully", Toast.LENGTH_SHORT).show();
+
+
                                                                 }
                                                                 @Override public void onFailure() {
                                                                     Toast.makeText(requireActivity(),
@@ -258,9 +257,7 @@ public class settings2Fragment extends Fragment {
                             customDialog.dialog.dismiss();
                         },
                         "Cancel",
-                        v->{
-                            customDialog.dialog.dismiss();
-                        }
+                        v -> customDialog.dialog.dismiss()
                 );
             }
         });
