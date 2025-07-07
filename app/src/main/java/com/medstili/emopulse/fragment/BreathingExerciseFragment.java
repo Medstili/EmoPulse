@@ -15,7 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseError;
 import com.lottiefiles.dotlottie.core.widget.DotLottieAnimation;
+import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentBreathingExerciseBinding;
 
@@ -31,6 +34,8 @@ public class BreathingExerciseFragment extends Fragment {
     private  int maxLoops = 3; // Maximum number of loops
     private boolean isRestTime = false;
     private  int restTime= 4;
+    private DataBase db;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -43,7 +48,6 @@ public class BreathingExerciseFragment extends Fragment {
         });
         binding.doneBtn.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-//            navController.navigateUp();
             navController.popBackStack(R.id.exercicesFragment,false);
 
         });
@@ -51,9 +55,11 @@ public class BreathingExerciseFragment extends Fragment {
             startBreathingExercise();
             binding.btnContainer.setVisibility(View.GONE);
         });
+        db = DataBase.getInstance();
+
         return binding.getRoot();
     }
-    public  void  startBreathingExercise() {
+    public void startBreathingExercise() {
         currentStep=0;
         loopCount=0;
         remainingTime = (int)(durations[currentStep]/1000);
@@ -75,6 +81,39 @@ public class BreathingExerciseFragment extends Fragment {
                     binding.btnContainer.setVisibility(View.VISIBLE);
                     binding.startBtnContainer.setVisibility(View.GONE);
                     dotLottieAnimationView.pause();
+                    db.recordExerciseCompletion("Breathing", new DataBase.CompletionCallback() {;
+                        @Override
+                        public void onSuccess(Integer newCount) {
+                            Log.d("BreathingExercise", "Exercise completed successfully. Count: " + newCount );
+                            Snackbar.make(binding.getRoot(), "Exercise completed successfully. Count: " + newCount , Snackbar.LENGTH_SHORT).show();
+                            db.checkIfExerciseExistsInAnyGoal("Breathing",new DataBase.OnExerciseCheckListener(){
+
+                                        @Override
+                                        public void onExerciseFound(String exerciseName, String goalTitle) {
+                                            Snackbar.make(binding.getRoot(), "your Goal was Updated", Snackbar.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onExerciseNotFound(String exerciseName) {
+
+                                        }
+
+                                        @Override
+                                        public void onError(String errorMessage) {
+
+                                        }
+                                    }
+                            );
+                        }
+
+                        @Override
+                        public void onFailure(DatabaseError error) {
+                            Log.e("BreathingExercise", "Failed to record exercise completion: " + error.getMessage());
+                            Snackbar.make(binding.getRoot(), "Failed to record exercise completion: " + error.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Log.d("BreathingExercise", "Completed all loops");
                     return;
                 }
                 if (isRestTime){
@@ -95,10 +134,8 @@ public class BreathingExerciseFragment extends Fragment {
                     }
                 }
                 else{
-
                     binding.breathingGuideSteps.setText(steps[currentStep]);
                     binding.counter.setText(String.valueOf(remainingTime));
-
                     if (remainingTime >= 1) {
                         remainingTime--;
                         breathingHandler.postDelayed(this, 1000);

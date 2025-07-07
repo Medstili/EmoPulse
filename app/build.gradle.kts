@@ -26,8 +26,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+//        sourceCompatibility = JavaVersion.VERSION_1_8
+//        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true
@@ -47,11 +49,9 @@ dependencies {
     implementation(libs.firebase.database)
     // Import the BoM for the Firebase platform
     implementation(platform(libs.firebase.bom))
-
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation(libs.google.firebase.auth)
-//    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -64,9 +64,9 @@ dependencies {
     implementation (libs.mpandroidchart)
     implementation(libs.dotlottie.android)
     implementation (libs.material.calendarview)
-
-
-
-
+    implementation(libs.play.services.auth)
+    implementation (libs.firebase.storage)
 
 }
+
+

@@ -5,6 +5,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,12 +27,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.medstili.emopulse.R;
-import com.medstili.emopulse.auth.Authentication;
+import com.medstili.emopulse.Auth.Authentication;
 import com.medstili.emopulse.databinding.ActivityMainBinding;
 
 
@@ -106,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         animateNavHostFragmentMargin(totalHeight);
                         hideBottomBarAndFab();
                         binding.appbar.setVisibility(View.VISIBLE);
-                    };
-                    if (destination.getId()== R.id.contactUsFragment) {
+                    }
+            if (destination.getId()== R.id.contactUsFragment) {
                         binding.toolbar.setTitle("Contact Us");
                     }
 
@@ -121,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
                     else if (destination.getId() == R.id.goalDetailsFragment){
                         binding.toolbar.setTitle("Goal Details");
                     }
-//                    else if (destination.getId() == R.id.bodyScanExerciseFragment){
-//                        binding.toolbar.setTitle(" Body Scan");
-//                    }
                     binding.toolbar.setNavigationOnClickListener(view -> {
                             navController.navigateUp();
                             binding.toolbarContent.setVisibility(View.GONE);
@@ -168,29 +162,26 @@ public class MainActivity extends AppCompatActivity {
         binding.chatButton.setVisibility(View.VISIBLE);
     }
     public void hideBottomBarWhileScrollingDown(@NonNull ScrollView scrollView){
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY){
-                if (scrollY > oldScrollY) {
-                    binding.bottomBar.animate().translationY(binding.bottomBar.getHeight());
-                    binding.chatButton.animate().translationY(binding.bottomBar.getHeight());
+        scrollView.setOnScrollChangeListener((view, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                binding.bottomBar.animate().translationY(binding.bottomBar.getHeight());
+                binding.chatButton.animate().translationY(binding.bottomBar.getHeight());
 
 //                    binding.appbar.setExpanded(false, true);
-                }
-                else {
-                    binding.bottomBar.animate().translationY(0);
-                    binding.chatButton.animate().translationY(0);
+            }
+            else {
+                binding.bottomBar.animate().translationY(0);
+                binding.chatButton.animate().translationY(0);
 //                    binding.appbar.animate().translationY(0).setDuration(300).start();
 
 //                    binding.appbar.setExpanded(true, true);/
 
-                }
             }
         });
     }
     public int getStatusBarHeight() {
         int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        @SuppressLint("InternalInsetResource") int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         }
@@ -214,16 +205,19 @@ public class MainActivity extends AppCompatActivity {
 
         animator.start(); // Start the animation
     }
-    private void navigateToActivity(Activity fromActivity, Class<? extends Activity> toActivityClass) {
-        Intent intent = new Intent(fromActivity, toActivityClass);
+
+    public static void navigateToActivity(Activity currentActivity, Class<?> targetActivity) {
+        Intent intent = new Intent(currentActivity, targetActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        fromActivity.finish();
+        currentActivity.startActivity(intent);
+        currentActivity.finish();
     }
 
-    /**
-     *  handle the default phone back button too
-     */
+    public void navigateAndPopStack(int currentFragmentId, int destinationFragmentId) {
+        navController.navigate(destinationFragmentId);
+        navController.popBackStack(currentFragmentId, false);
+    }
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();

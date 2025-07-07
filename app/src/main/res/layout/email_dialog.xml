@@ -41,12 +41,12 @@
             android:src="@drawable/pwd" />
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="enter password"
-            android:inputType="textPassword"
+            android:hint="@string/enter_your_email"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             />
 

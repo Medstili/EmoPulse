@@ -250,6 +250,9 @@
     <string name="user_message">user message</string>
     <string name="times">times</string>
     <string name="add">Add</string>
+    <string name="forgot_password">forgot password ?</string>
+    <string name="enter_your_email">enter your email</string>
+    <string name="no_goal_was_added">no goal was added</string>
     <!--    grounding exercise steps-->
     <string-array name="groundingGuideSteps">
         <item>

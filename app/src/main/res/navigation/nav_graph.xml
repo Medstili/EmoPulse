@@ -10,7 +10,16 @@
         android:id="@+id/dashboardFragment"
         android:name="com.medstili.emopulse.fragment.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_exercisesNavigation2"
+            app:destination="@id/exercisesNavigation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.medstili.emopulse.fragment.ChatFragment"
@@ -49,7 +58,7 @@
                 app:exitAnim="@anim/fade_out"
                 app:popEnterAnim="@anim/fade_in"
                 app:popExitAnim="@anim/slide_out_right" />
-                />
+
         </fragment>
 
 

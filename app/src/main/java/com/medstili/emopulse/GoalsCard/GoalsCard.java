@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class GoalsCard {
     private String title,description;
-    private int goalId;
+    private String goalId;
     private Date createdAt;
-    public GoalsCard(int goalId, String title, String description) {
+    public GoalsCard(String goalId, String title, String description) {
         this.goalId = goalId;
         this.title = title;
         this.description = description;
@@ -21,7 +21,7 @@ public class GoalsCard {
         return description;
     }
 
-    public int getGoalId() {
+    public String getGoalId() {
         return goalId;
     }
 

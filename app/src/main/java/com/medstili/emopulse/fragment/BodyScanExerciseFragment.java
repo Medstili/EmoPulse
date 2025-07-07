@@ -18,9 +18,12 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
 import com.dotlottie.dlplayer.Mode;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseError;
 import com.lottiefiles.dotlottie.core.model.Config;
 import com.lottiefiles.dotlottie.core.util.DotLottieSource;
 import com.lottiefiles.dotlottie.core.widget.DotLottieAnimation;
+import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentBodyScanExerciseBinding;
 
@@ -33,6 +36,7 @@ public class BodyScanExerciseFragment extends Fragment {
     private FragmentBodyScanExerciseBinding binding;
     private MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
+    DataBase db ;
 //    DotLottieAnimation dotLottieAnimation;
 
     // Runnable to update SeekBar & current time every second
@@ -53,6 +57,7 @@ public class BodyScanExerciseFragment extends Fragment {
                              ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentBodyScanExerciseBinding.inflate(inflater, container, false);
+        db = DataBase.getInstance();
         View root = binding.getRoot();
 
 
@@ -86,10 +91,7 @@ public class BodyScanExerciseFragment extends Fragment {
         return root;
     }
 
-    /**
-     * Step-by-step MediaPlayer setup following
-     * https://developer.android.com/media/platform/mediaplayer/basics#java
-     */
+
     private void setupMediaPlayer_Basic() {
         // 1) Create the MediaPlayer instance
         mediaPlayer = new MediaPlayer();
@@ -137,6 +139,24 @@ public class BodyScanExerciseFragment extends Fragment {
                         AppCompatResources.getDrawable(requireContext(), R.drawable.play_button)
                 );
                 binding.dotLottieAnimationView.stop();
+                db.recordExerciseCompletion("Body_Scan", new
+                        DataBase.CompletionCallback() {
+
+                            @Override
+                            public void onSuccess(Integer newCount) {
+
+                                Log.d(TAG, "Exercise completed successfully. New count: " + newCount);
+                                Snackbar.make(binding.getRoot(), " Body Scan completed! Count: " + newCount, Snackbar.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(DatabaseError error) {
+                                Log.e(TAG, "Failed to record exercise completion: " + error.getMessage());
+                            }
+
+                            ;
+
+                });
 
             });
 

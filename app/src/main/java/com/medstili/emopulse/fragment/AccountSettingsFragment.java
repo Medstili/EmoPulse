@@ -27,33 +27,7 @@ public class AccountSettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAccountSettingsBinding.inflate(inflater, container, false);
-//        binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                CustomDialog customDialog = new CustomDialog(requireActivity());
-//                customDialog.showDialog(
-//                        "Delete Account",
-//                        "Are You Sure You Want To Delete Your Account ?",
-//                        "Delete",
-//                        v->{
-//                            Toast.makeText(requireActivity(),"Account Deleted Successfully", Toast.LENGTH_SHORT).show();
-//                            Intent intent =new Intent(requireActivity(), signUp.class);
-//                        },
-//                        "Cancel",
-//                      null
-//                );
-//                customDialog.title.setTextColor(ContextCompat.getColor(requireActivity(), R.color.danger));
-//            }
-//        });
-//        binding.changePasswordBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-//                navController.navigate(R.id .action_accountSettingsFragment_to_changePasswordFragment);
-//            }
-//        });
         return binding.getRoot();
     }
     @Override

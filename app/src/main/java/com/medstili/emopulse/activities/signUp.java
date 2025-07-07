@@ -8,7 +8,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -22,17 +21,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.medstili.emopulse.R;
-import com.medstili.emopulse.User.User;
-import com.medstili.emopulse.auth.Authentication;
-
-import java.util.Objects;
+import com.medstili.emopulse.Auth.Authentication;
 
 
 public class signUp extends AppCompatActivity {
@@ -41,6 +35,8 @@ public class signUp extends AppCompatActivity {
     MaterialButton nextBtn;
     EditText emailInput, passwordInput, confirmPasswordInput;
     Authentication authManager;
+    // At class level:
+    private static final int RC_GOOGLE_SIGN_IN = 9001;
 
     @Override
     public void onStart() {
@@ -106,15 +102,7 @@ public class signUp extends AppCompatActivity {
 
         logInLink.setText(spanAble);
         logInLink.setMovementMethod(LinkMovementMethod.getInstance());
-
-        googleLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WebViewBottomSheet webViewBottomSHeet=WebViewBottomSheet.newINstance(("https://accounts.google.com/ServiceLogin"));
-                webViewBottomSHeet.show(getSupportFragmentManager(),"WebViewBottomSheet");
-            }
-        });
-
+        authManager = Authentication.getInstance();
         nextBtn.setOnClickListener(new View.OnClickListener() {
                                        @Override
                                        public void onClick(View view) {
@@ -133,35 +121,33 @@ public class signUp extends AppCompatActivity {
                                                confirmPasswordInput.setError("password must match");
                                                Toast.makeText(signUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                                            } else {
-//                    try {
-//                        addUser();
-//                        mAuth.createUserWithEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString())
-//                                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                                        if (task.isSuccessful()) {
-//                                            // FirebaseUser user = mAuth.getCurrentUser(); // User object is available if needed
-//                                            navigateToActivity(signUp.this, EmailConfirmation.class); // Example usage
-//                                            Log.d("SignUp Success:", "createUserWithEmail:success");
-//
-//                                        } else {
-//                                            Log.w("SignUp Error:", "createUserWithEmail:failure", task.getException());
-//                                            Toast.makeText(signUp.this, "Authentication failed.",
-//                                                    Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    }
-//                                });
-
                                                signUpAuth(emailInput.getText().toString(), passwordInput.getText().toString());
                                            }
                                        }
         });
+        googleLoginButton.setOnClickListener(v -> {
+            Intent intent = authManager.getGoogleSignInIntent();
+            startActivityForResult(intent, RC_GOOGLE_SIGN_IN);
+        });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
+            authManager.handleGoogleSignInResult(data, new Authentication.GoogleAuthCallback() {
+                @Override
+                public void onSuccess(FirebaseUser user, boolean isNewUser) {
+                    // Google users are treated as “email verified”
+                    navigateToActivity(signUp.this, MainActivity.class, null);
+                }
 
-
-
-
-
+                @Override
+                public void onFailure(String errorMessage) {
+                    Toast.makeText(signUp.this, errorMessage, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     private  boolean passwordConfirmationVerification(String password, String confirmPassword){
@@ -176,7 +162,7 @@ public class signUp extends AppCompatActivity {
     private boolean fieldsVerification(String email, String password){
         return !email.isEmpty() && !password.isEmpty();
     }
-    private void navigateToActivity(Activity fromActivity, Class<? extends Activity> toActivityClass, String email) { // made email optional by checking if it's null
+    private void navigateToActivity(Activity fromActivity, Class<? extends Activity> toActivityClass, String email) {
         Intent intent = new Intent(fromActivity, toActivityClass);
         if (email != null){
             intent.putExtra("email", email);

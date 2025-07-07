@@ -17,7 +17,7 @@ public class WebViewBottomSheet extends BottomSheetDialogFragment {
 
     public static final String ARG_URL="url";
 
-    public static  WebViewBottomSheet newINstance(String url){
+    public static  WebViewBottomSheet newInstance(String url){
         WebViewBottomSheet fragment = new WebViewBottomSheet();
         Bundle args = new Bundle();
         args.putString(ARG_URL, url);
@@ -50,22 +50,17 @@ public class WebViewBottomSheet extends BottomSheetDialogFragment {
             }
         }
         // Set a custom touch listener to handle scrollable content inside the WebView
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Check if the WebView is at the top and prevent BottomSheet drag
-                if (webview.getScrollY() == 0) {
-                    return false; // Let the BottomSheet handle this touch if WebView is at the top
-                }
-
-                // Handle scrollable content inside the WebView (prevent dragging BottomSheet)
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    if (isScrollableArea(event)) {
-                        return true; // If in scrollable area inside WebView, let the WebView handle the scroll
-                    }
-                }
-                return false; // Otherwise, allow the BottomSheet to drag
+        webview.setOnTouchListener((v, event) -> {
+            // Check if the WebView is at the top and prevent BottomSheet drag
+            if (webview.getScrollY() == 0) {
+                return false; // Let the BottomSheet handle this touch if WebView is at the top
             }
+
+            // Handle scrollable content inside the WebView (prevent dragging BottomSheet)
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                return isScrollableArea(event); // If in scrollable area inside WebView, let the WebView handle the scroll
+            }
+            return false; // Otherwise, allow the BottomSheet to drag
         });
 
          return view;

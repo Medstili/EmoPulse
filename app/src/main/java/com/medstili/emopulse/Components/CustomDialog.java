@@ -21,7 +21,7 @@ public class CustomDialog{
    public MaterialButton leftBtn, rightBtn;
    public TextView title, message ;
    public ImageView dialogImg ;
-   public EditText editTextPassword;
+   public EditText editTextPassword, editTextEmail;
 
 
     public CustomDialog(Context context) {
@@ -118,5 +118,42 @@ public class CustomDialog{
             });
 
         this.dialog.show();
+    }
+
+    public void showEmailDialog( String message, String rightBtnText, View.OnClickListener rightBtnListener, String leftBtnText, View.OnClickListener leftBtnListener) {
+        this.dialog = new Dialog(context);
+        this.dialog.setContentView(R.layout.email_dialog);
+
+        Objects.requireNonNull(this.dialog.getWindow()).setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        this.message = dialog.findViewById(R.id.dialogMessage);
+        this.leftBtn = dialog.findViewById(R.id.leftBtn);
+        this.rightBtn = dialog.findViewById(R.id.rightBtn);
+        this.editTextEmail = dialog.findViewById(R.id.editTextEmail);
+
+        this.message.setText(message);
+        this.leftBtn.setText(leftBtnText);
+        this.rightBtn.setText(rightBtnText);
+        if (leftBtnText != null) {
+            this.leftBtn.setVisibility(View.VISIBLE);
+            this.leftBtn.setOnClickListener(v -> {
+                if (leftBtnListener != null) {
+                    leftBtnListener.onClick(v);
+                }
+                this.dialog.dismiss();
+            });
+        } else {
+            this.leftBtn.setVisibility(View.GONE);
+        }
+
+        this.rightBtn.setOnClickListener(v -> {
+            if (rightBtnListener != null) {
+                rightBtnListener.onClick(v);
+            }
+            this.dialog.dismiss();
+        });
+
+        this.dialog.show();
+
     }
 }

@@ -20,10 +20,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.dotlottie.dlplayer.Mode;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseError;
 import com.lottiefiles.dotlottie.core.model.Config;
 import com.lottiefiles.dotlottie.core.util.DotLottieSource;
 
 import com.lottiefiles.dotlottie.core.widget.DotLottieAnimation;
+import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentGroundingExerciseBinding;
 
@@ -34,6 +37,7 @@ public class GroundingExerciseFragment extends Fragment {
     private Animation fadeIn ;
     private int currentIndex =0;
     public String[] guideStepsList , guideStepsExampleList;
+    private DataBase db = DataBase.getInstance();
 
 
     @Override
@@ -120,6 +124,37 @@ public class GroundingExerciseFragment extends Fragment {
             binding.groundingExDoneBtn.setVisibility(View.VISIBLE);
             binding.groundingExDoItAgainBtn.startAnimation(fadeIn);
             dotLottieAnimation.setVisibility(View.GONE);
+            db.recordExerciseCompletion("Grounding", new DataBase.CompletionCallback() {
+                @Override
+                public void onSuccess(Integer newCount) {
+                    Log.d("DB", "Exercise completed successfully. New count: " + newCount);
+                    Snackbar.make( binding.getRoot()," Grounding Exercise completed successfully!", Snackbar.LENGTH_SHORT).show();
+                    db.checkIfExerciseExistsInAnyGoal("Grounding",new DataBase.OnExerciseCheckListener(){
+
+                                @Override
+                                public void onExerciseFound(String exerciseName, String goalTitle) {
+                                    Snackbar.make(binding.getRoot(), "your Goal was Updated", Snackbar.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onExerciseNotFound(String exerciseName) {
+
+                                }
+
+                                @Override
+                                public void onError(String errorMessage) {
+
+                                }
+                            }
+                    );
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Log.e("DB", "Failed to record exercise completion: " + error.getMessage());
+                }
+            });
+
         }
         else{
             switch (currentIndex){
@@ -146,7 +181,17 @@ public class GroundingExerciseFragment extends Fragment {
         binding.groundingGuideStepsExample.startAnimation(fadeIn);
         Log.d("currentIndex", "currentIndex = "+ String.valueOf(currentIndex));
         currentIndex++;
+    }
 
-
+    /**
+     *
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+        dotLottieAnimation.setVisibility(View.GONE);
+        dotLottieAnimation.clearAnimation();
+        Log.d("GroundingExerciseFragment", "onDestroyView: Fragment destroyed and resources cleaned up.");
     }
 }

@@ -45,7 +45,6 @@ public class ExercicesFragment extends Fragment {
                     .build();
             mainActivity.navController.navigate(R.id.action_exercicesFragment_to_breathingFragment, null,null ,extras);
         });
-
         binding.groundingCard.setOnClickListener(v->{
             FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
                     .addSharedElement(binding.cardGroundingTitle, "sharingGroundingExTitle")

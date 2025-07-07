@@ -10,9 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +32,12 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.firebase.database.DatabaseError;
+import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.activities.MainActivity;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentDashboardBinding;
-import com.medstili.emopulse.exerciseCard.ExerciseCard;
-import com.medstili.emopulse.exerciseCard.ExerciseCardAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,8 @@ import java.util.List;
 public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     MainActivity mainActivity;
-    private RecyclerView recyclerView;
-    private ExerciseCardAdapter ExerciseCardAdapter;
-    private List<ExerciseCard> cardList;
 
+    DataBase db;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
@@ -61,37 +60,26 @@ public class DashboardFragment extends Fragment {
             v.setPadding(0, statusBarInsets.top, 0, 0);
             return insets; // Return insets to keep consuming them
         });
-        recyclerView = binding.recyclerView;
+//        recyclerView = binding.recyclerView;
         LineChart lineChart = binding.lineChart;
         BarChart barChart = binding.barChart;
         PieChart pieChart = binding.pieChart;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        cardList = new ArrayList<>();
-        ExerciseCardAdapter = new ExerciseCardAdapter(cardList, getContext());
-        recyclerView.setAdapter(ExerciseCardAdapter);
-        addExerciseCard(R.drawable.mindfulness2,"Breathing","10","#00A999","#5AC5BB");
-        addExerciseCard(R.drawable.mindfulness,"Grounding","5","#924907","#DC985B");
-        addExerciseCard(R.drawable.bodyscan,"Body Scan","2","#C76B6B","#FAA0A0");
-        addExerciseCard(R.drawable.butterfly2,"ButterFly","3","#0872D0","#4298E4");
-        addExerciseCard(R.drawable.pmr,"Progressive Muscle Relaxation","0","#8E8E89","#C1C1BE");
-        addExerciseCard(R.drawable.imagery,"Guided Imagery","0","#F0B193","#F48149");
-        addExerciseCard(R.drawable.safespace,"Phrase Repetition","10","#D972D9","#DB04DB");
-//      line chart
+        db = DataBase.getInstance();
+
         lineChart(lineChart);
 //      bar chart
         barChart(barChart);
 //       pie chart
         pieChart(pieChart);
 
+        binding.breathingCard.setOnClickListener(v-> mainActivity.navController.navigate(R.id.action_dashboardFragment_to_exercisesNavigation2, null,null));
+        binding.groundingCard.setOnClickListener(v-> mainActivity.navController.navigate(R.id.action_dashboardFragment_to_exercisesNavigation2, null,null));
+        binding.bodyScanCard.setOnClickListener(v-> mainActivity.navController.navigate(R.id.action_dashboardFragment_to_exercisesNavigation2, null,null));
+
+
         return binding.getRoot();
     }
 
-    private void addExerciseCard(int imageResId, String title,String cardScore, String bgColor, String titleColor) {
-        ExerciseCard exerciseCard = new ExerciseCard(imageResId,  title, cardScore, bgColor, titleColor);
-        cardList.add(exerciseCard);
-        ExerciseCardAdapter.notifyItemInserted(cardList.size() - 1);
-        recyclerView.scrollToPosition(cardList.size());
-    }
     private void barChart(BarChart barChart){
         // Create data entries
         List<BarEntry> barEntries = new ArrayList<>();
@@ -138,7 +126,8 @@ public class DashboardFragment extends Fragment {
 
         // Refresh the chart to display the data
         barChart.invalidate();
-    };
+    }
+
     private void lineChart(LineChart lineChart){
 
         // Create sample data points
@@ -198,7 +187,8 @@ public class DashboardFragment extends Fragment {
         yAxis.setAxisLineColor(Color.parseColor("#ffffff"));
         yAxis.setTextColor(Color.parseColor("#ffffff"));
 
-    };
+    }
+
     private void pieChart(PieChart pieChart){
 
         // 1. Create data entries
@@ -243,10 +233,62 @@ public class DashboardFragment extends Fragment {
         pieChart.setDrawEntryLabels(false); // Hide labels on slices
         pieChart.animateXY(1000, 1000); // Animate X and Y axes
 
-    };
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        db.stopListeningForExercises();
         binding = null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        db.loadCompletedExercises(new DataBase.LoadExercisesCallback() {
+            // Use a map to collect all loaded exercises
+//            Map<String, Integer> completedExercises = new HashMap<>();
+
+            @Override
+            public void onSuccess(String exerciseName, int count) {
+//                completedExercises.put(exerciseName, count);
+                switch (exerciseName){
+
+                    case "Breathing":
+                        binding.breathingScore.setText(String.valueOf(count));
+                        break;
+                    case "Grounding":
+                        binding.groundingScore.setText(String.valueOf(count));
+                        break;
+                    case "Body Scan":
+                        binding.bodyScanScore.setText(String.valueOf(count));
+                        break;
+                    case "ButterFly":
+                        binding.butterflyScore.setText(String.valueOf(count));
+                        break;
+                    case "Progressive Muscle Relaxation":
+                        binding.pmrScore.setText(String.valueOf(count));
+                        break;
+                    case "Guided Imagery":
+                        binding.guidedImageryScore.setText(String.valueOf(count));
+                        break;
+                    case "Phrase Repetition":
+                        binding.phraseRepetitionScore.setText(String.valueOf(count));
+                        break;
+                    default:
+                        Log.e("DB", "Unknown exercise name: " + exerciseName);
+                        break;
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+                // Optionally handle error
+            }
+            @Override
+            public void onComplete(){}
+        });
     }
 }

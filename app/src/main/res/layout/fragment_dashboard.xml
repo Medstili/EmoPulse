@@ -75,13 +75,618 @@
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-<!--exercise cards list -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            />
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/breathingCard"
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#00A999"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/breathing"
+                                android:textColor="#5AC5BB"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/breathingScore"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/mindfulness2" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+
+                    android:id="@+id/groundingCard"
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#924907"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/cardTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/grounding"
+                                android:textColor="#DC985B"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/groundingScore"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/cardImage"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/mindfulness" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bodyScanCard"
+
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#C76B6B"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/body_scan"
+                                android:textColor="#FAA0A0"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/bodyScanScore"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/bodyscan" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/butterflyCard"
+
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#0872D0"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/butterfly"
+                                android:textColor="#4298E4"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/butterflyScore"
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/butterfly2" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pmrCard"
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#8E8E89"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/progressive_muscle_relaxation_title"
+                                android:textColor="#C1C1BE"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/pmrScore"
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/pmr" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/guidedImageryCard"
+
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#F48149"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/guided_imagery"
+                                android:textColor="#F0B193"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/guidedImageryScore"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/imagery" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/phraseRepetitionCard"
+                    android:layout_width="200dp"
+                    android:layout_height="126dp"
+                    android:backgroundTint="#D972D9"
+                    android:elevation="3dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center">
+                    <!-- container-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <!--description container-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeMinTextSize="10sp"
+                                android:autoSizeStepGranularity="2sp"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="center"
+                                android:text="@string/phrase_repetition"
+                                android:textColor="#DB04DB"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/phraseRepetitionScore"
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="end|center"
+                                    android:text="0"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:autoSizeMaxTextSize="15sp"
+                                    android:autoSizeMinTextSize="10sp"
+                                    android:autoSizeStepGranularity="2sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:gravity="center"
+                                    android:text="@string/times"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/imagery" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+<!--exercise cards list -->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            />        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

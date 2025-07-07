@@ -57,7 +57,7 @@ public class GoalsCardAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHol
                 Bundle bundle = new Bundle();
                 bundle.putString("title", title.getText().toString());
                 bundle.putString("description", description.getText().toString());
-                bundle.putInt("goalId", goalsList.get(getAdapterPosition()).getGoalId());
+                bundle.putString("goalId", goalsList.get(getAdapterPosition()).getGoalId());
                 Navigation.findNavController(v).navigate(R.id.action_goalsFragment_to_goalDetails, bundle);
             });
         }

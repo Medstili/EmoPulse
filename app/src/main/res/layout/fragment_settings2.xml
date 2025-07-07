@@ -487,19 +487,19 @@
                     android:drawableTint="@color/white"
                     android:layout_marginTop="10dp"
                     />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/deleteDataBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/delete_data"
-                    android:textColor="@color/white"
-                    android:textAlignment="textStart"
-                    android:textSize="20sp"
-                    android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"
-                    android:drawableTint="@color/white"
-                    android:backgroundTint="@null"
-                    android:background="@drawable/setting_last_btn_bg"
-                    />
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/deleteDataBtn"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/delete_data"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:drawableEnd="@drawable/baseline_keyboard_arrow_right_24"-->
+<!--                    android:drawableTint="@color/white"-->
+<!--                    android:backgroundTint="@null"-->
+<!--                    android:background="@drawable/setting_last_btn_bg"-->
+<!--                    />-->
             </LinearLayout>
             <!--            help & support-->
             <TextView

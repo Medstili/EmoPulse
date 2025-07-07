@@ -1,16 +1,22 @@
-package com.medstili.emopulse.auth;
+package com.medstili.emopulse.Auth;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.EmailAuthProvider;
 
+import com.medstili.emopulse.R;
 import java.util.Objects;
 
 
@@ -21,6 +27,8 @@ import java.util.Objects;
 public class Authentication {
     private static Authentication instance;
     private final FirebaseAuth mAuth;
+    private GoogleSignInClient googleSignInClient;
+
 
     private Authentication() {
         mAuth = FirebaseAuth.getInstance();
@@ -54,15 +62,25 @@ public class Authentication {
         /** Called when we discover the user is *not* verified (or on error). */
         void onNotVerified();
     }
-    public  interface DeleteAccountCallBack{
+    public interface ResetPasswordCallback {
+        void onSuccess();
+        void onFailure(String errorMessage);
+    }
+    public interface DeleteAccountCallBack{
         void onSuccess();
         void onFailure();
         void onReAuthenticate();
     }
-    public  interface UpdatePasswordCallBack{
+    public interface UpdatePasswordCallBack{
         void onSuccess(String SuccessMsg);
         void onFailure(String ErrorMsg);
+        void onReAuthenticate();
     }
+    public interface GoogleAuthCallback {
+        void onSuccess(FirebaseUser user, boolean isNewUser);
+        void onFailure(String errorMessage);
+    }
+
 
     /**
      * Attempts to sign in with email/password, reloads user, 
@@ -95,14 +113,12 @@ public class Authentication {
                             String err = reloadTask.getException() != null
                                     ? reloadTask.getException().getMessage()
                                     : "Could not verify email status";
-//                            mAuth.signOut();
                             callback.onFailure(err);
                             return;
                         }
                         if (user.isEmailVerified()) {
                             callback.onSuccess(user);
                         } else {
-//                            mAuth.signOut();
                             callback.onFailure("Please verify your email before logging in.");
                         }
                     });
@@ -172,14 +188,11 @@ public class Authentication {
             return;
         }
         user.reload()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful() && user.isEmailVerified()) {
-                            callback.onVerified();
-                        } else {
-                            callback.onNotVerified();
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && user.isEmailVerified()) {
+                        callback.onVerified();
+                    } else {
+                        callback.onNotVerified();
                     }
                 });
     }
@@ -250,11 +263,16 @@ public class Authentication {
                     });
     }
 
+
+    /// delete user data
+
+
+
     /**
      * updating password
      */
 
-    public void updatePassword(String newPassword, String currentPassword, UpdatePasswordCallBack callBack){
+    public void updatePassword(String newPassword, UpdatePasswordCallBack callBack){
         FirebaseUser user = getCurrentUser();
         user.updatePassword(newPassword)
                 .addOnCompleteListener(task ->{
@@ -262,34 +280,10 @@ public class Authentication {
                             callBack.onSuccess("Password updated successfully!");
                         } else {
                             if (task.getException() instanceof FirebaseAuthRecentLoginRequiredException) {
+                                callBack.onReAuthenticate();
 
-                                // HERE'S THE REAUTHENTICATION PART:
-                                // 1. Show a dialog asking for current password again.
-                                // 2. Once user provides it (assuming 'currentPassword' holds it)
-                                AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), currentPassword);
-
-                                user.reauthenticate(credential)
-                                        .addOnCompleteListener(reauthTask -> {
-                                                if (reauthTask.isSuccessful()) {
-                                                    System.out.println("User re-authenticated successfully! Retrying password update...");
-                                                    // Now, retry the password update
-                                                    user.updatePassword(newPassword)
-                                                            .addOnCompleteListener(retryTask ->{
-                                                                    if (retryTask.isSuccessful()) {
-                                                                        callBack.onSuccess("Password updated successfully!");
-                                                                    } else {
-                                                                        callBack.onFailure("Error updating password after re-auth: " + Objects.requireNonNull(retryTask.getException()).getMessage());
-                                                                    }
-
-                                                            });
-                                                }
-                                                else {
-                                                    callBack.onFailure("Re-authentication failed:" + Objects.requireNonNull(reauthTask.getException()).getMessage());
-                                                }
-
-                                        });
                             } else {
-                                    callBack.onFailure( "Error updating password: " + task.getException().getMessage());
+                                callBack.onFailure( "Error updating password: " + Objects.requireNonNull(task.getException()).getMessage());
                             }
                         }
 
@@ -299,12 +293,79 @@ public class Authentication {
      * reset the password
      */
 
-    public void resetPassword(){}
+    public void sendPasswordResetEmail(String email, ResetPasswordCallback callback){
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        callback.onSuccess();
+                    } else {
+                        String err = task.getException() != null
+                                ? task.getException().getMessage()
+                                : "Unknown error sending reset email";
+                        callback.onFailure("Failed to send reset email: " + err);
+                    }
+                });
 
-    public AuthCredential getCredential(String currentPassword){
+
+    }
+
+    public AuthCredential getCredential(String currentPassword, String Token){
         FirebaseUser user = getCurrentUser();
+        if(Token !=null){
+          return  GoogleAuthProvider.getCredential(Token, null);
+        }
         if(user == null) return null;
         return EmailAuthProvider
                 .getCredential(Objects.requireNonNull(user.getEmail()), currentPassword);
     }
+
+    /** Call this once (e.g. in Application.onCreate or your SplashActivity) **/
+    public void initGoogleSignIn(Context ctx) {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
+                GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(ctx.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(ctx, gso);
+    }
+
+    /** Returns the Intent you should pass to startActivityForResult(...) **/
+    public Intent getGoogleSignInIntent() {
+        if (googleSignInClient == null) {
+            throw new IllegalStateException("Must call initGoogleSignIn() first");
+        }
+        return googleSignInClient.getSignInIntent();
+    }
+
+
+    /** Call in your Activity.onActivityResult after you get the Google SignInIntent result */
+    public void handleGoogleSignInResult(
+            Intent data,
+            final GoogleAuthCallback callback
+    ) {
+        Task<GoogleSignInAccount> task =
+                GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount acct = task.getResult(ApiException.class);
+            AuthCredential cred = getCredential(null,acct.getIdToken());
+            mAuth.signInWithCredential(cred)
+                    .addOnCompleteListener(authTask -> {
+                        if (authTask.isSuccessful()) {
+                            boolean isNew = Objects.requireNonNull(authTask.getResult()
+                                            .getAdditionalUserInfo())
+                                    .isNewUser();
+                            callback.onSuccess(getCurrentUser(), isNew);
+                        } else {
+                            callback.onFailure(
+                                    authTask.getException() != null
+                                            ? authTask.getException().getMessage()
+                                            : "Firebase Auth failed"
+                            );
+                        }
+                    });
+        } catch (ApiException e) {
+            callback.onFailure("Google sign-in failed: " + e.getMessage());
+        }
+    }
 }
+
