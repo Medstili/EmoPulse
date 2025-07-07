@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">إيمو بالز</string>
     <string name="mind_linked_neural">العقل المترابط العصبي</string>
-    <string name="emopluse_logo">شعار إيمو بالز</string>
+    <string name="emopulse_logo">شعار إيمو بالز</string>
     <string name="mind_neural_image">صورة العقل العصبي</string>
     <string name="neural_link_image">صورة الرابط العصبي</string>
     <string name="email">البريد الإلكتروني</string>
@@ -104,7 +104,7 @@
     <string name="settings">الإعدادات</string>
     <string name="switch_language">تبديل اللغة</string>
     <string name="english">الإنجليزية</string>
-    <string name="frensh">الفرنسية</string>
+    <string name="french">الفرنسية</string>
     <string name="spanish">الإسبانية</string>
     <string name="arabe">العربية</string>
     <string name="notifications">الإشعارات</string>
@@ -179,5 +179,11 @@
         <item>مثال: «أشم رائحة القهوة المُخمرة والهواء النقي.»</item>
         <item>مثال: «أتذوق النعناع من علكتي.»</item>
     </string-array>
+    <string name="check_your_email_to_verify_your_email_and_continue">تحقق من بريدك الإلكتروني لتأكيده والمتابعة</string>
+    <string name="resend">إعادة الإرسال</string>
+    <string name="add">إضافة</string>
+    <string name="forgot_password">هل نسيت كلمة المرور؟</string>
+    <string name="enter_your_email">أدخل بريدك الإلكتروني</string>
+    <string name="no_goal_was_added">لم يتم إضافة أي هدف</string>
 
 </resources>

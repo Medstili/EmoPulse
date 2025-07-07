@@ -120,7 +120,11 @@ public class splashActivity extends AppCompatActivity {
 
     private void loadLanguage() {
         SharedPreferences sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        String language = sharedPref.getString("My_Lang", "en"); // Default is English
+        if (sharedPref == null) {
+            Log.e("splashActivity", "SharedPreferences is null");
+            return;
+        }
+        String language = sharedPref.getString("My_Lang", "");
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();

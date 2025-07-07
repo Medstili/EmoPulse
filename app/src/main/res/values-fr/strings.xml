@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">EmoPulse</string>
     <string name="mind_linked_neural">esprit lié neuronal</string>
-    <string name="emopluse_logo">logo d\'EmoPulse</string>
+    <string name="emopulse_logo">logo d\'EmoPulse</string>
     <string name="mind_neural_image">image neuronale de l\'esprit</string>
     <string name="neural_link_image">image du lien neuronal</string>
     <string name="email">Email</string>
@@ -12,30 +12,30 @@
     <string name="sign_up">S\'inscrire</string>
     <string name="already_have_an_account_log_in">Vous avez déjà un compte ? <u>Connectez-vous</u></string>
     <string name="signup_with_google">S\'inscrire avec Google</string>
-    <string name="signin_with_google">Se connecter avec Google</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
     <string name="or">Ou</string>
     <string name="log_in">Connexion</string><!-- for login button-->
     <string name="sign_in">Se connecter</string> <!--    title-->
     <string name="sign_up_with">S\'inscrire avec</string>
-    <string name="not_regestred_yet_sign_up">Pas encore inscrit ! Inscrivez-vous</string>
+    <string name="not_registered_yet_sign_up">Pas encore inscrit ! Inscrivez-vous</string>
     <string name="title_activity_home">Accueil</string>
     <string name="title_home">Accueil</string>
     <string name="title_dashboard">Tableau de bord</string>
     <string name="title_notifications">Notifications</string>
     <string name="chat">Discussion</string>
     <string name="articles">Articles</string>
-    <string name="exercices">Exercices</string>
+    <string name="exercises">Exercices</string>
     <string name="goals">Objectifs</string>
     <string name="dashboard">Tableau de bord</string>
     <string name="hello_blank_fragment">Bonjour fragment vide</string>
-    <string name="Exercices_description">Techniques thérapeutiques simples et efficaces permettant de gérer le stress, de développer la pleine conscience et d\'améliorer la régulation émotionnelle. Chaque technique est accompagnée d\'un guide d\'instructions.</string>
+    <string name="exercises_description">Techniques thérapeutiques simples et efficaces permettant de gérer le stress, de développer la pleine conscience et d\'améliorer la régulation émotionnelle. Chaque technique est accompagnée d\'un guide d\'instructions.</string>
     <string name="grounding_description">Réduit le sentiment d\'être submergé ou anxieux en se concentrant sur le présent.</string>
     <string name="body_scan_description">Faites le point sur votre corps pour vous détendre.</string>
     <string name="progressive_muscle_relaxation">Réduisez le stress en relaxant vos muscles.</string>
     <string name="breathing_description">Respirez profondément pour vous détendre et vous recentrer.</string>
     <string name="butterfly_description">Apaise les émotions grâce à un auto-câlin réconfortant.</string>
     <string name="imagery_description">Visualisez des lieux paisibles pour réduire le stress.</string>
-    <string name="repeatitive_phrases_description">Répétez des phrases positives pour renforcer la confiance en vous.</string>
+    <string name="repetitive_phrases_description">Répétez des phrases positives pour renforcer la confiance en vous.</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Synchronisation</string>
@@ -50,9 +50,8 @@
     <string name="attachment_summary_on">Télécharge automatiquement les pièces jointes des emails entrants</string>
     <string name="attachment_summary_off">Téléchargez les pièces jointes uniquement sur demande</string>
     <string name="dummy_button">Bouton factice</string>
-    <string name="dummy_content">CONTENU
-FACTICE</string>
-    <string name="data_autorisation">Autorisez l\'utilisation de votre contenu pour entraîner nos modèles et améliorer les performances du modèle d\'IA pour vous et pour tous ceux qui l\'utilisent. Nous prenons des mesures pour protéger votre vie privée.</string>
+    <string name="dummy_content">CONTENU FACTICE</string>
+    <string name="data_authorisation">Autorisez l\'utilisation de votre contenu pour entraîner nos modèles et améliorer les performances du modèle d\'IA pour vous et pour tous ceux qui l\'utilisent. Nous prenons des mesures pour protéger votre vie privée.</string>
 
     <string-array name="languages">
         <item>Anglais</item>
@@ -76,7 +75,7 @@ FACTICE</string>
     <string name="q_do_i_need_an_account_to_use_emopulse">Q : Ai-je besoin d\'un compte pour utiliser EmoPulse ?</string>
     <string name="do_i_need_an_account_to_use_emopulse_answer">R : Oui, vous devez vous inscrire avec votre email et votre mot de passe pour utiliser EmoPulse. Nous ne collectons pas d\'informations personnelles supplémentaires.</string>
     <string name="q_is_my_data_safe">Q : Mes données sont-elles en sécurité ?</string>
-    <string name="Is_my_data_safe_answer">R : Absolument ! EmoPulse garantit que toutes vos données sont stockées de manière sécurisée et locale, préservant ainsi votre vie privée.</string>
+    <string name="is_my_data_safe_answer">R : Absolument ! EmoPulse garantit que toutes vos données sont stockées de manière sécurisée et locale, préservant ainsi votre vie privée.</string>
     <string name="q_what_kind_of_exercises_does_emopulse_offer">Q : Quel type d\'exercices propose EmoPulse ?</string>
     <string name="what_kind_of_exercises_does_emopulse_offer_answer">R : EmoPulse offre une gamme d\'exercices basés sur la TCC, tels que des journaux de pensées, des techniques de relaxation, des exercices de gratitude et des activités de pleine conscience.</string>
     <string name="q_can_i_customize_my_goals">Q : Puis-je personnaliser mes objectifs ?</string>
@@ -101,7 +100,7 @@ FACTICE</string>
     <string name="settings">Paramètres</string>
     <string name="switch_language">Changer de langue</string>
     <string name="english">anglais</string>
-    <string name="frensh">français</string>
+    <string name="french">français</string>
     <string name="spanish">espagnol</string>
     <string name="arabe">arabe</string>
     <string name="notifications">Notifications</string>
@@ -121,6 +120,13 @@ FACTICE</string>
     <string name="log_out">Déconnexion</string>
     <string name="done">Terminé</string>
     <string name="enter_the_code_sent_to_your_email">Entrez le code envoyé à votre email</string>
+    <string name="check_your_email_to_verify_your_email_and_continue">Vérifiez votre e-mail pour valider votre adresse et continuer</string>
+    <string name="resend">Renvoyer</string>
+    <string name="add">Ajouter</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="enter_your_email">Entrez votre e-mail</string>
+    <string name="no_goal_was_added">Aucun objectif n\'a été ajouté</string>
+
     <string name="verify">Vérifier</string>
     <string name="back">Retour</string>
     <string name="lelly">Lelly</string>

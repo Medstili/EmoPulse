@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">EmoPulse</string>
     <string name="mind_linked_neural">mente conectada neural</string>
-    <string name="emopluse_logo">logo de EmoPulse</string>
+    <string name="emopulse_logo">logo de EmoPulse</string>
     <string name="mind_neural_image">imagen neural de la mente</string>
     <string name="neural_link_image">imagen de enlace neural</string>
     <string name="email">Correo electrónico</string>
@@ -12,30 +12,30 @@
     <string name="sign_up">Registrarse</string>
     <string name="already_have_an_account_log_in">¿Ya tienes una cuenta? <u>Inicia sesión</u></string>
     <string name="signup_with_google">Regístrate con Google</string>
-    <string name="signin_with_google">Inicia sesión con Google</string>
+    <string name="sign_in_with_google">Inicia sesión con Google</string>
     <string name="or">O</string>
     <string name="log_in">Iniciar sesión</string><!-- for login button-->
     <string name="sign_in">Iniciar sesión</string> <!--    title-->
     <string name="sign_up_with">regístrate con</string>
-    <string name="not_regestred_yet_sign_up">¡Aún no registrado! Regístrate</string>
+    <string name="not_registered_yet_sign_up">¡Aún no registrado! Regístrate</string>
     <string name="title_activity_home">Inicio</string>
     <string name="title_home">Inicio</string>
     <string name="title_dashboard">Panel de control</string>
     <string name="title_notifications">Notificaciones</string>
     <string name="chat">Chat</string>
     <string name="articles">Artículos</string>
-    <string name="exercices">Ejercicios</string>
+    <string name="exercises">Ejercicios</string>
     <string name="goals">Metas</string>
     <string name="dashboard">Panel de control</string>
     <string name="hello_blank_fragment">Hola fragmento en blanco</string>
-    <string name="Exercices_description">Técnicas terapéuticas simples y efectivas que pueden manejar el estrés, fomentar la atención plena y mejorar la regulación emocional. Cada técnica tiene una guía instructiva.</string>
+    <string name="exercises_description">Técnicas terapéuticas simples y efectivas que pueden manejar el estrés, fomentar la atención plena y mejorar la regulación emocional. Cada técnica tiene una guía instructiva.</string>
     <string name="grounding_description">Reduce la sensación de agobio o ansiedad al centrarte en el presente.</string>
     <string name="body_scan_description">Revisa tu cuerpo para relajarte.</string>
     <string name="progressive_muscle_relaxation">Reduce el estrés relajando los músculos.</string>
     <string name="breathing_description">Respira profundamente para relajarte y centrarte.</string>
     <string name="butterfly_description">Calma las emociones con un autoabrazo reconfortante.</string>
     <string name="imagery_description">Visualiza lugares tranquilos para reducir el estrés.</string>
-    <string name="repeatitive_phrases_description">Repite frases positivas para aumentar la confianza.</string>
+    <string name="repetitive_phrases_description">Repite frases positivas para aumentar la confianza.</string>
     <!-- Preference Titles -->
     <string name="messages_header">Mensajes</string>
     <string name="sync_header">Sincronización</string>
@@ -52,7 +52,7 @@
     <string name="dummy_button">Botón de prueba</string>
     <string name="dummy_content">CONTENIDO
 DE PRUEBA</string>
-    <string name="data_autorisation">Autoriza el uso de tu contenido para entrenar nuestros modelos y mejorar el rendimiento del Modelo de IA para ti y para todos los que lo utilizan. Tomamos medidas para proteger tu privacidad.</string>
+    <string name="data_authorisation">Autoriza el uso de tu contenido para entrenar nuestros modelos y mejorar el rendimiento del Modelo de IA para ti y para todos los que lo utilizan. Tomamos medidas para proteger tu privacidad.</string>
 
     <string-array name="languages">
         <item>Inglés</item>
@@ -76,7 +76,7 @@ DE PRUEBA</string>
     <string name="q_do_i_need_an_account_to_use_emopulse">P: ¿Necesito una cuenta para usar EmoPulse?</string>
     <string name="do_i_need_an_account_to_use_emopulse_answer">R: Sí, necesitas registrarte con tu correo electrónico y contraseña para usar EmoPulse. No recopilamos información personal adicional.</string>
     <string name="q_is_my_data_safe">P: ¿Están seguros mis datos?</string>
-    <string name="Is_my_data_safe_answer">R: ¡Absolutamente! EmoPulse garantiza que todos tus datos se almacenen de manera segura y local, manteniendo tu información privada.</string>
+    <string name="is_my_data_safe_answer">R: ¡Absolutamente! EmoPulse garantiza que todos tus datos se almacenen de manera segura y local, manteniendo tu información privada.</string>
     <string name="q_what_kind_of_exercises_does_emopulse_offer">P: ¿Qué tipo de ejercicios ofrece EmoPulse?</string>
     <string name="what_kind_of_exercises_does_emopulse_offer_answer">R: EmoPulse ofrece una variedad de ejercicios basados en la TCC, como diarios de pensamientos, técnicas de relajación, ejercicios de gratitud y actividades de atención plena.</string>
     <string name="q_can_i_customize_my_goals">P: ¿Puedo personalizar mis metas?</string>
@@ -101,7 +101,7 @@ DE PRUEBA</string>
     <string name="settings">Configuración</string>
     <string name="switch_language">Cambiar idioma</string>
     <string name="english">inglés</string>
-    <string name="frensh">francés</string>
+    <string name="french">francés</string>
     <string name="spanish">español</string>
     <string name="arabe">árabe</string>
     <string name="notifications">Notificaciones</string>
@@ -175,5 +175,11 @@ DE PRUEBA</string>
         <item>Ejemplo: «Huelo café preparándose y aire fresco.»</item>
         <item>Ejemplo: «Saboreo la menta de mi chicle.»</item>
     </string-array>
+    <string name="check_your_email_to_verify_your_email_and_continue">revisa tu correo electrónico para verificarlo y continuar</string>
+    <string name="resend">Reenviar</string>
+    <string name="add">Agregar</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="enter_your_email">introduce tu correo electrónico</string>
+    <string name="no_goal_was_added">no se añadió ningún objetivo</string>
 
 </resources>

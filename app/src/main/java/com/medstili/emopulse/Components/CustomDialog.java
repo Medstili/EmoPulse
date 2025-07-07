@@ -1,6 +1,5 @@
 package com.medstili.emopulse.Components;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -32,7 +31,7 @@ public class CustomDialog{
 //configure the dialog
         this.dialog = new Dialog(context);
         this.dialog.setContentView(R.layout.custom_dialog);
-        this.dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(this.dialog.getWindow()).setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 // set the dialog views
         this.title=dialog.findViewById(R.id.dialogTitle);
@@ -70,7 +69,7 @@ public class CustomDialog{
         this.dialog.show();
 
 
-    };
+    }
 
     public void showPasswordDialog(String Message, String RightBtnText, View.OnClickListener RightBtnListener, String LeftBtnText, View.OnClickListener LeftBtnListener){
         this.dialog = new Dialog(context);
@@ -89,7 +88,6 @@ public class CustomDialog{
         this.leftBtn.setText(LeftBtnText);
         this.rightBtn.setText(RightBtnText);
 
-        this.editTextPassword.getText().toString();
 
         if(LeftBtnText!=null){
 
@@ -104,9 +102,7 @@ public class CustomDialog{
         }
         else{
             this.leftBtn.setVisibility(View.GONE);
-            this.leftBtn.setOnClickListener(v->{
-                this.dialog.dismiss();
-            });
+            this.leftBtn.setOnClickListener(v-> this.dialog.dismiss());
         }
 
         this.rightBtn.setOnClickListener(v->{

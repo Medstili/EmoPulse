@@ -1,6 +1,5 @@
 package com.medstili.emopulse.fragment;
 
-import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -17,12 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
-import com.dotlottie.dlplayer.Mode;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseError;
-import com.lottiefiles.dotlottie.core.model.Config;
-import com.lottiefiles.dotlottie.core.util.DotLottieSource;
-import com.lottiefiles.dotlottie.core.widget.DotLottieAnimation;
 import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentBodyScanExerciseBinding;
@@ -35,9 +30,8 @@ public class BodyScanExerciseFragment extends Fragment {
 
     private FragmentBodyScanExerciseBinding binding;
     private MediaPlayer mediaPlayer;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     DataBase db ;
-//    DotLottieAnimation dotLottieAnimation;
 
     // Runnable to update SeekBar & current time every second
     private final Runnable seekBarUpdater = new Runnable() {
@@ -154,7 +148,6 @@ public class BodyScanExerciseFragment extends Fragment {
                                 Log.e(TAG, "Failed to record exercise completion: " + error.getMessage());
                             }
 
-                            ;
 
                 });
 
@@ -173,7 +166,7 @@ public class BodyScanExerciseFragment extends Fragment {
             Log.e(TAG, "Failed to set data source for MediaPlayer", e);
         }
 
-        // 9) Let the SeekBar be seekable once prepared:
+        // 9) Let the SeekBar be seek able once prepared:
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             boolean userDragging = false;
 

@@ -231,12 +231,20 @@ public class settings2Fragment extends Fragment {
         editor.putString("My_Lang", lang);
         editor.apply();
 
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        requireActivity().getBaseContext().getResources().updateConfiguration(config, requireActivity().getBaseContext().getResources().getDisplayMetrics());
-
+        // if teh selected lang wa eng ? load the default string.xml
+        if (lang.equals("en")) {
+            Locale locale = Locale.getDefault(); // Load default locale
+            Locale.setDefault(locale);
+            Configuration config = new Configuration(requireActivity().getBaseContext().getResources().getConfiguration());
+            config.setLocale(locale);
+            requireActivity().getBaseContext().getResources().updateConfiguration(config, requireActivity().getBaseContext().getResources().getDisplayMetrics());
+        } else {
+            Locale locale = new Locale(lang);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.setLocale(locale);
+            requireActivity().getBaseContext().getResources().updateConfiguration(config, requireActivity().getBaseContext().getResources().getDisplayMetrics());
+        }
         // Restart activity to apply changes
         Intent intent = new Intent(requireActivity(), requireActivity().getClass());
         startActivity(intent);
