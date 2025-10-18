@@ -38,7 +38,7 @@ public class Done extends AppCompatActivity {
         });
     }
 
-    //        handle the default phone back button too
+    // handle the default phone back button too
     @Override
     public void onBackPressed() {
         super.onBackPressed();
