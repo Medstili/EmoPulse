@@ -1,3 +1,7 @@
+import java.util.Properties
+import kotlin.collections.forEach
+import kotlin.toString
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
@@ -14,6 +18,21 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Load environment variables from local.properties
+        val properties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(localPropertiesFile.inputStream())
+            val allowedKeys = listOf("AGENT_SERVICE_BASE_URL", "API_KEY", "FIREBASE_URL")
+
+            allowedKeys.forEach { key ->
+                properties.getProperty(key)?.let { value ->
+                    buildConfigField("String", key, "\"$value\"")
+                }
+            }
+        }
+
+
     }
 
     buildTypes {
@@ -26,13 +45,12 @@ android {
         }
     }
     compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_1_8
-//        targetCompatibility = JavaVersion.VERSION_1_8
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -66,6 +84,9 @@ dependencies {
     implementation (libs.material.calendarview)
     implementation(libs.play.services.auth)
     implementation (libs.firebase.storage)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
 
 }
 

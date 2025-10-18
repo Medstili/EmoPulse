@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -18,6 +19,7 @@ import com.medstili.emopulse.R;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -33,6 +35,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.content = content;
     }
 
+    // Inside your ChatAdapter class
+    public void  updateMessages(List<Message> newMessages) {
+        MessageDiffCallback diffCallback = new MessageDiffCallback(this.messageList, newMessages);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        this.messageList.clear();
+        this.messageList.addAll(newMessages);
+        diffResult.dispatchUpdatesTo(this); // This applies the specific notifications
+    }
 //    verifying which layout to inflate
     @Override
     public int getItemViewType(int position) {
@@ -48,22 +59,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        switch (viewType) {
-            case  TEXT_MESSAGE_BOT:
+        return switch (viewType) {
+            case TEXT_MESSAGE_BOT -> {
                 view = LayoutInflater.from(content).inflate(R.layout.bot_text_message, parent, false);
-                return new TextMessageViewHolder(view);
-            case TEXT_MESSAGE_USER:
+                yield new TextMessageViewHolder(view);
+            }
+            case TEXT_MESSAGE_USER -> {
                 view = LayoutInflater.from(content).inflate(R.layout.user_text_message, parent, false);
-                return new TextMessageViewHolder(view);
-            case  AUDIO_MESSAGE_BOT:
+                yield new TextMessageViewHolder(view);
+            }
+            case AUDIO_MESSAGE_BOT -> {
                 view = LayoutInflater.from(content).inflate(R.layout.bot_audio_message, parent, false);
-                return new AudioMessageViewHolder(view);
-            case AUDIO_MESSAGE_USER:
+                yield new AudioMessageViewHolder(view);
+            }
+            case AUDIO_MESSAGE_USER -> {
                 view = LayoutInflater.from(content).inflate(R.layout.user_audio_message, parent, false);
-                return new AudioMessageViewHolder(view);
-            default:
-                throw new IllegalArgumentException("Invalid message type");
-        }
+                yield new AudioMessageViewHolder(view);
+            }
+            default -> throw new IllegalArgumentException("Invalid message type");
+        };
     }
 
     @Override
@@ -77,42 +91,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         else if(holder instanceof AudioMessageViewHolder){
             ((AudioMessageViewHolder) holder).bind(message);
         }
-//
-//        if (message.isLiked()) {
-//            holder.like.setImageResource(R.drawable.filled_hand_like); // Highlighted like
-//        }
-//        else {
-//            holder.like.setImageResource(R.drawable.outline_hand_like); // Default like
-//            holder.
-//        }
-//
-//        // Update dislike button based on state
-//        if ( message.isDisliked()) {
-//            holder.dislike.setImageResource(R.drawable.filled_hand_dislike); // Highlighted dislike
-//        }
-//        else {
-//            holder.dislike.setImageResource(R.drawable.outline_hand_dislike); // Default dislike
-//        }
-//
-//        // Like button click
-//        holder.like.setOnClickListener(v -> {
-//            message.setLiked(!message.isLiked()); // Toggle like
-//            message.setDisliked(false); // Reset dislike if liked
-//            notifyItemChanged(position); // Update item
-//        });
-//
-//        // Dislike button click
-//        holder.dislike.setOnClickListener(v -> {
-//            message.setDisliked(!message.isDisliked()); // Toggle dislike
-//            message.setLiked(false); // Reset like if disliked
-//            notifyItemChanged(position); // Update item
-//        });
 
-    };
+    }
     @Override
     public int getItemCount() {
         return messageList.size();
-    };
+    }
 
     public class TextMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textview;
@@ -124,7 +108,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 dislike = itemView.findViewById(R.id.dislike);
         }
         public void bind(Message message) {
-            textview.setText(message.getContent());
+            textview.setText(message.getReply());
             if(dislike!=null && like!=null){
                 like.setImageResource(message.isLiked() ? R.drawable.filled_hand_like : R.drawable.outline_hand_like);
                 dislike.setImageResource(message.isDisliked() ? R.drawable.filled_hand_dislike : R.drawable.outline_hand_dislike);
@@ -139,7 +123,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     message.setLiked(false);
                     notifyItemChanged(getAdapterPosition());
                 });
-            };
+            }
         }
         }
 
@@ -173,7 +157,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     message.setLiked(false);
                     notifyItemChanged(getAdapterPosition());
                 });
-            };
+            }
         }
 
         }
@@ -181,18 +165,26 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String formatDuration(long durationInMillis) {
         long minutes = (durationInMillis / 1000) / 60;
         long seconds = (durationInMillis / 1000) % 60;
-        return String.format("%02d:%02d", minutes, seconds);
+//        return String.format("%02d:%02d", minutes, seconds);
+        return String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
     }
 //     playing the audio
     private void playAudio(String audioUrl) {
-        // Implement audio playback using MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(audioUrl);
             mediaPlayer.prepare();
             mediaPlayer.start();
+            // It's crucial to release the MediaPlayer when done or when an error occurs
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+            mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                Log.e("ChatAdapter", "MediaPlayer Error: what=" + what + ", extra=" + extra);
+                mp.release();
+                return true; // True if the error has been handled
+            });
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("ChatAdapter", "Error preparing MediaPlayer", e);
+            mediaPlayer.release();
         }
     }
 }

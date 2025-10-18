@@ -1,120 +1,196 @@
 package com.medstili.emopulse.fragment;
 
-
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.google.android.material.button.MaterialButton;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+import com.medstili.emopulse.AgentService.AgentService;
 import com.medstili.emopulse.Chat.ChatAdapter;
 import com.medstili.emopulse.Chat.Message;
-import com.medstili.emopulse.R;
+import com.medstili.emopulse.Chat.ChatResponse;
+import com.medstili.emopulse.databinding.FragmentChatBinding;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit; // ADDED IMPORT
 
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import com.medstili.emopulse.BuildConfig;
 
 public class ChatFragment extends Fragment {
-    View view;
-
-    MaterialButton audioButton, sendButton ;
-    EditText userInputEditText;
-    private RecyclerView recyclerView;
-    private ChatAdapter chatAdapter;
-    private List<Message> messageList;
+    private FragmentChatBinding binding;
+    private ChatAdapter adapter;
+    private final List<Message> messages = new ArrayList<>();
+    private DatabaseReference messagesRef;
+    private AgentService agentService;
+    private String userId;
+    private static final String TAG = "ChatFragment";
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentChatBinding.inflate(inflater, container, false);
 
-        view = inflater.inflate(R.layout.fragment_chat, container, false);
+        userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        messagesRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("chats")
+                .child("messages");
 
-//finding views by its id and assigning them to variables
-        userInputEditText =view.findViewById(R.id.userInputEditText);
-        audioButton = view.findViewById(R.id.audioButton);
-        sendButton = view.findViewById(R.id.sendButton);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        adapter = new ChatAdapter(messages, requireContext());
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerView.setAdapter(adapter);
 
-//        hiding teh audio button while typing on edittext
-        userInputEditText.addTextChangedListener(new TextWatcher() {
+        // MODIFIED OkHttpClient with timeouts
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(300, TimeUnit.SECONDS)
+                .writeTimeout(300, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.AGENT_SERVICE_BASE_URL)
+                .client(okHttpClient) // Use the customized OkHttpClient
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        agentService = retrofit.create(AgentService.class);
+
+        messagesRef.orderByChild("timestamp")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snap) {
+                        List<Message> newMessages = new ArrayList<>();
+                        for (DataSnapshot msgSnap : snap.getChildren()) {
+                            Message m = msgSnap.getValue(Message.class);
+                            if (m != null) {
+                                newMessages.add(m);
+                            }
+                        }
+                        adapter.updateMessages(newMessages);
+                        if (!newMessages.isEmpty()) {
+                            binding.recyclerView.scrollToPosition(newMessages.size() - 1);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError e) {
+                        Log.e(TAG, "Firebase onCancelled: ", e.toException());
+                    }
+                });
+
+        binding.userInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                check if teh user is typing something
-                if (charSequence.length() > 0) {
-                    audioButton.setVisibility(View.GONE);//hide the audio button
-                    sendButton.setVisibility(View.VISIBLE);//show the send button
-                } else {
-                    audioButton.setVisibility(View.VISIBLE);// show the audio button
-                    sendButton.setVisibility(View.GONE);// hide the send button
-                }
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                boolean has = !TextUtils.isEmpty(s);
+                binding.audioButton.setVisibility(has ? View.GONE : View.VISIBLE);
+                binding.sendButton.setVisibility(has ? View.VISIBLE : View.GONE);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        messageList = new ArrayList<>();
-        chatAdapter = new ChatAdapter(messageList, getContext());
-        recyclerView.setAdapter(chatAdapter);
-//        data for testing the chat
-        addMessage("Hello, how can I help you?", false, false);
-        addMessage("Hi! I'd like to know more about your services.", true, false);
-        addMessage("Hi, how can I help you?", false, false);
-        addMessage("I need help with my account.", true, false);
-        addMessage("Sure! What seems to be the problem with your account?", false, false);
-        addMessage("I forgot my password.", true, false);
-        addMessage("No worries, I can assist you with resetting your password.", false, false);
-        addMessage("How can I reset it?", true, false);
-        addMessage("I will guide you step-by-step. First, go to the 'Forgot Password' page.", false, false);
-        addMessage("Okay, I'm on the page. What next?", true, false);
-        addMessage("Great! Now, enter your registered email address and click 'Submit'.", false, false);
-        addMessage("Done! I received the email. Thanks for your help!", true, false);
-        addMessage("You're welcome! Let me know if you need further assistance.", false, false);
-        addMessage("No, that's all for now. Have a great day!", true, false);
-        addMessage("Thank you, have a wonderful day too!", false, false);
-
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!userInputEditText.getText().toString().trim().isEmpty()){
-                    String input = userInputEditText.getText().toString().trim();
-                    addMessage(input, true, false);
-                    userInputEditText.setText("");
-                    Log.d("MessageList", "Message List: " + messageList.toString());
-                }
-
+            public void afterTextChanged(Editable s) {
             }
         });
-//
-        return view;
+
+        binding.sendButton.setOnClickListener(v -> {
+            String text = binding.userInputEditText.getText().toString().trim();
+            if (text.isEmpty()) return;
+            binding.userInputEditText.setText("");
+
+            Message userMsg = new Message(text, true, false, null, 0, ServerValue.TIMESTAMP);
+            Log.d(TAG, "Attempting to send user message: " + text);
+            String userMsgId = messagesRef.push().getKey();
+            Log.d(TAG, "User message ID: " + userMsgId + ", User ID: " + userId);
+
+            agentService.chat(new AgentService.ChatRequest(userId, text))
+                    .enqueue(new Callback<ChatResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ChatResponse> call,
+                                               @NonNull Response<ChatResponse> resp) {
+                            Log.d(TAG, "agentService.onResponse called.");
+                            Log.d(TAG, "Response successful: " + resp.isSuccessful());
+                            Log.d(TAG, "Response code: " + resp.code());
+                            Log.d(TAG, "Response message: " + resp.message());
+
+                            if (!resp.isSuccessful()) {
+                                if (resp.errorBody() != null) {
+                                    try {
+                                        Log.e(TAG, "Error body: " + resp.errorBody().string());
+                                    } catch (IOException e) {
+                                        Log.e(TAG, "Error parsing error body", e);
+                                    }
+                                } else {
+                                    Log.e(TAG, "Error body is null.");
+                                }
+                                Snackbar.make(binding.getRoot(), "Error: " + resp.code() + " " + resp.message(), 3000).show();
+                                return;
+                            }
+
+                            if (resp.body() == null) {
+                                Log.e(TAG, "Response body is null.");
+                                Snackbar.make(binding.getRoot(), "Error: Empty response from server", 3000).show();
+                                return;
+                            }
+
+                            ChatResponse cr = resp.body();
+                            Log.d(TAG, "agentService received reply: " + cr.reply);
+                            Message LellyMsg = new Message(
+                                    cr.reply,
+                                    false,
+                                    cr.audio_url != null,
+                                    cr.audio_url,
+                                    0,
+                                    ServerValue.TIMESTAMP
+                            );
+                            String LellyMsgId = messagesRef.push().getKey();
+
+                            if (LellyMsgId != null && userMsgId != null) {
+                                messagesRef.child(userMsgId).setValue(userMsg);
+                                messagesRef.child(LellyMsgId).setValue(LellyMsg);
+                                Log.d(TAG, "User and Lelly messages pushed to Firebase.");
+                            } else {
+                                Log.e(TAG, "Failed to get push ID for Lelly message or user message ID was null.");
+                                Snackbar.make(binding.getRoot(), "Error! Try Again Later", 3000).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ChatResponse> call, @NonNull Throwable t) {
+                            Log.e(TAG, "agentService.onFailure called.", t);
+                            Snackbar.make(binding.getRoot(), "Network Error: " + t.getMessage(), 3000).show();
+                        }
+                    });
+        });
+
+        return binding.getRoot();
     }
-
-
-//    add message function
-        private void addMessage(String s, boolean isUser, boolean isAduio) {
-        Message message = new Message(s, isUser, isAduio, null, 0);
-        messageList.add(message);
-        chatAdapter.notifyItemInserted(messageList.size() - 1);
-        recyclerView.scrollToPosition(messageList.size() - 1);
-}
-
 }

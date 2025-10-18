@@ -1,7 +1,8 @@
 [versions]
-agp = "8.10.1"
+agp = "8.13.0"
 
 compiler = "4.15.1"
+converterGson = "2.9.0"
 dotlottieAndroid = "0.8.0"
 firebaseBom = "33.15.0"
 firebaseStorage = "21.0.2"
@@ -25,10 +26,12 @@ playServicesAuth = "21.3.0"
 preference = "1.2.1"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
+retrofit = "2.9.0"
 
 [libraries]
 
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 dotlottie-android = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "dotlottieAndroid" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorage" }
@@ -54,6 +57,7 @@ pinview = { module = "io.github.chaosleung:pinview", version.ref = "pinview" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 
 [plugins]
