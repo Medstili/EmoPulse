@@ -23,7 +23,7 @@ android {
         val localPropertiesFile = rootProject.file("local.properties")
         if (localPropertiesFile.exists()) {
             properties.load(localPropertiesFile.inputStream())
-            val allowedKeys = listOf("AGENT_SERVICE_BASE_URL", "API_KEY", "FIREBASE_URL")
+            val allowedKeys = listOf("AGENT_SERVICE_BASE_URL", "API_KEY")
 
             allowedKeys.forEach { key ->
                 properties.getProperty(key)?.let { value ->
