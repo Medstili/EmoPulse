@@ -705,7 +705,7 @@
 <!--goals exercises-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#1AFFFFFF"
             app:cardCornerRadius="16dp"
@@ -713,122 +713,21 @@
             app:strokeWidth="0dp"
             android:layout_margin="10dp"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-                <LinearLayout
+<!--            <LinearLayout-->
+<!--                android:id="@+id/goalsSummaryContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+                <ListView
+                    android:id="@+id/goalsListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Title"
-                        android:textSize="20sp"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="10sp"
-                        android:autoSizeMaxTextSize="25sp"
-                        android:autoSizeStepGranularity="2sp"
-                        android:textColor="@color/white"/>
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="wrap_content"
-                        app:trackThickness="12dp"
-                        android:progress="50"
-                        app:trackCornerRadius="10dp"
-                        app:trackColor="#32FFFFFF"
-                        app:indicatorColor="@color/cyan"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Title"
-                        android:textSize="20sp"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="10sp"
-                        android:autoSizeMaxTextSize="25sp"
-                        android:autoSizeStepGranularity="2sp"
-                        android:textColor="@color/white"/>
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="wrap_content"
-                        app:trackThickness="12dp"
-                        android:progress="20"
-                        app:trackCornerRadius="10dp"
-                        app:indicatorColor="@color/cyan"
-                        app:trackColor="#32FFFFFF"
+                    android:padding="10dp">
 
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Title"
-                        android:textSize="20sp"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="10sp"
-                        android:autoSizeMaxTextSize="25sp"
-                        android:autoSizeStepGranularity="2sp"
-                        android:textColor="@color/white"/>
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="wrap_content"
-                        app:trackThickness="12dp"
-                        android:progress="80"
-                        app:trackCornerRadius="10dp"
-                        app:indicatorColor="@color/cyan"
-                        app:trackColor="#32FFFFFF"
+                </ListView>
 
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Title"
-                        android:textSize="20sp"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="10sp"
-                        android:autoSizeMaxTextSize="25sp"
-                        android:autoSizeStepGranularity="2sp"
-                        android:textColor="@color/white"/>
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="wrap_content"
-                        app:trackThickness="12dp"
-                        android:progress="100"
-                        app:trackCornerRadius="10dp"
-                        app:indicatorColor="@color/cyan"
-                        app:trackColor="#32FFFFFF"
-                        />
-                </LinearLayout>
-            </LinearLayout>
+<!--            </LinearLayout>-->
         </com.google.android.material.card.MaterialCardView>
 <!--line chart-->
         <TextView
@@ -846,7 +745,7 @@
             />
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="450dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#1AFFFFFF"
             app:cardCornerRadius="16dp"
@@ -874,57 +773,28 @@
                         android:orientation="horizontal"
                        >
 <!--                        day-->
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/day"
-                            android:textSize="20sp"
-                            android:autoSizeTextType="uniform"
-                            android:autoSizeMinTextSize="10sp"
-                            android:autoSizeMaxTextSize="25sp"
-                            android:autoSizeStepGranularity="1sp"
-                            android:backgroundTint="@android:color/transparent"
-                            android:textColor="@color/white"
-                            app:cornerRadius="10dp"/>
-<!--                        week-->
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/week"
-                            android:textSize="20sp"
-                            android:autoSizeTextType="uniform"
-                            android:autoSizeMinTextSize="10sp"
-                            android:autoSizeMaxTextSize="25sp"
-                            android:autoSizeStepGranularity="1sp"
-                            android:backgroundTint="@android:color/transparent"
-                            android:textColor="@color/white"
-                            app:cornerRadius="10dp"/>
-<!--                        month-->
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/month"
-                            android:textSize="20sp"
-                            android:autoSizeTextType="uniform"
-                            android:autoSizeMinTextSize="10sp"
-                            android:autoSizeMaxTextSize="25sp"
-                            android:autoSizeStepGranularity="1sp"
-                            android:backgroundTint="@android:color/transparent"
-                            android:textColor="@color/white"
-                            app:cornerRadius="10dp"/>
+                       <TextView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="daily"
+                           android:textSize="20sp"
+                           android:textColor="@color/pink"
+                           android:alpha="0.8"
+                           android:padding="5dp"
+                           android:gravity="center"
+                           />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/lineChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        />
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.6"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="10dp"
+                    />
 
 
 
@@ -992,18 +862,43 @@
                     android:orientation="vertical"
                     android:layout_margin="5dp"
                     >
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/interactivity_with_lelly"
-                        android:textSize="11sp"
-                        android:textStyle="italic"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="8sp"
-                        android:autoSizeMaxTextSize="15sp"
-                        android:autoSizeStepGranularity="1sp"
-                        android:layout_margin="5dp"
-                        android:textColor="@color/white"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@string/interactivity_with_lelly"
+                            android:textSize="10sp"
+                            android:textStyle="italic"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="8sp"
+                            android:autoSizeMaxTextSize="15sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="(last 7 days)"
+                            android:textSize="7sp"
+                            android:textStyle="italic"
+                            android:fontFamily="sans-serif-light"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="8sp"
+                            android:autoSizeMaxTextSize="12sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:textColor="@color/gray_600"
+                            />
+                    </LinearLayout>
+
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/barChart"
                         android:layout_width="match_parent"

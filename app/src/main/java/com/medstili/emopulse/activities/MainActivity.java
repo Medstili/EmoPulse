@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.Auth.Authentication;
+import com.medstili.emopulse.Utils.TimeManager;
 import com.medstili.emopulse.databinding.ActivityMainBinding;
 
 
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        TimeManager.syncServerTime();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.appbar.setPadding(0, getStatusBarHeight(), 0, 0);

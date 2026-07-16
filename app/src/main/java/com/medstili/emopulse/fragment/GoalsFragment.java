@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,12 +32,18 @@ import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.GoalsCard.GoalsCard;
 import com.medstili.emopulse.GoalsCard.GoalsCardAdapter;
 import com.medstili.emopulse.R;
+import com.medstili.emopulse.Utils.TimeManager;
 import com.medstili.emopulse.activities.MainActivity;
 import com.medstili.emopulse.databinding.FragmentGoalsBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -112,11 +119,12 @@ public class GoalsFragment extends Fragment {
         View dialogView = getLayoutInflater()
                 .inflate(R.layout.add_goal_dialog, null, false);
         builder.setView(dialogView);
+        setupDockedMaterialDatePicker(dialogView);
         LinearLayout checkboxContainer = dialogView.findViewById(R.id.checkboxContainer);
         TextInputLayout freqLayout   = dialogView.findViewById(R.id.freqLayout);
         AutoCompleteTextView freqDrop = dialogView.findViewById(R.id.freqDropdown);
-//        TextInputLayout exercisesLayout   = dialogView.findViewById(R.id.exercisesLayout);
         AutoCompleteTextView exercisesDrop = dialogView.findViewById(R.id.exercisesDropdown);
+
         ArrayAdapter<String> exercisesAdapter = new ArrayAdapter<>(
                 requireContext(),
                 com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
@@ -171,15 +179,34 @@ public class GoalsFragment extends Fragment {
             String title = Objects.requireNonNull(
                     ((TextInputEditText)dialogView.findViewById(R.id.goalTitleEditText))
                             .getText()).toString().trim();
+            String deadlineStr = Objects.requireNonNull(
+                    ((TextInputEditText)dialogView.findViewById(R.id.dateEditText))
+                            .getText()).toString().trim();
+            SimpleDateFormat simpleDateFormater =new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+            long deadlineTimestamp = 0L;
+            try {
+                Date parsedDate = simpleDateFormater.parse(deadlineStr);
+                if (parsedDate != null) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(parsedDate);
+                    // Set time to the very end of the selected day
+                    calendar.set(Calendar.HOUR_OF_DAY, 23);
+                    calendar.set(Calendar.MINUTE, 59);
+                    calendar.set(Calendar.SECOND, 59);
+                    calendar.set(Calendar.MILLISECOND, 999);
 
+                    deadlineTimestamp = calendar.getTimeInMillis();
+                }
+            } catch (ParseException e) {
+                Log.d("GoalsFragment", "Date parsing error: " + e.getMessage());
+            }
             String description = Objects.requireNonNull(
                     ((TextInputEditText)dialogView.findViewById(R.id.goalDescriptionEditText))
                             .getText()).toString().trim();
-
-
             String selectedFreq = freqDrop.getText().toString().trim();
+            long created_at = TimeManager.getCurrentTime();
             String selectedExercise = exercisesDrop.getText().toString().trim();
-            List<String> customDays = new ArrayList<>();
+            List<Integer> customDays = new ArrayList<>();
 
             if(selectedFreq.equals("Custom")){
                 CheckBox sun = dialogView.findViewById(R.id.checkBoxSun);
@@ -201,31 +228,44 @@ public class GoalsFragment extends Fragment {
                 if (allDaysChecked) {
                     selectedFreq = "Daily";
                 }else{
-                    if (sun.isChecked()) customDays.add("Sunday");
-                    if (mon.isChecked()) customDays.add("Monday");
-                    if (tue.isChecked()) customDays.add("Tuesday");
-                    if (wed.isChecked()) customDays.add("Wednesday");
-                    if (thu.isChecked()) customDays.add("Thursday");
-                    if (fri.isChecked()) customDays.add("Friday");
-                    if (sat.isChecked()) customDays.add("Saturday");
+                    if (mon.isChecked()) customDays.add(1);
+                    if (tue.isChecked()) customDays.add(2);
+                    if (wed.isChecked()) customDays.add(3);
+                    if (thu.isChecked()) customDays.add(4);
+                    if (fri.isChecked()) customDays.add(5);
+                    if (sat.isChecked()) customDays.add(6);
+                    if (sun.isChecked()) customDays.add(7);
+
                 }
 
             }
 
+            int targetCount = calculateTargetCount(
+                    selectedFreq,
+                    deadlineTimestamp,
+                    created_at,
+                    customDays
+            );
+            int completedCount = 0;
+
 
 
             db.addUserGoal(
+                    created_at,
                     title,
                     description,
                     selectedFreq,
                     selectedExercise,
+                    deadlineTimestamp,
                     customDays,
+                    targetCount,
+                    completedCount,
                     new DataBase.GoalCompletionCallback() {
 
 
 
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(String goalId) {
                             Log.d("DB", "Goal added successfully");
                             Snackbar.make(
                                     requireView(),
@@ -233,7 +273,32 @@ public class GoalsFragment extends Fragment {
                                     Snackbar.LENGTH_SHORT
                             ).show();
 
+                            db.addGoalSummary(
+                                    goalId,
+                                    title,
+                                    targetCount,
+                                    completedCount,
+                                    false,
+                                    new DataBase.goalSummaryCallback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.d("DB", "Goal summary added successfully");
+                                        }
+
+                                        @Override
+                                        public void onFailure(DatabaseError error) {
+                                            Log.d("DB", "Failed to add goal summary: " + error.getMessage());
+                                        }
+
+                                        @Override
+                                        public void onComplete() {
+
+                                        }
+                                    }
+                            );
+
                         }
+
 
                         @Override
                         public void onFailure(DatabaseError error) {
@@ -267,6 +332,7 @@ public class GoalsFragment extends Fragment {
         AutoCompleteTextView freqDrop     = dialogView.findViewById(R.id.freqDropdown);
         TextInputLayout exercisesLayout   = dialogView.findViewById(R.id.exercisesLayout);
         AutoCompleteTextView exercisesDrop = dialogView.findViewById(R.id.exercisesDropdown);
+        TextInputEditText deadline          = dialogView.findViewById(R.id.dateEditText);
 
 
         CheckBox sun   = dialogView.findViewById(R.id.checkBoxSun);
@@ -283,6 +349,7 @@ public class GoalsFragment extends Fragment {
         String description = Objects.requireNonNull(descEt.getText()).toString().trim();
         String selectedFreq = freqDrop.getText().toString().trim();
         String selectedExercise = exercisesDrop.getText().toString().trim();
+        String deadlineStr = Objects.requireNonNull(deadline.getText()).toString().trim();
 
 
         // reset errors
@@ -308,6 +375,24 @@ public class GoalsFragment extends Fragment {
             valid = false;
         }
 
+        if (deadlineStr.isEmpty()) {
+            deadline.setError("Select a deadline date");
+            valid = false;
+        } else {
+            // Check if date is in the past
+            try {
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                Date selectedDate = dateFormatter.parse(deadlineStr);
+                Date today = new Date();
+                if (selectedDate != null && selectedDate.before(today)) {
+                    deadline.setError("Deadline cannot be in the past");
+                    valid = false;
+                }
+            } catch (Exception e) {
+                deadline.setError("Invalid date format");
+                valid = false;
+            }
+        }
         // if custom, require at least one box
         boolean noBoxesChecked =
                 !sun.isChecked() &&
@@ -324,6 +409,71 @@ public class GoalsFragment extends Fragment {
         }
 
         return valid;
+    }
+    private void setupDockedMaterialDatePicker(View dialogView) {
+        TextInputLayout dateLayout = dialogView.findViewById(R.id.dateLayout);
+        TextInputEditText dateEditText = dialogView.findViewById(R.id.dateEditText);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+
+        // Initialize with today's date
+        Calendar cal = Calendar.getInstance();
+        dateEditText.setText(dateFormatter.format(cal.getTime()));
+
+        // Create MaterialDatePicker with docked mode
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+                .build();
+//        picker.show(supportFragmentManager, "tag")
+        dateLayout.setEndIconOnClickListener(v -> datePicker.show(getChildFragmentManager(), "DATE_PICKER"));
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            if (selection != null) {
+                Snackbar.make(
+                        requireView(),
+                        "Selected date: " + dateFormatter.format(selection),
+                        Snackbar.LENGTH_SHORT
+                ).show();
+                dateEditText.setText(dateFormatter.format(selection));
+            }
+        });
+
+    }
+    private int calculateTargetCount(String frequency, long deadline, long created_at, List<Integer> customDays) {
+        int count = 0;
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis(created_at);
+
+        Calendar end = Calendar.getInstance();
+        end.setTimeInMillis(deadline);
+
+        switch (frequency){
+            case "Daily":
+                // 1. DAILY: Simple day difference
+                while (!start.after(end)) {
+                    count++;
+                    start.add(Calendar.DATE, 1);
+                }
+                break;
+            case "Weekly":
+                long diff = deadline - created_at;
+                count = (int) (diff / (7 * 24 * 60 * 60 * 1000L));
+                if (count == 0) count = 1; // Ensure at least 1 if deadline is within the week
+                break;
+            case "Custom":
+                    while (!start.after(end)) {
+                        int dayOfWeek = start.get(Calendar.DAY_OF_WEEK);
+                        if (customDays.contains(dayOfWeek)) {
+                            count++;
+                        }
+                        start.add(Calendar.DATE, 1);
+                    }
+                    break;
+            default:
+                Log.e("GoalsFragment", "Unknown frequency for target count: " + frequency);
+
+        }
+        return count;
     }
 
     @Override
@@ -345,7 +495,7 @@ public class GoalsFragment extends Fragment {
             binding.noGoalsText.setVisibility(hasGoals ? View.GONE : View.VISIBLE);
             db.loadUserGoals(new DataBase.LoadGoalsCallback() {
                 @Override
-                public void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<String> customDays) {
+                public void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<Integer> customDays) {
                     if (title == null && description == null) {
                         removeGoalsCard(goalId);
                     } else if (goalIdToIndex.containsKey(goalId)) {

@@ -2,9 +2,9 @@ package com.medstili.emopulse.DataBase;
 
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,13 +16,15 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.medstili.emopulse.Auth.Authentication;
+import com.medstili.emopulse.Models.MoodLog;
 
-
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.DayOfWeek;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,9 +32,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DataBase {
-    public final DatabaseReference userExercisesRef, userGoalsRef;
+    public final DatabaseReference userExercisesRef, userGoalsRef, serverTimeOffset, dashboardSummariesRef;
     public ValueEventListener exercisesListener;
     public ChildEventListener goalsListener;
+    private ChildEventListener goalSummariesListener;
     private static DataBase instance;
     FirebaseUser user;
 
@@ -48,7 +51,16 @@ public class DataBase {
                 .getReference("users")
                 .child(user.getUid())
                 .child("goals");
-                
+        dashboardSummariesRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("dashboardSummaries");
+        serverTimeOffset =  FirebaseDatabase.getInstance()
+                .getReference(".info/serverTimeOffset");
+//        moodRef = FirebaseDatabase.getInstance()
+//                .getReference("users")
+//                .child(user.getUid())
+//                .child("moodLogs");
     }
 
 
@@ -99,6 +111,10 @@ public class DataBase {
         });
     }
 
+    /**
+     * Loads completed exercises for the current user.
+     * @param callback Callback to handle success or failure.
+     */
     public void loadCompletedExercises(LoadExercisesCallback callback) {
 
         if (exercisesListener != null) {
@@ -112,8 +128,6 @@ public class DataBase {
                     String exerciseId = exSnap.getKey();
                     String formattedExercise = Objects.requireNonNull(exerciseId).replace("_", " ");
                     Long count = exSnap.child("count").getValue(Long.class);
-//                            Long lastDone = exSnap.child("lastDone").getValue(Long.class);
-
                     callback.onSuccess(formattedExercise, count != null ? count.intValue() : 0);
 
                 }
@@ -132,11 +146,15 @@ public class DataBase {
     }
 
     public void addUserGoal(
+            long created_at,
             String title,
             String description,
             String frequency,
             String exercise,
-            List<String> customDays,
+            Long deadline,
+            List<Integer> customDays,
+            int targetCount,
+            int completedCount,
             GoalCompletionCallback callback
     ) {
 
@@ -151,12 +169,15 @@ public class DataBase {
         goalData.put("description", description);
         goalData.put("frequency", frequency);
         goalData.put("exercise", exercise);
-        goalData.put("createdAt", ServerValue.TIMESTAMP);
+        goalData.put("deadline", deadline);
+        goalData.put("createdAt", created_at);
+        goalData.put("targetCount", targetCount);
+        goalData.put("completedCount", completedCount);
         if ("Custom".equals(frequency) && customDays != null) {
             goalData.put("customDays", customDays);
         }
         userGoalsRef.child(goalId).setValue(goalData)
-                .addOnSuccessListener(aVoid -> callback.onSuccess())
+                .addOnSuccessListener(aVoid -> callback.onSuccess(goalId))
                 .addOnFailureListener(e -> callback.onFailure(DatabaseError.fromException(e)));
 
     }
@@ -177,8 +198,22 @@ public class DataBase {
                 String description = snapshot.child("description").getValue(String.class);
                 String frequency = snapshot.child("frequency").getValue(String.class);
                 String exercise = snapshot.child("exercise").getValue(String.class);
-                @SuppressWarnings("unchecked")
-                List<String> customDays = (List<String>) snapshot.child("customDays").getValue(); // Suppress unchecked cast warning
+
+                // Convert customDays from Long to Integer
+                List<Integer> customDays = null;
+                if (snapshot.child("customDays").exists()) {
+                    @SuppressWarnings("unchecked")
+                    List<Long> customDaysLong = (List<Long>) snapshot.child("customDays").getValue();
+                    if (customDaysLong != null) {
+                        customDays = new ArrayList<>();
+                        for (Long day : customDaysLong) {
+                            if (day != null) {
+                                customDays.add(day.intValue());
+                            }
+                        }
+                    }
+                }
+
                 callback.onGoalLoaded(goalId, title, description, frequency, exercise, customDays);
             }
 
@@ -189,10 +224,24 @@ public class DataBase {
                 String description = snapshot.child("description").getValue(String.class);
                 String frequency = snapshot.child("frequency").getValue(String.class);
                 String exercise = snapshot.child("exercise").getValue(String.class);
-                @SuppressWarnings("unchecked")
-                List<String> customDays = (List<String>) snapshot.child("customDays").getValue(); // Suppress unchecked cast warning
+
+                // Convert customDays from Long to Integer
+                List<Integer> customDays = null;
+                if (snapshot.child("customDays").exists()) {
+                    @SuppressWarnings("unchecked")
+                    List<Long> customDaysLong = (List<Long>) snapshot.child("customDays").getValue();
+                    if (customDaysLong != null) {
+                        customDays = new ArrayList<>();
+                        for (Long day : customDaysLong) {
+                            if (day != null) {
+                                customDays.add(day.intValue());
+                            }
+                        }
+                    }
+                }
+
                 callback.onGoalLoaded(goalId, title, description, frequency, exercise, customDays);
-                // ...optional: log or handle as needed...
+
             }
 
             @Override
@@ -244,11 +293,23 @@ public class DataBase {
                     String frequency = snapshot.child("frequency").getValue(String.class);
                     String exercise = snapshot.child("exercise").getValue(String.class);
                     Long createdAt = Objects.requireNonNull(snapshot.child("createdAt").getValue(Long.class));
-                    @SuppressWarnings("unchecked")
-                    List<String> customDays = (List<String>) snapshot.child("customDays").getValue();
+                    Long deadline = Objects.requireNonNull(snapshot.child("deadline").getValue(Long.class));
 
+                    // Convert customDays from Long to Integer
+                    List<Integer> customDays = null;
+                    if (snapshot.child("customDays").exists()) {
+                        List<Long> customDaysLong = (List<Long>) snapshot.child("customDays").getValue();
+                        if (customDaysLong != null) {
+                            customDays = new ArrayList<>();
+                            for (Long day : customDaysLong) {
+                                if (day != null) {
+                                    customDays.add(day.intValue());
+                                }
+                            }
+                        }
+                    }
 
-                    callback.onGoalLoaded(goalId, title, description, frequency, exercise, customDays, createdAt);
+                    callback.onGoalLoaded(goalId, title, description, frequency, exercise, customDays, createdAt, deadline);
                 } else {
                     callback.onFailure(DatabaseError.fromException(new Exception("Goal not found")));
                 }
@@ -299,15 +360,19 @@ public class DataBase {
                     }
                     else if ("Custom".equalsIgnoreCase(frequency)) {
                         @SuppressWarnings("unchecked")
-                        List<String> customDays = (List<String>)
+                        List<Long> customDaysLong = (List<Long>)
                                 goalSnapshot.child("customDays").getValue();
-                        if (customDays != null) {
-                            String todayName = today.getDayOfWeek()
-                                    .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-                            for (String cd : customDays) {
-                                if (cd.equalsIgnoreCase(todayName)) {
-                                    matches = true;
-                                    break;
+                        if (customDaysLong != null) {
+                            DayOfWeek todayDow = today.getDayOfWeek();
+                            for (Long dayLong : customDaysLong) {
+                                if (dayLong != null) {
+                                    // Convert from app's numbering (1=Sun, 2=Mon, ..., 7=Sat)
+                                    // to Java's DayOfWeek for comparison
+                                    DayOfWeek dayOfWeek = DayOfWeek.of(dayLong.intValue());
+                                    if (dayOfWeek == todayDow) {
+                                        matches = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -318,18 +383,66 @@ public class DataBase {
                     if (matches && goalId != null) {
                         DataSnapshot checkDaysSnap = goalSnapshot.child("checkDays");
                         if (!checkDaysSnap.hasChild(todayKey)) {
+                            // Stamp today's date
                             userGoalsRef
                                     .child(goalId)
                                     .child("checkDays")
                                     .child(todayKey)
                                     .setValue(true)
                                     .addOnSuccessListener(aVoid ->
-                                            Log.d("DataBase",
-                                                    "Stamped " + todayKey + " for goal: " + currentGoalTitle))
+                                            Log.d("DataBase", "Stamped " + todayKey + " for goal: " + currentGoalTitle)
+
+                                    )
                                     .addOnFailureListener(e ->
-                                            Log.e("DataBase",
-                                                    "Failed stamping " + todayKey + " for goal: "
-                                                            + currentGoalTitle, e));
+                                            Log.e("DataBase", "Failed stamping " + todayKey + " for goal: " + currentGoalTitle, e));
+
+                            userGoalsRef.child(goalId).child("completedCount")
+                                    .runTransaction(new Transaction.Handler() {
+                                        @NonNull
+                                        @Override
+                                        public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                            Integer currentCount = mutableData.getValue(Integer.class);
+                                            if (currentCount == null) {
+                                                currentCount = 0;
+                                            }
+                                            mutableData.setValue(currentCount + 1);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError error, boolean committed, DataSnapshot snapshot) {
+                                            if (error != null) {
+                                                Log.e("DataBase", "Failed to increment completedCount for goal: " + goalId, error.toException());
+                                            } else if (committed) {
+                                                Log.d("DataBase", "Incremented completedCount for goal: " + goalId);
+                                                dashboardSummariesRef
+                                                        .child("goalsSummary")
+                                                        .child(goalId)
+                                                        .child("completedCount")
+                                                        .runTransaction(new Transaction.Handler() {
+                                                            @NonNull
+                                                            @Override
+                                                            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                                                Integer currentCount = mutableData.getValue(Integer.class);
+                                                                if (currentCount == null) {
+                                                                    currentCount = 0;
+                                                                }
+                                                                mutableData.setValue(currentCount + 1);
+                                                                return Transaction.success(mutableData);
+                                                            }
+
+                                                            @Override
+                                                            public void onComplete(DatabaseError error, boolean committed, DataSnapshot snapshot) {
+                                                                if (error != null) {
+                                                                    Log.e("DataBase", "Failed to update goalsSummary for: " + goalId, error.toException());
+                                                                } else if (committed) {
+                                                                    Log.d("DataBase", "Updated goalsSummary completedCount for: " + goalId);
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    });
                         } else {
                             Log.d("DataBase",
                                     "Already stamped " + todayKey + " for goal: " + currentGoalTitle);
@@ -402,19 +515,207 @@ public class DataBase {
                 .addOnSuccessListener(a -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onFailure(DatabaseError.fromException(e)));
     }
+    //  get just the targetCount and the completedCount
+    public void loadGoalsSummaries(
+            loadGoalsSummariesCallback callback
+    ) {
+        DatabaseReference goalsSummaryRef = dashboardSummariesRef.child("goalsSummary");
+        // Remove any existing listener to avoid duplicates
+        if (goalSummariesListener != null) {
+            goalsSummaryRef.removeEventListener(goalSummariesListener);
+        }
+        // Add a new ChildEventListener to fetch user goals
+        goalSummariesListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
+
+                String goalId = snapshot.getKey();
+                String title = snapshot.child("title").getValue(String.class);
+                Integer completedCount = snapshot.child("completedCount").getValue(Integer.class);
+                Integer targetCount = snapshot.child("targetCount").getValue(Integer.class);
+                Boolean done = snapshot.child("done").getValue(Boolean.class);
+
+                callback.onGoalLoaded(
+                        goalId,
+                        title,
+                        targetCount != null ? targetCount : 0,
+                        completedCount != null ? completedCount : 0,
+                        done != null ? done : false
+                );
 
 
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
+                String goalId = snapshot.getKey();
+                String title = snapshot.child("title").getValue(String.class);
+                Integer completedCount = snapshot.child("completedCount").getValue(Integer.class);
+                Integer targetCount = snapshot.child("targetCount").getValue(Integer.class);
+                Boolean done = snapshot.child("done").getValue(Boolean.class);
+
+                callback.onGoalLoaded(
+                        goalId,
+                        title,
+                        targetCount != null ? targetCount : 0,
+                        completedCount != null ? completedCount : 0,
+                        done != null ? done : false
+                );
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                String goalId = snapshot.getKey();
+                callback.onGoalLoaded(goalId, null, 0, 0, false);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {
+                // Not used
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("DB", "Load failed: " + error.getMessage());
+                callback.onFailure(error);
+                callback.onComplete();
+            }
+        };
+
+        goalsSummaryRef.addChildEventListener(goalSummariesListener);
+
+    }
+
+    public void addGoalSummary(
+            String goalId,
+            String title,
+            int targetCount,
+            int completedCount,
+            boolean done,
+            goalSummaryCallback callback
+    ) {
+        Map<String, Object> summaryData = new HashMap<>();
+        summaryData.put("title", title);
+        summaryData.put("targetCount", targetCount);
+        summaryData.put("completedCount", completedCount);
+        summaryData.put("done", done);
+
+        dashboardSummariesRef
+                .child("goalsSummary")
+                .child(goalId)
+                .setValue(summaryData)
+                .addOnSuccessListener(aVoid -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onFailure(DatabaseError.fromException(e)));
+    }
+
+    public void loadUserMoodData( loadUserMoodLogsCallback callback) {
+        long timeLimit = System.currentTimeMillis();
+        timeLimit -= 24 * 60 * 60 * 1000L;
+
+        DatabaseReference moodRef = dashboardSummariesRef.child("moodLogs");
+
+        moodRef.orderByChild("timestamp").startAt(timeLimit)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<MoodLog> logs = new ArrayList<>();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            logs.add(ds.getValue(MoodLog.class));
+                        }
+                        callback.onSuccess(logs);
+                    }
+
+                    @Override public void onCancelled(@NonNull DatabaseError error) {
+                        callback.onFailure(error);
+                    }
+                });
+    }
+
+    public void incrementMessageCount() {
+        String userId = user != null ? user.getUid() : null;
+        if (userId == null) return;
+
+        String today = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
+        DatabaseReference ref = dashboardSummariesRef
+                .child("interactivity")
+                .child(today)
+                .child("messageCount");
 
 
+        ref.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                Integer currentCount = currentData.getValue(Integer.class);
+                if (currentCount == null) {
+                    currentData.setValue(1);
+                } else {
+                    currentData.setValue(currentCount + 1);
+                }
+                Log.d("DB", "Message count for " + today + " incremented.");
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError error, boolean committed, DataSnapshot currentData) {
+                if (error != null) {
+                    Log.e("DB", "incrementMessageCount failed: " + error.getMessage());
+                }
+            }
+        });
+    }
 
 
+    public void loadInteractivityRawData(LoadInteractivityRawCallback callback) {
+        String userId = user != null ? user.getUid() : null;
+        if (userId == null) return;
 
+        DatabaseReference ref = dashboardSummariesRef.child("interactivity");
+        ref.orderByKey().limitToLast(7).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, Integer> dateToCount = new HashMap<>();
+                for (DataSnapshot daySnap : snapshot.getChildren()) {
+                    Log.d(
+                            "DB",
+                            "Raw interactivity data - date: " + daySnap.getKey() +
+                                    ", messageCount: " + daySnap.child("messageCount").getValue()
+                    );
+                    Integer count = daySnap.child("messageCount").getValue(Integer.class);
+                    if (count != null) {
+                        Log.d("DB", "Adding to map: " + daySnap.getKey() + " -> " + count);
+                        dateToCount.put(daySnap.getKey(), count);
+                    }
+                }
+                callback.onSuccess(dateToCount);
+                callback.onComplete();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error);
+            }
+        });
+    }
+    public interface LoadInteractivityRawCallback {
+        void onSuccess(Map<String, Integer> dateToCount);
+        void onFailure(DatabaseError error);
+        void onComplete();
+    }
+    public interface loadUserMoodLogsCallback{
+        void onSuccess(List<MoodLog> moodLogs);
+        void onFailure(DatabaseError error);
+    }
+    public interface goalSummaryCallback{
+
+        void onSuccess();
+        void onFailure(DatabaseError error);
+        void onComplete();
+    }
     ///  interfaces for callbacks
     public interface LoadGoalCheckDays {
         void onSuccess(List<String> dateKeys);
         void onFailure(DatabaseError error);
     }
-
     public interface contactUsCallback {
         void onSuccess();
         void onFailure(DatabaseError error);
@@ -442,7 +743,7 @@ public class DataBase {
      * Callback interface for goal completion.
      */
     public interface GoalCompletionCallback {
-        void onSuccess();
+        void onSuccess(String goalId);
         void onFailure(DatabaseError error);
     }
     /**
@@ -457,7 +758,14 @@ public class DataBase {
      * Callback interface for loading user goals.
      */
     public interface LoadGoalsCallback {
-        void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<String> customDays);
+        void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<Integer> customDays);
+
+        void onFailure(DatabaseError error);
+
+        void onComplete();
+    }
+    public interface loadGoalsSummariesCallback{
+        void onGoalLoaded(String summary, String title, int targetCount, int completedCount, boolean done);
 
         void onFailure(DatabaseError error);
 
@@ -467,7 +775,7 @@ public class DataBase {
      * Callback interface for loading a specific goal by its ID.
      */
     public interface LoadGoalByIdCallback {
-        void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<String> customDays , Long createdAt);
+        void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<Integer> customDays , Long createdAt, Long deadline);
 
         void onFailure(DatabaseError error);
 

@@ -25,6 +25,7 @@ import com.medstili.emopulse.AgentService.AgentService;
 import com.medstili.emopulse.Chat.ChatAdapter;
 import com.medstili.emopulse.Chat.Message;
 import com.medstili.emopulse.Chat.ChatResponse;
+import com.medstili.emopulse.DataBase.DataBase;
 import com.medstili.emopulse.databinding.FragmentChatBinding;
 
 import java.io.IOException;
@@ -49,12 +50,14 @@ public class ChatFragment extends Fragment {
     private AgentService agentService;
     private String userId;
     private static final String TAG = "ChatFragment";
+    private DataBase db ;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentChatBinding.inflate(inflater, container, false);
+        db = DataBase.getInstance();
 
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         messagesRef = FirebaseDatabase.getInstance()
@@ -74,12 +77,19 @@ public class ChatFragment extends Fragment {
                 .writeTimeout(300, TimeUnit.SECONDS)
                 .build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.AGENT_SERVICE_BASE_URL)
-                .client(okHttpClient) // Use the customized OkHttpClient
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        agentService = retrofit.create(AgentService.class);
+        try {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BuildConfig.AGENT_SERVICE_BASE_URL)
+                    .client(okHttpClient) // Use the customized OkHttpClient
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            Log.d(TAG, "Base URL: " + BuildConfig.AGENT_SERVICE_BASE_URL);
+            agentService = retrofit.create(AgentService.class);
+        } catch (Exception e) {
+            Log.e(TAG, "Error retrieving base URL", e);
+        }
+
+
 
         messagesRef.orderByChild("timestamp")
                 .addValueEventListener(new ValueEventListener() {
@@ -131,64 +141,75 @@ public class ChatFragment extends Fragment {
             String userMsgId = messagesRef.push().getKey();
             Log.d(TAG, "User message ID: " + userMsgId + ", User ID: " + userId);
 
-            agentService.chat(new AgentService.ChatRequest(userId, text))
-                    .enqueue(new Callback<ChatResponse>() {
-                        @Override
-                        public void onResponse(@NonNull Call<ChatResponse> call,
-                                               @NonNull Response<ChatResponse> resp) {
-                            Log.d(TAG, "agentService.onResponse called.");
-                            Log.d(TAG, "Response successful: " + resp.isSuccessful());
-                            Log.d(TAG, "Response code: " + resp.code());
-                            Log.d(TAG, "Response message: " + resp.message());
+            try {
+                agentService.chat(new AgentService.ChatRequest(userId, text))
+                        .enqueue(new Callback<ChatResponse>() {
+                            @Override
+                            public void onResponse(@NonNull Call<ChatResponse> call,
+                                                   @NonNull Response<ChatResponse> resp) {
+                                Log.d(TAG, "agentService.onResponse called.");
+                                Log.d(TAG, "Response successful: " + resp.isSuccessful());
+                                Log.d(TAG, "Response code: " + resp.code());
+                                Log.d(TAG, "Response message: " + resp.message());
 
-                            if (!resp.isSuccessful()) {
-                                if (resp.errorBody() != null) {
-                                    try {
-                                        Log.e(TAG, "Error body: " + resp.errorBody().string());
-                                    } catch (IOException e) {
-                                        Log.e(TAG, "Error parsing error body", e);
+                                if (!resp.isSuccessful()) {
+                                    if (resp.errorBody() != null) {
+                                        try {
+                                            Log.e(TAG, "Error body: " + resp.errorBody().string());
+                                        } catch (IOException e) {
+                                            Log.e(TAG, "Error parsing error body", e);
+                                        }
+                                    } else {
+                                        Log.e(TAG, "Error body is null.");
                                     }
-                                } else {
-                                    Log.e(TAG, "Error body is null.");
+                                    Snackbar.make(binding.getRoot(), "Error: " + resp.code() + " " + resp.message(), 3000).show();
+                                    return;
                                 }
-                                Snackbar.make(binding.getRoot(), "Error: " + resp.code() + " " + resp.message(), 3000).show();
-                                return;
+
+                                if (resp.body() == null) {
+                                    Log.e(TAG, "Response body is null.");
+                                    Snackbar.make(binding.getRoot(), "Error: Empty response from server", 3000).show();
+                                    return;
+                                }
+
+                                ChatResponse cr = resp.body();
+                                Log.d(TAG, "agentService received reply: " + cr.reply);
+                                Message LellyMsg = new Message(
+                                        cr.reply,
+                                        false,
+                                        cr.audio_url != null,
+                                        cr.audio_url,
+                                        0,
+                                        ServerValue.TIMESTAMP
+                                );
+                                String LellyMsgId = messagesRef.push().getKey();
+
+                                if (LellyMsgId != null && userMsgId != null) {
+                                    messagesRef.child(userMsgId).setValue(userMsg);
+                                    messagesRef.child(LellyMsgId).setValue(LellyMsg);
+                                    db.incrementMessageCount();
+                                    Log.d(TAG, "User and Lelly messages pushed to Firebase.");
+                                } else {
+                                    Log.e(TAG, "Failed to get push ID for Lelly message or user message ID was null.");
+                                    Snackbar.make(binding.getRoot(), "Error! Try Again Later", 3000).show();
+                                }
                             }
 
-                            if (resp.body() == null) {
-                                Log.e(TAG, "Response body is null.");
-                                Snackbar.make(binding.getRoot(), "Error: Empty response from server", 3000).show();
-                                return;
+                            @Override
+                            public void onFailure(@NonNull Call<ChatResponse> call, @NonNull Throwable t) {
+                                Log.e(TAG, "agentService.onFailure called.", t);
+                                Snackbar.make(binding.getRoot(), "Network Error: " + t.getMessage(), 3000).show();
                             }
+                        });
+            }
+            catch ( Exception e) {
+                Log.e(TAG, "Exception while sending message", e);
+                Snackbar.make(binding.getRoot(), "Error sending message please try again later: ", 3000)
+                        .setBackgroundTint(getResources().getColor(android.R.color.holo_red_dark))
+                        .setTextColor(getResources().getColor(android.R.color.white)
+                ).show();
+            }
 
-                            ChatResponse cr = resp.body();
-                            Log.d(TAG, "agentService received reply: " + cr.reply);
-                            Message LellyMsg = new Message(
-                                    cr.reply,
-                                    false,
-                                    cr.audio_url != null,
-                                    cr.audio_url,
-                                    0,
-                                    ServerValue.TIMESTAMP
-                            );
-                            String LellyMsgId = messagesRef.push().getKey();
-
-                            if (LellyMsgId != null && userMsgId != null) {
-                                messagesRef.child(userMsgId).setValue(userMsg);
-                                messagesRef.child(LellyMsgId).setValue(LellyMsg);
-                                Log.d(TAG, "User and Lelly messages pushed to Firebase.");
-                            } else {
-                                Log.e(TAG, "Failed to get push ID for Lelly message or user message ID was null.");
-                                Snackbar.make(binding.getRoot(), "Error! Try Again Later", 3000).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<ChatResponse> call, @NonNull Throwable t) {
-                            Log.e(TAG, "agentService.onFailure called.", t);
-                            Snackbar.make(binding.getRoot(), "Network Error: " + t.getMessage(), 3000).show();
-                        }
-                    });
         });
 
         return binding.getRoot();

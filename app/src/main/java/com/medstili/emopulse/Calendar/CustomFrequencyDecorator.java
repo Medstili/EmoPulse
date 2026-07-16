@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Decorator for “Custom” frequency: marks only the days of week the user selected.
- * customDays strings should be like "MONDAY", "FRIDAY", etc. (matching DayOfWeek.name()).
+ * Decorator for "Custom" frequency: marks only the days of week the user selected.
+ * customDays should be integers 1-7 where:
+ * 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday
  */
 public class CustomFrequencyDecorator implements DayViewDecorator {
     private final Drawable bg;
@@ -27,22 +28,23 @@ public class CustomFrequencyDecorator implements DayViewDecorator {
     public CustomFrequencyDecorator(
             Context ctx,
             LocalDate startDate,
-            List<String> customDays
+            LocalDate endDate,
+            List<Integer> customDays
     ) {
         bg = ContextCompat.getDrawable(ctx, R.drawable.freq_bg);
 
         Set<DayOfWeek> dowSet = new HashSet<>();
-        for (String s : customDays) {
+        for (int d : customDays) {
             try {
-                dowSet.add(DayOfWeek.valueOf(s.toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                System.err.println("Invalid day of week: " + s);
+                dowSet.add(DayOfWeek.of(d));
+            } catch (Exception e) {
+                System.err.println("Invalid day of week: " + d);
             }
         }
 
-        // Build the calendar days from startDate → endOfYear
-        LocalDate endOfYear = LocalDate.of(startDate.getYear(), 12, 31);
-        for (LocalDate d = startDate; !d.isAfter(endOfYear); d = d.plusDays(1)) {
+        // Build the calendar days from startDate → endDate
+        LocalDate adjustedEnDate = endDate.plusDays(1);
+        for (LocalDate d = startDate; !d.isAfter(adjustedEnDate); d = d.plusDays(1)) {
             if (dowSet.contains(d.getDayOfWeek())) {
                 days.add(CalendarDay.from(d.getYear(), d.getMonthValue(), d.getDayOfMonth()));
             }

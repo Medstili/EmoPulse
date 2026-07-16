@@ -90,6 +90,7 @@ public class BreathingExerciseFragment extends Fragment {
 
                                         @Override
                                         public void onExerciseFound(String exerciseName, String goalTitle) {
+
                                             Snackbar.make(binding.getRoot(), "your Goal was Updated", Snackbar.LENGTH_SHORT).show();
                                         }
 

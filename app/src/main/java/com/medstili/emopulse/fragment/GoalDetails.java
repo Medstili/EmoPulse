@@ -62,15 +62,18 @@ public class GoalDetails extends Fragment {
 
 
             @Override
-            public void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<String> customDays, Long created_At) {
+            public void onGoalLoaded(String goalId, String title, String description, String frequency, String exercise, List<Integer> customDays, Long created_At, Long deadline) {
 
                 LocalDate start = Instant.ofEpochMilli(created_At)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                LocalDate end = Instant.ofEpochMilli(deadline)
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate();
 
                 if ("Custom".equalsIgnoreCase(frequency) && customDays != null) {
                     binding.calendarView.addDecorator(
-                            new CustomFrequencyDecorator(requireContext(), start, customDays)
+                            new CustomFrequencyDecorator(requireContext(), start,end, customDays)
                     );
                 } else {
                     if (frequency != null) {
@@ -86,7 +89,7 @@ public class GoalDetails extends Fragment {
                                 Snackbar.make(binding.getRoot(), "Error", Snackbar.LENGTH_SHORT).show();
                         }
                         cal.addDecorator(
-                                new FrequencyDecorator(requireContext(), start, freqRule)
+                                new FrequencyDecorator(requireContext(), start, end, freqRule)
                         );
                     }else{
                         Log.e("GoalDetails", "Frequency is null or empty");

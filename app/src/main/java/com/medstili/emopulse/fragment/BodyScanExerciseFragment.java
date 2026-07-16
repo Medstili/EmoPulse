@@ -141,6 +141,25 @@ public class BodyScanExerciseFragment extends Fragment {
 
                                 Log.d(TAG, "Exercise completed successfully. New count: " + newCount);
                                 Snackbar.make(binding.getRoot(), " Body Scan completed! Count: " + newCount, Snackbar.LENGTH_SHORT).show();
+                                db.checkIfExerciseExistsInAnyGoal("Grounding",new DataBase.OnExerciseCheckListener(){
+
+                                            @Override
+                                            public void onExerciseFound(String exerciseName, String goalTitle) {
+                                                Snackbar.make(binding.getRoot(), "your Goal was Updated", Snackbar.LENGTH_SHORT).show();
+
+                                            }
+
+                                            @Override
+                                            public void onExerciseNotFound(String exerciseName) {
+
+                                            }
+
+                                            @Override
+                                            public void onError(String errorMessage) {
+
+                                            }
+                                        }
+                                );
                             }
 
                             @Override

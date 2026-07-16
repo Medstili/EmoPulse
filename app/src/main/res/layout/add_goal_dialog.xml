@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Add Gaol"
+        android:text="Add Goal"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:id="@+id/goalTitleLayout"
                     android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:id="@+id/goalDescriptionLayout"
                     android:layout_width="match_parent"
@@ -73,77 +73,6 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/linearLayout7"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:padding="10dp"-->
-<!--               >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:autoSizeMaxTextSize="25sp"-->
-<!--                    android:autoSizeMinTextSize="15sp"-->
-<!--                    android:autoSizeStepGranularity="2sp"-->
-<!--                    android:autoSizeTextType="uniform"-->
-<!--                    android:text="@string/exercises"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/categorySpinner"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:entries="@array/exercise_options"-->
-<!--                    android:background="@color/white"/>-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/freqContainer"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:gravity="center"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:padding="10dp"-->
-
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:autoSizeMaxTextSize="25sp"-->
-<!--                    android:autoSizeMinTextSize="15sp"-->
-<!--                    android:autoSizeStepGranularity="2sp"-->
-<!--                    android:autoSizeTextType="uniform"-->
-<!--                    android:text="frequency :"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/freqSpinner"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:entries="@array/frequency_options"-->
-<!--                    android:background="@color/white"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
 <!-- exercises-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/exercisesLayout"
@@ -160,11 +89,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     tools:ignore="LabelFor,SpeakableTextPresentCheck"/>
-
-
-
-
-
             </com.google.android.material.textfield.TextInputLayout>
 <!--frequency-->
             <com.google.android.material.textfield.TextInputLayout
@@ -183,8 +107,34 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
 
+
+            </com.google.android.material.textfield.TextInputLayout>
+<!--Docked date picker-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Deadline Date"
+                app:errorEnabled="true"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/baseline_date_range_24"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="MM/dd/yyyy"
+                    android:inputType="text"
+                    android:clickable="true"
+                    android:focusable="false"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+<!---->
             <LinearLayout
                 android:id="@+id/checkboxContainer"
                 android:layout_width="match_parent"

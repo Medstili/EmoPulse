@@ -2,6 +2,7 @@ package com.medstili.emopulse.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,14 +14,19 @@ import androidx.fragment.app.Fragment;
 
 
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -32,19 +38,33 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.database.DatabaseError;
+import com.medstili.emopulse.DashboardGoalsSummary.Goal;
+import com.medstili.emopulse.DashboardGoalsSummary.GoalAdapter;
 import com.medstili.emopulse.DataBase.DataBase;
+import com.medstili.emopulse.Models.MoodLog;
+import com.medstili.emopulse.Utils.MoodMath;
 import com.medstili.emopulse.activities.MainActivity;
 import com.medstili.emopulse.R;
 import com.medstili.emopulse.databinding.FragmentDashboardBinding;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
+    private GoalAdapter goalAdapter;
+    private List<Goal> goalsList = new ArrayList<>();
     MainActivity mainActivity;
 
     DataBase db;
@@ -60,15 +80,8 @@ public class DashboardFragment extends Fragment {
             v.setPadding(0, statusBarInsets.top, 0, 0);
             return insets; // Return insets to keep consuming them
         });
-//        recyclerView = binding.recyclerView;
-        LineChart lineChart = binding.lineChart;
-        BarChart barChart = binding.barChart;
-        PieChart pieChart = binding.pieChart;
         db = DataBase.getInstance();
-
-        lineChart(lineChart);
-//      bar chart
-        barChart(barChart);
+        PieChart pieChart = binding.pieChart;
 //       pie chart
         pieChart(pieChart);
 
@@ -96,7 +109,7 @@ public class DashboardFragment extends Fragment {
         barDataSet.setColor(getResources().getColor(R.color.cyan));  // Set the bar color
         barDataSet.setValueTextColor(Color.WHITE);  // Set value text color
         barDataSet.setValueTextSize(12f);  // Set value text size
-        barDataSet.setDrawValues(false);
+        barDataSet.setDrawValues(true);
         // Create BarData object
         BarData barData = new BarData(barDataSet);
 
@@ -114,9 +127,9 @@ public class DashboardFragment extends Fragment {
         // Customize Y-Axis
         YAxis bar_leftAxis = barChart.getAxisLeft();
         bar_leftAxis.setTextColor(Color.parseColor("#ffffff"));
-        bar_leftAxis.setDrawGridLines(true);
-        bar_leftAxis.setGranularity(1f);
         bar_leftAxis.setDrawGridLines(false);
+        bar_leftAxis.setGranularity(1f);
+        bar_leftAxis.setAxisMaximum(0f);
 
         YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setEnabled(false);  // Disable the right Y-axis
@@ -127,68 +140,6 @@ public class DashboardFragment extends Fragment {
         // Refresh the chart to display the data
         barChart.invalidate();
     }
-
-    private void lineChart(LineChart lineChart){
-
-        // Create sample data points
-        ArrayList<Entry> entries = new ArrayList<>();
-        // Example of adding more entries dynamically
-        for (int i = 0; i < 50; i++) { // Add 50 points
-            entries.add(new Entry(i, (float) Math.sin(i) * 10)); // Example: sine wave
-        }
-        // Create LineDataSet
-        LineDataSet lineDataSet = new LineDataSet(entries, "Gradient Example");
-        lineDataSet.setDrawFilled(true);  // Enable fill below the line
-        lineDataSet.setDrawCircles(false); // No circles on data points
-        lineDataSet.setValueTextColor(Color.parseColor("#ffffff"));  // Change the color of the value labels
-        lineDataSet.setValueTextSize(10f);  // Optional: Adjust the size of the value labels
-        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Smooth curve
-        lineDataSet.setColor(Color.parseColor("#E401FF"));  // Line color
-        lineDataSet.setLineWidth(2f);      // Line thickness
-        // Apply Gradient Fill
-        Drawable drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.line_chart_gradient_fill);
-        lineDataSet.setFillDrawable(drawable); // Set the gradient drawable
-        // Set Data
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
-// Enable touch gestures
-        lineChart.setTouchEnabled(true);
-// Enable scaling and dragging
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(true);
-// Enable horizontal scrolling
-        lineChart.setPinchZoom(true); // Allows zooming in/out with two fingers
-        lineChart.setDragXEnabled(true); // Enable horizontal drag
-// Optional: Disable vertical scrolling
-        lineChart.setDragYEnabled(true); // Keeps vertical axis fixed
-// Set visible range for x-axis (initial view)
-        lineChart.setVisibleXRangeMaximum(7f); // Show only 5 data points initially
-// Allow scrolling to the right if data exceeds visible range
-        lineChart.moveViewToX(0); // Start from the beginning
-        lineChart.setVisibleXRangeMaximum(10f); // Show only 10 points at a time
-        lineChart.setVisibleXRangeMinimum(5f);  // Minimum view size
-        lineChart.moveViewToX(entries.size() - 1); // Move to the last point dynamically
-        // Customize Chart
-        lineChart.getDescription().setEnabled(false); // No description
-        lineChart.getXAxis().setDrawGridLines(false); // Hide X-axis grid lines
-        lineChart.getAxisLeft().setDrawGridLines(false); // Hide Y-axis grid lines
-        lineChart.getAxisRight().setEnabled(false);   // Hide right Y-axis
-        lineChart.getLegend().setEnabled(false);      // Hide legend
-        lineChart.setDrawGridBackground(false);       // No grid background
-        lineChart.animateX(1000); // Animation
-
-        XAxis xAxis = lineChart.getXAxis();
-        YAxis yAxis = lineChart.getAxisLeft();
-        xAxis.setGranularity(1f); // Minimum interval between values
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(-45); // Rotate labels for readability
-        xAxis.setAxisLineColor(Color.parseColor("#ffffff")); // Set X-axis line color;
-        xAxis.setTextColor(Color.parseColor("#ffffff"));
-        yAxis.setAxisLineColor(Color.parseColor("#ffffff"));
-        yAxis.setTextColor(Color.parseColor("#ffffff"));
-
-    }
-
     private void pieChart(PieChart pieChart){
 
         // 1. Create data entries
@@ -234,24 +185,230 @@ public class DashboardFragment extends Fragment {
         pieChart.animateXY(1000, 1000); // Animate X and Y axes
 
     }
+    private void setupMoodChart(LineChart lineChart, List<Entry> entries) {
+        if (entries.isEmpty()) {
+            lineChart.clear();
+            return;
+        }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        db.stopListeningForExercises();
-        binding = null;
+        LineDataSet lineDataSet = new LineDataSet(entries, "Mood Progress");
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setCircleColor(Color.parseColor("#E401FF"));
+        lineDataSet.setCircleRadius(4f);
+        lineDataSet.setValueTextColor(Color.parseColor("#ffffff"));
+        lineDataSet.setValueTextSize(0f);
+        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSet.setColor(Color.parseColor("#E401FF"));
+        lineDataSet.setLineWidth(3f);
+
+        Drawable drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.line_chart_gradient_fill);
+        lineDataSet.setFillDrawable(drawable);
+
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(false);
+//        lineChart.setPinchZoom(false);
+
+
+        // --- X-Axis ---
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.removeAllLimitLines();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setAxisLineColor(Color.parseColor("#44FFFFFF"));
+        xAxis.setLabelRotationAngle(-45);
+        // Consistent formatter - always show HH:mm
+        xAxis.setValueFormatter(new ValueFormatter() {
+            private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            private final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+            private final Calendar cal = Calendar.getInstance();
+
+            @Override
+            public String getFormattedValue(float value) {
+                // Round to nearest hour
+                cal.setTimeInMillis((long) value);
+                    int minute = cal.get(Calendar.MINUTE);
+                    if (minute >= 30) {
+                        cal.add(Calendar.HOUR_OF_DAY, 1);
+                    }
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+
+                    return  timeFormat.format(cal.getTime()) ;
+            }
+        });
+
+        // Also set these to enforce hourly labels:
+        xAxis.setGranularity(  3600000f ); // 1 hour
+        xAxis.setLabelCount(12, false); // Suggested count, not forced
+        xAxis.resetAxisMinimum();
+        xAxis.resetAxisMaximum();
+        xAxis.setGranularityEnabled(true);
+        xAxis.setAvoidFirstLastClipping(false); // Allow edge labels
+        xAxis.setSpaceMin(0.5f); // Add padding
+        xAxis.setSpaceMax(0.5f);
+
+        // Add day separator lines at midnight boundaries
+        Calendar cal = Calendar.getInstance();
+        long prevDayStart = -1;
+        for (Entry entry : entries) {
+                cal.setTimeInMillis((long) entry.getX());
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                long dayStart = cal.getTimeInMillis();
+
+                if (prevDayStart != -1 && dayStart != prevDayStart) {
+                    // Add limit line at midnight
+                    LimitLine dayDivider = new LimitLine(dayStart);
+                    dayDivider.setLineColor(Color.parseColor("#66FFFFFF"));
+                    dayDivider.setLineWidth(1f);
+                    dayDivider.enableDashedLine(10f, 10f, 0f);
+                    dayDivider.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+                    dayDivider.setTextColor(Color.WHITE);
+                    dayDivider.setTextSize(10f);
+                    dayDivider.setLabel(new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date(dayStart)));
+                    xAxis.addLimitLine(dayDivider);
+                }
+                prevDayStart = dayStart;
+        }
+        // --- Y-Axis ---
+        YAxis yAxis = lineChart.getAxisLeft();
+        yAxis.setTextColor(Color.WHITE);
+        yAxis.setDrawGridLines(false);
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(1f);
+        yAxis.setLabelCount(5, true);
+        yAxis.setSpaceTop(25f); // Add 20% padding at top
+        yAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                if (value >= 0.8f) return "Happy";
+                if (value >= 0.6f) return "Good";
+                if (value >= 0.4f) return "Neutral";
+                if (value >= 0.2f) return "Anxious";
+                return "Sad/Angry";
+            }
+        });
+
+        lineChart.setExtraTopOffset(10f);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getLegend().setEnabled(false);
+        lineChart.getDescription().setEnabled(false);
+
+        lineChart.setVisibleXRangeMaximum(8 * 3600000f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            lineChart.moveViewToX(entries.getLast().getX());
+        }
+
+        lineChart.animateX(1000);
+        lineChart.invalidate();
     }
+    private void setupBarChart(BarChart barChart, List<BarEntry> entries, List<String> labels) {
+        if (entries.isEmpty()) {
+            barChart.clear();
+            return;
+        }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+        BarDataSet barDataSet = new BarDataSet(entries, null);
+        barDataSet.setColor(getResources().getColor(R.color.cyan));
+        barDataSet.setValueTextColor(Color.WHITE);
+        barDataSet.setValueTextSize(12f);
+        barDataSet.setDrawValues(false);
+
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.parseColor("#ffffff"));
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                if (index >= 0 && index < labels.size()) {
+                    return labels.get(index);
+                }
+                return "";
+            }
+        });
+
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setTextColor(Color.parseColor("#ffffff"));
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setGranularity(1f);
+        leftAxis.setAxisMinimum(0f);
+
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+        barChart.invalidate();
+    }
+    private void loadGoalsSummaries() {
+        goalAdapter = new GoalAdapter(requireContext(), goalsList);
+        binding.goalsListView.setAdapter(goalAdapter);
+
+        db.loadGoalsSummaries(new DataBase.loadGoalsSummariesCallback() {
+            @Override
+            public void onGoalLoaded(String goalId, String title, int targetCount, int completedCount, boolean done) {
+                requireActivity().runOnUiThread(() -> {
+                    if (done) {
+                        goalAdapter.removeGoal(goalId);
+                    } else {
+                        goalAdapter.updateGoal(new Goal(goalId, title, targetCount, completedCount));
+                    }
+                });
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("loadGoalsSummaries", "All goals loaded");
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+                Log.e("loadGoalsSummaries", "Failed to load goals: " + error.getMessage());
+            }
+        });
+    }
+    private void loadMoodLogs(LineChart lineChart) {
+        db.loadUserMoodData(new DataBase.loadUserMoodLogsCallback() {
+
+            @Override
+            public void onSuccess(List<MoodLog> moodLogs) {
+                // 1. Process and Average the data
+                List<Entry> entries = MoodMath.processData(moodLogs);
+
+                // 2. Update the Chart
+                setupMoodChart(lineChart, entries);
+                Log.d("loadMoodLogs", "Mood logs loaded successfully");
+
+            }
+
+
+            @Override
+            public void onFailure(DatabaseError error) {
+                Log.e("loadMoodLogs", "Failed to load mood logs: " + error.getMessage());
+            }
+        });
+    }
+    private void loadCompletedExercises() {
         db.loadCompletedExercises(new DataBase.LoadExercisesCallback() {
-            // Use a map to collect all loaded exercises
-//            Map<String, Integer> completedExercises = new HashMap<>();
+
 
             @Override
             public void onSuccess(String exerciseName, int count) {
-//                completedExercises.put(exerciseName, count);
                 switch (exerciseName){
 
                     case "Breathing":
@@ -285,10 +442,69 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(DatabaseError error) {
-                // Optionally handle error
+                Log.e("loadCompletedExercises", "Load failed: " + error.getMessage());
             }
             @Override
-            public void onComplete(){}
+            public void onComplete(){
+                Log.d("loadCompletedExercises", "Load completed");
+            }
         });
     }
+    private void loadInteractivityData(){
+        db.loadInteractivityRawData(new DataBase.LoadInteractivityRawCallback() {
+            @Override
+            public void onSuccess(Map<String, Integer> dateToCount) {
+                List<BarEntry> entries = new ArrayList<>();
+                List<String> labels = new ArrayList<>();
+                SimpleDateFormat dbFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+                SimpleDateFormat displayFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                Calendar cal = Calendar.getInstance();
+
+                for (int i = 6; i >= 0; i--) {
+                    cal.setTime(new Date());
+                    cal.add(Calendar.DAY_OF_YEAR, -i);
+                    String dateKey = dbFormat.format(cal.getTime());
+                    String label = displayFormat.format(cal.getTime());
+
+                    int messageCount = dateToCount.getOrDefault(dateKey, 0);
+                    Log.d("loadInteractivityData", "Date: " + dateKey + ", Count: " + messageCount);
+                    entries.add(new BarEntry(6 - i, messageCount));
+                    labels.add(label);
+                }
+
+                setupBarChart(binding.barChart, entries, labels);
+                Log.d("loadInteractivityData", "Interactivity data loaded successfully");
+            }
+            public void onComplete() {
+                Log.d("loadInteractivityData", "Load completed");
+            }
+            @Override
+            public void onFailure(DatabaseError error) {
+                Log.e("loadInteractivityData", "Load failed: " + error.getMessage());
+            }
+        });
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        db.stopListeningForExercises();
+        binding = null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadGoalsSummaries();
+        loadCompletedExercises();
+        loadInteractivityData();
+        loadMoodLogs(binding.lineChart);
+
+
+
+
+    }
+
 }
+
